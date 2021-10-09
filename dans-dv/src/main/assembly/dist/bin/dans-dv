@@ -1,0 +1,12 @@
+#!/bin/sh
+
+SCRIPTNAME=$(basename $0)
+BINPATH=$(command readlink -f $0 2> /dev/null || command grealpath $0 2> /dev/null)
+APPHOME=$(dirname  $(dirname $BINPATH))
+CONFIG_YML=/etc/opt/dans.knaw.nl/$SCRIPTNAME/config.yml
+
+if test ! -f "$CONFIG_YML"; then
+  CONFIG_YML=$APPHOME/cfg/config.yml
+fi
+
+java -jar $APPHOME/bin/$SCRIPTNAME.jar "$@" $CONFIG_YML

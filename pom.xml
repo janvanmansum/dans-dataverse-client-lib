@@ -64,5 +64,6 @@
     <modules>
         <module>lib</module>
         <module>examples</module>
+        <module>dans-dv</module>
     </modules>
 </project>
