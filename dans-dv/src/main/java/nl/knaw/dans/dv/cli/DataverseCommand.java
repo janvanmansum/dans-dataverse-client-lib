@@ -15,40 +15,28 @@
  */
 package nl.knaw.dans.dv.cli;
 
-import io.dropwizard.Application;
-import io.dropwizard.Configuration;
-import io.dropwizard.cli.ConfiguredCommand;
-import io.dropwizard.cli.EnvironmentCommand;
+import io.dropwizard.cli.Command;
 import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+import net.sourceforge.argparse4j.inf.Argument;
+import net.sourceforge.argparse4j.inf.FeatureControl;
 import net.sourceforge.argparse4j.inf.Namespace;
 import net.sourceforge.argparse4j.inf.Subparser;
-import net.sourceforge.argparse4j.inf.Subparsers;
-import nl.knaw.dans.dv.DansDvConfiguration;
-import org.checkerframework.checker.units.qual.N;
 
-public class DataverseCommand extends ConfiguredCommand<DansDvConfiguration> {
+import java.util.Arrays;
 
-    public DataverseCommand(Application<DansDvConfiguration> application) {
+public class DataverseCommand extends Command {
+
+    public DataverseCommand() {
         super("dataverse", "operations on a single dataverse collection");
     }
 
     @Override
     public void configure(Subparser subparser) {
-//        super.configure(subparser);
-        subparser.addArgument("alias");
-        Subparsers p = subparser.addSubparsers();
-        Subparser view = p.addParser("view");
-
+        subparser.addSubparsers().addParser("view").help("information about a dataverse");
     }
 
     @Override
-    protected void run(Bootstrap<DansDvConfiguration> bootstrap, Namespace namespace, DansDvConfiguration configuration) throws Exception {
-        System.out.println("Running Dataverse command");
-    }
+    public void run(Bootstrap<?> bootstrap, Namespace namespace) throws Exception {
 
-    @Override
-    public void run(Bootstrap<?> wildcardBootstrap, Namespace namespace) throws Exception {
-        super.run(wildcardBootstrap, namespace);
     }
 }

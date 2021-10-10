@@ -46,7 +46,7 @@ public class DansDvApplication extends Application<DansDvConfiguration> {
 
     @Override
     public void initialize(final Bootstrap<DansDvConfiguration> bootstrap) {
-        bootstrap.addCommand(new DataverseCommand(this));
+        bootstrap.addCommand(new DataverseCommand());
     }
 
     @Override
