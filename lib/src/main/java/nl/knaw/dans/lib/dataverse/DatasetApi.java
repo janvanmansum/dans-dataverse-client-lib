@@ -17,6 +17,7 @@ package nl.knaw.dans.lib.dataverse;
 
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +52,9 @@ public class DatasetApi extends AbstractApi {
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset
      *
      */
-    public DataverseResponse<List<DatasetVersion>> getVersion(String version) throws IOException, DataverseException {
-        return getVersionedFromTarget("", version, List.class, DatasetVersion.class);
+    public DataverseResponse<DatasetVersion> getVersion(String version) throws IOException, DataverseException {
+        if (StringUtils.isBlank(version)) throw new IllegalArgumentException("Argument 'version' may not be empty");
+        return getVersionedFromTarget("", version, DatasetVersion.class);
     }
 
     /**

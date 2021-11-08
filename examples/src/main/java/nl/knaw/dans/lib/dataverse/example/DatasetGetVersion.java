@@ -28,9 +28,11 @@ public class DatasetGetVersion extends ExampleBase {
     private static final Logger log = LoggerFactory.getLogger(DatasetGetVersion.class);
 
     public static void main(String[] args) throws Exception {
-        DataverseResponse<List<DatasetVersion>> r = client.dataset(args[0]).getVersion(":latest");
+        String persistentId = args[0];
+        String version = args[1];
+        DataverseResponse<DatasetVersion> r = client.dataset(persistentId).getVersion(version);
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
-        log.info("Create Time: {}", r.getData().get(0).getCreateTime());
-        log.info("Version State: {}", r.getData().get(0).getVersionState());
+        log.info("Create Time: {}", r.getData().getCreateTime());
+        log.info("Version State: {}", r.getData().getVersionState());
     }
 }
