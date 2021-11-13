@@ -19,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 // Mix between snake_case and camelCase, so we need to specify per field what name conversion strategy to use for (de)serialization
 public class ResultItem {
@@ -44,6 +45,7 @@ public class ResultItem {
     private String updatedAt; // TODO: use timestamp class
     private List<Contact> contacts;
     private List<String> authors;
+    private List<Map<String, String>> publications; // TODO: this field seems to appear when there exists a draft version.
 
     public ResultItem() {
     }
@@ -236,5 +238,13 @@ public class ResultItem {
 
     public void setAuthors(List<String> authors) {
         this.authors = authors;
+    }
+
+    public List<Map<String, String>> getPublications() {
+        return publications;
+    }
+
+    public void setPublications(List<Map<String, String>> publications) {
+        this.publications = publications;
     }
 }
