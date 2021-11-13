@@ -166,7 +166,6 @@ public class DataverseApi extends AbstractApi {
         throw new UnsupportedOperationException();
     }
 
-
     /**
      * See [Dataverse API Guide].
      *
@@ -199,7 +198,6 @@ public class DataverseApi extends AbstractApi {
         // TODO: implement
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * See [Dataverse API Guide].
@@ -262,8 +260,8 @@ public class DataverseApi extends AbstractApi {
      */
     public DataverseHttpResponse<DataMessage> setMetadataBlocksRoot(boolean isRoot) throws IOException, DataverseException {
         log.trace("ENTER");
-        return httpClientWrapper.putTextString(subPath.resolve("metadatablocks/isRoot"), Boolean.toString(isRoot), 
-                Collections.<String, String>emptyMap(), Collections.<String, String>emptyMap(), DataMessage.class);
+        return httpClientWrapper.putTextString(subPath.resolve("metadatablocks/isRoot"), Boolean.toString(isRoot),
+            Collections.emptyMap(), Collections.emptyMap(), DataMessage.class);
     }
 
     /**
@@ -276,7 +274,6 @@ public class DataverseApi extends AbstractApi {
         // TODO: implement
         throw new UnsupportedOperationException();
     }
-
 
     /**
      * See [Dataverse API Guide].

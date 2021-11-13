@@ -18,6 +18,8 @@ package nl.knaw.dans.lib.dataverse.example;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.search.DatasetResultItem;
+import nl.knaw.dans.lib.dataverse.model.search.DataverseResultItem;
+import nl.knaw.dans.lib.dataverse.model.search.FileResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.SearchItemType;
 import nl.knaw.dans.lib.dataverse.model.search.SearchResult;
@@ -41,18 +43,32 @@ public class SearchFind extends ExampleBase {
                 .subList(3, args.length)
                 .stream().map(SearchItemType::valueOf)
                 .collect(Collectors.toList())
-            : Collections.singletonList(SearchItemType.dataset);
+            : Arrays.asList(SearchItemType.dataverse, SearchItemType.dataset, SearchItemType.file);
         DataverseResponse<SearchResult> r = client.search().find(query, start, perPage, types);
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         SearchResult searchResult = r.getData();
-        for (ResultItem item: searchResult.getItems()) {
-            if (SearchItemType.dataset.equals(item.getType())) {
-                DatasetResultItem dsItem = (DatasetResultItem) item;
-                log.info("Name: {}", dsItem.getName());
-                log.info("Type: {}", dsItem.getType());
-                log.info("URL: {}", dsItem.getUrl());
-                log.info("File Count: {}", dsItem.getFileCount());
+        for (ResultItem item : searchResult.getItems()) {
+            log.info("NEXT ITEM");
+            log.info("Name: {}", item.getName());
+            log.info("Type: {}", item.getType());
+            log.info("URL: {}", item.getUrl());
+            log.info("Description: {}", item.getDescription());
+
+            switch (item.getType()) {
+                case dataverse:
+                    DataverseResultItem dataverseResultItem = (DataverseResultItem) item;
+                    log.info("Identifier: {}", dataverseResultItem.getIdentifier());
+                    break;
+                case dataset:
+                    DatasetResultItem datasetResultItem = (DatasetResultItem) item;
+                    log.info("Global ID: {}", datasetResultItem.getGlobalId());
+                    break;
+                case file:
+                    FileResultItem fileResultItem = (FileResultItem) item;
+                    log.info("Checksum Type: {}", fileResultItem.getChecksum().getType());
+                    log.info("Checksum Value: {}", fileResultItem.getChecksum().getValue());
             }
+            log.info("---");
         }
     }
 }

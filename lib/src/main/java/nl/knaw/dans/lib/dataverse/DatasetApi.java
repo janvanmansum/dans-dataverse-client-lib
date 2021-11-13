@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -117,8 +118,8 @@ public class DatasetApi extends AbstractApi {
     private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Class<?>... outputClass) throws IOException, DataverseException {
         log.trace("ENTER");
         if (isPersistentId) {
-            HashMap<String, String> parameters = new HashMap<>();
-            parameters.put("persistentId", id);
+            HashMap<String, List<String>> parameters = new HashMap<>();
+            parameters.put("persistentId", Collections.singletonList(id));
             return httpClientWrapper.get(buildPath(targetBase, persistendId, "versions", version, endPoint), parameters, outputClass);
         }
         else {

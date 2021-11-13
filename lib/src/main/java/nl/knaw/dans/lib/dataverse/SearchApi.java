@@ -21,9 +21,11 @@ import nl.knaw.dans.lib.dataverse.model.search.SearchResult;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class SearchApi extends AbstractApi {
     private final Path subPath = Paths.get("api", "search");
@@ -47,11 +49,11 @@ public class SearchApi extends AbstractApi {
      */
     public DataverseResponse<SearchResult> find(String query, int start, int perPage, List<SearchItemType> types) throws IOException, DataverseException {
         // Map("q" -> query, "start" -> start.toString, "per_page" -> perPage.toString) ++ types.map(v => ("type" -> v)).toMap
-        Map<String, String> parameters = new HashMap<>();
-        parameters.put("q", query);
-        parameters.put("start", Integer.toString(start));
-        parameters.put("per_page", Integer.toString(perPage));
-        types.forEach(t -> parameters.put("type", t.toString()));
+        Map<String, List<String>> parameters = new HashMap<>();
+        parameters.put("q", Collections.singletonList(query));
+        parameters.put("start", Collections.singletonList(Integer.toString(start)));
+        parameters.put("per_page", Collections.singletonList(Integer.toString(perPage)));
+        if (!types.isEmpty()) parameters.put("type", types.stream().map(t -> t.toString()).collect(Collectors.toList()));
         return httpClientWrapper.get(subPath, parameters, SearchResult.class);
     }
 
