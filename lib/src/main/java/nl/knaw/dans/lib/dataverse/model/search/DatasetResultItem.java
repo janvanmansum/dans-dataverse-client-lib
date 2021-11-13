@@ -39,7 +39,7 @@ public class DatasetResultItem extends ResultItem {
     private String updatedAt; // TODO: use timestamp class
     private List<Contact> contacts;
     private List<String> authors;
-    private List<Map<String, String>> publications; // TODO: this field seems to appear when there exists a draft version.
+    private List<Map<Object, Object>> publications; // TODO: this field seems to appear when there exists a draft version.
 
     public DatasetResultItem() {
         super(SearchItemType.dataset);
@@ -187,11 +187,11 @@ public class DatasetResultItem extends ResultItem {
         this.authors = authors;
     }
 
-    public List<Map<String, String>> getPublications() {
+    public List<Map<Object, Object>> getPublications() {
         return publications;
     }
 
-    public void setPublications(List<Map<String, String>> publications) {
+    public void setPublications(List<Map<Object, Object>> publications) {
         this.publications = publications;
     }
 }

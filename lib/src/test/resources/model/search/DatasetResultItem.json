@@ -24,5 +24,7 @@
     "affiliation" : "DANS"
   } ],
   "authors" : [ "Positor01, D" ],
-  "publications": [ { }]
+  "publications": [ {
+    "this": "that"
+  }]
 }

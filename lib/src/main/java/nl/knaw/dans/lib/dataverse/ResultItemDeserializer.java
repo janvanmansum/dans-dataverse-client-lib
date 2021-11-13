@@ -32,6 +32,7 @@ import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 public class ResultItemDeserializer extends StdDeserializer {
     private ObjectMapper mapper;
@@ -77,7 +78,7 @@ public class ResultItemDeserializer extends StdDeserializer {
             resultItem.setUpdatedAt(getStringValue(node, "updated_at"));
             resultItem.setContacts(getListValue(node, "contacts", Contact.class));
             resultItem.setAuthors(getListValue(node, "authors", String.class));
-            //            resultItem.setPublications(getListValue(node, "publications", Map.class));
+            resultItem.setPublications(getListOfObjects(node, "publications"));
             return resultItem;
         }
         else if ("file".equalsIgnoreCase(type)) {
@@ -120,6 +121,20 @@ public class ResultItemDeserializer extends StdDeserializer {
     private <E> List<E> getListValue(JsonNode node, String name, Class<E> containedClass) throws JsonProcessingException {
         JavaType t = mapper.getTypeFactory().constructParametricType(List.class, containedClass);
         // writing the node to String and and then parsing it back again seems to be the only way for parametric types.
-        return mapper.readValue(node.get(name).toString(), t);
+        if (node.get(name) == null)
+            return null;
+        else
+            return mapper.readValue(node.get(name).toString(), t);
     }
+
+    // Generic getter for "objects", currently only used for the mysterious field "publications"
+    private List<Map<Object, Object>> getListOfObjects(JsonNode node, String name) throws JsonProcessingException {
+        JavaType t = mapper.getTypeFactory().constructParametricType(List.class, Map.class);
+        // writing the node to String and and then parsing it back again seems to be the only way for parametric types.
+        if (node.get(name) == null)
+            return null;
+        else
+            return mapper.readValue(node.get(name).toString(), t);
+    }
+
 }
