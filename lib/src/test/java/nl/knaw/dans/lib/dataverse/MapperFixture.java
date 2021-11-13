@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItem;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
+import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.File;
@@ -39,6 +40,7 @@ public class MapperFixture {
         SimpleModule module = new SimpleModule();
         module.addDeserializer(MetadataField.class, new MetadataFieldDeserializer());
         module.addDeserializer(DataverseItem.class, new DataverseItemDeserializer());
+        module.addDeserializer(ResultItem.class, new ResultItemDeserializer(mapper));
         mapper.registerModule(module);
     }
 

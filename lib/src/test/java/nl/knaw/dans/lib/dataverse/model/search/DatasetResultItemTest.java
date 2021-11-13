@@ -19,21 +19,22 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ResultItemTest extends ModelSearchFixture{
-    private static final Class<ResultItem> classUnderTest = ResultItem.class;
+public class DatasetResultItemTest extends ModelSearchFixture{
+    private static final Class<?> classUnderTest = DatasetResultItem.class;
 
     @Test
     public void canDeserialize() throws Exception {
-        ResultItem c = mapper.readValue(getTestJsonFileFor(classUnderTest), classUnderTest);
+        ResultItem c = mapper.readValue(getTestJsonFileFor(classUnderTest), ResultItem.class);
         assertEquals(classUnderTest, c.getClass());
         assertEquals("Manual test", c.getName());
-        assertEquals("doi:10.5072/DAR/NYBJJT", c.getGlobalId());
-        assertEquals("Positor01, D", c.getContacts().get(0).getName());
+        DatasetResultItem d = (DatasetResultItem)c;
+        assertEquals("doi:10.5072/DAR/NYBJJT", d.getGlobalId());
+        assertEquals("Positor01, D", d.getContacts().get(0).getName());
     }
 
     @Test
     public void roundTrip() throws Exception {
-        ResultItem c = roundTrip(getTestJsonFileFor(classUnderTest), classUnderTest);
+        ResultItem c = roundTrip(getTestJsonFileFor(classUnderTest), ResultItem.class);
         assertEquals(classUnderTest, c.getClass());
     }
 }

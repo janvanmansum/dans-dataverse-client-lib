@@ -24,13 +24,17 @@ public class SearchResultTest extends ModelSearchFixture {
 
     @Test
     public void canDeserialize() throws Exception {
-        SearchResult r = mapper.readValue(getTestJsonFileFor(classUnderTest), classUnderTest);
-        assertEquals(classUnderTest, r.getClass());
-        assertEquals(0, r.getStart());
-        assertEquals("*", r.getQ());
-        assertEquals("Manual test", r.getItems().get(0).getName());
-        assertEquals("doi:10.5072/DAR/NYBJJT", r.getItems().get(0).getGlobalId());
-        assertEquals("Positor01, D", r.getItems().get(0).getContacts().get(0).getName());
+        SearchResult searchResult = mapper.readValue(getTestJsonFileFor(classUnderTest), classUnderTest);
+        assertEquals(classUnderTest, searchResult.getClass());
+        assertEquals(0, searchResult.getStart());
+        assertEquals("*", searchResult.getQ());
+        assertEquals("Manual test", searchResult.getItems().get(0).getName());
+        assertEquals(SearchItemType.dataset, searchResult.getItems().get(0).getType());
+        DatasetResultItem datasetResultItem = (DatasetResultItem)searchResult.getItems().get(0);
+        assertEquals("doi:10.5072/DAR/NYBJJT", datasetResultItem.getGlobalId());
+        assertEquals("Positor01, D", datasetResultItem.getContacts().get(0).getName());
+        assertEquals(FileResultItem.class, searchResult.getItems().get(1).getClass());
+        assertEquals(DataverseResultItem.class, searchResult.getItems().get(2).getClass());
     }
 
     @Test

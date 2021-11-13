@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItem;
+import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 
@@ -57,6 +58,7 @@ public class DataverseClient {
         // TODO: Make use of this deserializer optional through system property?
         module.addDeserializer(MetadataField.class, new MetadataFieldDeserializer());
         module.addDeserializer(DataverseItem.class, new DataverseItemDeserializer());
+        module.addDeserializer(ResultItem.class, new ResultItemDeserializer(mapper));
         mapper.registerModule(module);
         this.httpClientWrapper = new HttpClientWrapper(config, httpClient, mapper);
     }

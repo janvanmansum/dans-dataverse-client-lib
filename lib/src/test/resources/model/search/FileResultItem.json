@@ -1,0 +1,18 @@
+{
+  "name": "deposit-api.jpg",
+  "type": "file",
+  "url": "https://dar.dans.knaw.nl/api/access/datafile/3",
+  "file_id": "3",
+  "published_at": "2021-11-07T13:39:33Z",
+  "file_type": "JPEG Image",
+  "file_content_type": "image/jpeg",
+  "size_in_bytes": 1319202,
+  "checksum": {
+    "type": "SHA-1",
+    "value": "31cc50f4bbef69aed5658b8aef69cc54b67138be"
+  },
+  "dataset_name": "Manual test 2",
+  "dataset_id": "2",
+  "dataset_persistent_id": "doi:10.5072/DAR/NYBJJT",
+  "dataset_citation": "Positor01, D, 2021, \"Manual test 3\", https://doi.org/10.5072/DAR/NYBJJT, DANS Archaeology Data Station (dev), DRAFT VERSION"
+}

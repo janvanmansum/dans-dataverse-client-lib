@@ -17,6 +17,7 @@ package nl.knaw.dans.lib.dataverse.example;
 
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
+import nl.knaw.dans.lib.dataverse.model.search.DatasetResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.SearchItemType;
 import nl.knaw.dans.lib.dataverse.model.search.SearchResult;
@@ -45,10 +46,13 @@ public class SearchFind extends ExampleBase {
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         SearchResult searchResult = r.getData();
         for (ResultItem item: searchResult.getItems()) {
-            log.info("Name: {}", item.getName());
-            log.info("Type: {}", item.getType());
-            log.info("URL: {}", item.getUrl());
-            log.info("File Count: {}", item.getFileCount());
+            if (SearchItemType.dataset.equals(item.getType())) {
+                DatasetResultItem dsItem = (DatasetResultItem) item;
+                log.info("Name: {}", dsItem.getName());
+                log.info("Type: {}", dsItem.getType());
+                log.info("URL: {}", dsItem.getUrl());
+                log.info("File Count: {}", dsItem.getFileCount());
+            }
         }
     }
 }
