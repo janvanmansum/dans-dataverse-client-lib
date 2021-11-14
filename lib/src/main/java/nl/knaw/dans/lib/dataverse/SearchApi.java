@@ -15,7 +15,6 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
-import nl.knaw.dans.lib.dataverse.model.search.SearchItemType;
 import nl.knaw.dans.lib.dataverse.model.search.SearchResult;
 
 import java.io.IOException;
@@ -25,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class SearchApi extends AbstractApi {
@@ -35,25 +35,51 @@ public class SearchApi extends AbstractApi {
     }
 
     /**
+     * A basic search action with default options.
+     *
+     * See [Dataverse API Guide].
+     *
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/search.html
+     *
+     * @param query search query
+     * @return a search result
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseResponse<SearchResult> find(String query) throws IOException, DataverseException {
+        return find(query, new SearchOptions());
+    }
+
+    /**
+     * A search action with specific {@link SearchOptions}.
+     *
      * See [Dataverse API Guide].
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/search.html
      *
      * @param query   search query
-     * @param start   offset of search result
-     * @param perPage how many results per page
-     * @param types   types of results to return
+     * @param options further options for futher filtering and rendering the results
      * @return a search result
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      */
-    public DataverseResponse<SearchResult> find(String query, int start, int perPage, List<SearchItemType> types) throws IOException, DataverseException {
-        // Map("q" -> query, "start" -> start.toString, "per_page" -> perPage.toString) ++ types.map(v => ("type" -> v)).toMap
+    public DataverseResponse<SearchResult> find(String query, SearchOptions options)
+        throws IOException, DataverseException {
         Map<String, List<String>> parameters = new HashMap<>();
         parameters.put("q", Collections.singletonList(query));
-        parameters.put("start", Collections.singletonList(Integer.toString(start)));
-        parameters.put("per_page", Collections.singletonList(Integer.toString(perPage)));
-        if (!types.isEmpty()) parameters.put("type", types.stream().map(t -> t.toString()).collect(Collectors.toList()));
+        Optional.ofNullable(options.getTypes()).ifPresent(types -> parameters.put("type", types.stream().map(Enum::toString).collect(Collectors.toList())));
+        Optional.ofNullable(options.getFilterQueries()).ifPresent(fqs -> parameters.put("fq", fqs));
+        Optional.ofNullable(options.getSubTrees()).ifPresent(subTrees -> parameters.put("subtree", subTrees));
+        Optional.ofNullable(options.getSortField()).ifPresent(sf -> parameters.put("sort", Collections.singletonList(sf)));
+        Optional.ofNullable(options.getOrder()).ifPresent(order -> parameters.put("order", Collections.singletonList(order.toString())));
+        parameters.put("start", Collections.singletonList(Integer.toString(options.getStart())));
+        parameters.put("per_page", Collections.singletonList(Integer.toString(options.getPerPage())));
+        if (options.isShowRelevance())
+            parameters.put("show_relevance", Collections.singletonList(Integer.toString(options.getPerPage())));
+        if (options.isShowFacets())
+            parameters.put("show_facets", Collections.singletonList(Integer.toString(options.getPerPage())));
+        if (options.isShowEntityIds())
+            parameters.put("show_entity_ids", Collections.singletonList(Integer.toString(options.getPerPage())));
         return httpClientWrapper.get(subPath, parameters, SearchResult.class);
     }
 

@@ -17,6 +17,7 @@ package nl.knaw.dans.lib.dataverse.example;
 
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
+import nl.knaw.dans.lib.dataverse.SearchOptions;
 import nl.knaw.dans.lib.dataverse.model.search.DatasetResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.DataverseResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.FileResultItem;
@@ -27,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +35,7 @@ public class SearchFind extends ExampleBase {
     private static final Logger log = LoggerFactory.getLogger(SearchFind.class);
 
     public static void main(String[] args) throws Exception {
+        // Read command line
         String query = args[0];
         int start = args.length > 1 ? Integer.parseInt(args[1]) : 0;
         int perPage = args.length > 2 ? Integer.parseInt(args[2]) : 10;
@@ -44,7 +45,17 @@ public class SearchFind extends ExampleBase {
                 .stream().map(SearchItemType::valueOf)
                 .collect(Collectors.toList())
             : Arrays.asList(SearchItemType.dataverse, SearchItemType.dataset, SearchItemType.file);
-        DataverseResponse<SearchResult> r = client.search().find(query, start, perPage, types);
+
+        // Set search options
+        SearchOptions options = new SearchOptions();
+        options.setTypes(types);
+        options.setStart(start);
+        options.setPerPage(perPage);
+
+        // Do searcch
+        DataverseResponse<SearchResult> r = client.search().find(query, options);
+
+        // Render result
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         SearchResult searchResult = r.getData();
         for (ResultItem item : searchResult.getItems()) {
