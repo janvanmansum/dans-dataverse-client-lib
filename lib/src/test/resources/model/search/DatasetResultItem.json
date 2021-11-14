@@ -1,30 +1,37 @@
 {
-  "name" : "Manual test",
-  "type" : "dataset",
-  "url" : "https://doi.org/10.5072/DAR/NYBJJT",
-  "global_id" : "doi:10.5072/DAR/NYBJJT",
-  "description" : "Test",
-  "published_at" : "2021-11-07T13:39:33Z",
-  "publisher" : "DANS Archaeology Data Station (dev)",
-  "citationHtml" : "Positor01, D, 2021, \"Manual test\", <a href=\"https://doi.org/10.5072/DAR/NYBJJT\" target=\"_blank\">https://doi.org/10.5072/DAR/NYBJJT</a>, DANS Archaeology Data Station (dev), V1",
-  "identifier_of_dataverse" : "root",
-  "name_of_dataverse" : "DANS Archaeology Data Station (dev)",
-  "citation" : "Positor01, D, 2021, \"Manual test\", https://doi.org/10.5072/DAR/NYBJJT, DANS Archaeology Data Station (dev), V1",
-  "storageIdentifier" : "file://10.5072/DAR/NYBJJT",
-  "subjects" : [ "Agricultural Sciences" ],
-  "fileCount" : 1,
-  "versionId" : 1,
-  "versionState" : "RELEASED",
-  "majorVersion" : 1,
-  "minorVersion" : 0,
-  "createdAt" : "2021-11-07T13:38:59Z",
-  "updatedAt" : "2021-11-07T13:39:33Z",
-  "contacts" : [ {
-    "name" : "Positor01, D",
-    "affiliation" : "DANS"
-  } ],
-  "authors" : [ "Positor01, D" ],
-  "publications": [ {
-    "this": "that"
-  }]
+  "name": "Manual test",
+  "type": "dataset",
+  "url": "https://doi.org/10.5072/DAR/NYBJJT",
+  "global_id": "doi:10.5072/DAR/NYBJJT",
+  "description": "Test",
+  "published_at": "2021-11-07T13:39:33Z",
+  "publisher": "DANS Archaeology Data Station (dev)",
+  "citationHtml": "Positor01, D, 2021, \"Manual test\", <a href=\"https://doi.org/10.5072/DAR/NYBJJT\" target=\"_blank\">https://doi.org/10.5072/DAR/NYBJJT</a>, DANS Archaeology Data Station (dev), V1",
+  "identifier_of_dataverse": "root",
+  "name_of_dataverse": "DANS Archaeology Data Station (dev)",
+  "citation": "Positor01, D, 2021, \"Manual test\", https://doi.org/10.5072/DAR/NYBJJT, DANS Archaeology Data Station (dev), V1",
+  "storageIdentifier": "file://10.5072/DAR/NYBJJT",
+  "subjects": [
+    "Agricultural Sciences"
+  ],
+  "fileCount": 1,
+  "versionId": 1,
+  "versionState": "RELEASED",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "createdAt": "2021-11-07T13:38:59Z",
+  "updatedAt": "2021-11-07T13:39:33Z",
+  "contacts": [
+    {
+      "name": "Positor01, D",
+      "affiliation": "DANS"
+    }
+  ],
+  "authors": [
+    "Positor01, D"
+  ],
+  "publications": [
+    {
+    }
+  ]
 }
