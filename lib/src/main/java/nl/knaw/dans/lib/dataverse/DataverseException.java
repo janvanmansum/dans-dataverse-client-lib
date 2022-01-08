@@ -18,11 +18,13 @@ package nl.knaw.dans.lib.dataverse;
 import org.apache.http.HttpResponse;
 
 public class DataverseException extends Exception {
-    private int status;
-    private HttpResponse httpResponse;
+    private final int status;
+    private final HttpResponse httpResponse;
 
     public DataverseException(int status, String msg, HttpResponse httpResponse) {
         super(msg);
+        this.status = status;
+        this.httpResponse = httpResponse;
     }
 
     public int getStatus() {
