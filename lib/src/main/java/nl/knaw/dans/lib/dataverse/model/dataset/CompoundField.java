@@ -25,8 +25,8 @@ public class CompoundField extends MetadataField {
     public CompoundField() {
     }
 
-    public CompoundField(String typeClass, String typeName, boolean multiple, List<Map<String, SingleValueField>> value) {
-        super(typeClass, typeName, multiple);
+    public CompoundField(String typeName, boolean multiple, List<Map<String, SingleValueField>> value) {
+        super("compound", typeName, multiple);
         this.value = value;
     }
 

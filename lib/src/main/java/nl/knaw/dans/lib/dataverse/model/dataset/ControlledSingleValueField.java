@@ -22,8 +22,8 @@ public class ControlledSingleValueField extends MetadataField implements SingleV
     public ControlledSingleValueField() {
     }
 
-    public ControlledSingleValueField(String typeClass, String typeName, String value) {
-        super(typeClass, typeName, false);
+    public ControlledSingleValueField(String typeName, String value) {
+        super("controlledVocabulary", typeName, false);
         this.value = value;
     }
 

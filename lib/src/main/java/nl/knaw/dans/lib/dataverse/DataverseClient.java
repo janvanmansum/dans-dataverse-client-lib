@@ -68,7 +68,19 @@ public class DataverseClient {
     }
 
     public DatasetApi dataset(String pid) {
-        return new DatasetApi(httpClientWrapper, pid, true);
+        return dataset(pid, null);
+    }
+
+    public DatasetApi dataset(String pid, String invocationId) {
+        return new DatasetApi(httpClientWrapper, pid, true, invocationId);
+    }
+
+    public DatasetApi dataset(int pid) {
+        return dataset(pid, null);
+    }
+
+    public DatasetApi dataset(int pid, String invocationId) {
+        return new DatasetApi(httpClientWrapper, Integer.toString(pid), false, invocationId);
     }
 
     public DataverseApi dataverse(String alias) {

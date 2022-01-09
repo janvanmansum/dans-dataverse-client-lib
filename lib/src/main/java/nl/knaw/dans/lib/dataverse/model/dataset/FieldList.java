@@ -29,7 +29,7 @@ public class FieldList {
         this.fields = fields;
     }
 
-    public void add(PrimitiveSingleValueField field) {
+    public void add(MetadataField field) {
         fields.add(field);
     }
 }
