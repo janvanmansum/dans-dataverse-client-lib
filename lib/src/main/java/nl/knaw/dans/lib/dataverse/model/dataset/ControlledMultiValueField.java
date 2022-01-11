@@ -23,8 +23,8 @@ public class ControlledMultiValueField extends MetadataField {
     public ControlledMultiValueField() {
     }
 
-    public ControlledMultiValueField(String typeClass, String typeName, List<String> value) {
-        super(typeClass, typeName, true);
+    public ControlledMultiValueField(String typeName, List<String> value) {
+        super("controlledVocabulary", typeName, true);
         this.value = value;
     }
 

@@ -41,12 +41,19 @@ public class DatasetApi extends AbstractApi {
     private final Path targetBase;
     private final String id;
     private final boolean isPersistentId;
+    private final Map<String, String> extraHeaders = new HashMap<>();
 
     protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+        this(httpClientWrapper, id, isPersistentId, null);
+    }
+
+    protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper);
         this.targetBase = Paths.get("api/datasets/");
         this.id = id;
         this.isPersistentId = isPersistentId;
+        if (invocationId != null)
+            extraHeaders.put("X-Dataverse-invocationID", invocationId);
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-json-representation-of-a-dataset
@@ -92,14 +99,15 @@ public class DatasetApi extends AbstractApi {
         HashMap<String, List<String>> parameters = new HashMap<>();
         parameters.put("persistentId", Collections.singletonList(id));
         parameters.put("type", Collections.singletonList("major"));
-        return httpClientWrapper.postJsonString(path, "", parameters, new HashMap<>(), DatasetPublicationResult.class);
+        return httpClientWrapper.postJsonString(path, "", parameters, Collections.emptyMap(), DatasetPublicationResult.class);
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified
-     * fields must be either currently empty or allow multiple values. Replaces existing data.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     * Replaces existing data.
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
+     *
      * @param s JSON document containing the edits to perform
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
@@ -110,10 +118,10 @@ public class DatasetApi extends AbstractApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified
-     * fields must be either currently empty or allow multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
+     *
      * @param s       JSON document containing the edits to perform
      * @param replace whether to replace existing values
      * @return DatasetVersion
@@ -124,15 +132,19 @@ public class DatasetApi extends AbstractApi {
         log.trace("ENTER");
         HashMap<String, List<String>> queryParams = new HashMap<>();
         if (replace)
-            queryParams.put("replace", Collections.singletonList("true"));  // Sic! any value for "replace" is interpreted by Dataverse as "true", even "replace=false"
+            /*
+             * Sic! any value for "replace" is interpreted by Dataverse as "true", even "replace=false"
+             * It is by the *absence* of the parameter that replace is set to false.
+             */
+            queryParams.put("replace", Collections.singletonList("true"));
         return putToTarget("editMetadata", s, queryParams, DatasetVersion.class);
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified
-     * fields must be either currently empty or allow multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
+     *
      * @param fields  list of fields to edit
      * @param replace whether to replace existing values
      * @return DatasetVersion
@@ -147,7 +159,8 @@ public class DatasetApi extends AbstractApi {
      * Edits the current draft's metadata, adding the fields that do not exist yet.
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
-     * @param fields  list of fields to edit
+     *
+     * @param fields list of fields to edit
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -155,7 +168,6 @@ public class DatasetApi extends AbstractApi {
     public DataverseResponse<DatasetVersion> editMetadata(FieldList fields) throws IOException, DataverseException {
         return editMetadata(httpClientWrapper.getObjectMapper().writeValueAsString(fields), true);
     }
-
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#export-metadata-of-a-dataset-in-various-formats
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#schema-org-json-ld
@@ -222,24 +234,23 @@ public class DatasetApi extends AbstractApi {
         return getUnversionedFromTarget(endPoint, Collections.emptyMap(), outputClass);
     }
 
-
     private <D> DataverseResponse<D> putToTarget(String endPoint, String body, Map<String, List<String>> queryParams, Class<?>... outputClass) throws IOException, DataverseException {
         log.trace("ENTER");
         if (isPersistentId) {
             HashMap<String, List<String>> parameters = new HashMap<>();
             parameters.put("persistentId", Collections.singletonList(id));
             parameters.putAll(queryParams);
-            return httpClientWrapper.putJsonString(buildPath(targetBase, persistendId, endPoint), body, parameters, Collections.emptyMap(), outputClass);
-        } else {
-            return httpClientWrapper.putJsonString(buildPath(targetBase, id, endPoint), body, queryParams, Collections.emptyMap(), outputClass);
+            return httpClientWrapper.putJsonString(buildPath(targetBase, persistendId, endPoint), body, parameters, extraHeaders, outputClass);
+        }
+        else {
+            return httpClientWrapper.putJsonString(buildPath(targetBase, id, endPoint), body, queryParams, extraHeaders, outputClass);
         }
     }
 
     /**
      * See [Dataverse API Guide] and [code example]
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks
-     * [code example]: https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks [code example]: https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java
      */
     public DataverseResponse<List<Lock>> getLocks() throws IOException, DataverseException {
         log.trace("getting locks from Dataverse");
