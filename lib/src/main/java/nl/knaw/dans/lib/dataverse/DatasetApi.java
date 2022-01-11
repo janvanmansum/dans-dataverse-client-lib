@@ -176,7 +176,27 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-metadata-block-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
 
-    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
+    /**
+     * Deletes one or more values from the current draft's metadata. Note that the delete will fail if the result would leave required fields empty.
+     *
+     * @param f list of values to delete
+     * @return
+     * @see [[https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata]]
+     */
+    public DataverseResponse<DatasetVersion> deleteMetadata(FieldList f) throws IOException, DataverseException {
+        return putToTarget("deleteMetadata", httpClientWrapper.getObjectMapper().writeValueAsString(f), new HashMap<String, List<String>>(), DatasetVersion.class);
+    }
+
+    /**
+     * Deletes one or more values from the current draft's metadata. Note that the delete will fail if the result would leave required fields empty.
+     *
+     * @param s JSON document describing what to delete
+     * @return
+     * @see [[https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata]]
+     */
+    public DataverseResponse<DatasetVersion> deleteMetadata(String s) throws IOException, DataverseException {
+        return putToTarget("deleteMetadata", s, new HashMap<String, List<String>>(), DatasetVersion.class);
+    }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-draft
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#set-citation-date-field-type-for-a-dataset
@@ -252,7 +272,9 @@ public class DatasetApi extends AbstractApi {
     /**
      * See [Dataverse API Guide] and [code example]
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks [code example]: https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks
+     *
+     * [code example]: https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java
      */
     public DataverseResponse<List<Lock>> getLocks() throws IOException, DataverseException {
         log.trace("getting locks from Dataverse");
