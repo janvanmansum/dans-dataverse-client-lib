@@ -36,6 +36,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +141,12 @@ class HttpClientWrapper implements MediaTypes {
     }
 
     public <D> DataverseHttpResponse<D> get(Path subPath, Map<String, List<String>> parameters, Class<?>... outputClass) throws IOException, DataverseException {
+        return get(subPath, parameters, Collections.emptyMap(), outputClass);
+    }
+
+    public <D> DataverseHttpResponse<D> get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... outputClass) throws IOException, DataverseException {
         HttpGet get = new HttpGet(buildURi(subPath, parameters));
+        headers.forEach(get::setHeader);
         return wrap(dispatch(get), outputClass);
     }
 
