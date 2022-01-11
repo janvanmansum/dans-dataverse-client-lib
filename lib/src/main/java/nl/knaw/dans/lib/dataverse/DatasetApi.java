@@ -175,7 +175,9 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-all-metadata-blocks-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-metadata-block-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-draft
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#set-citation-date-field-type-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#revert-citation-date-field-type-to-default-for-dataset
@@ -210,10 +212,10 @@ public class DatasetApi extends AbstractApi {
         if (isPersistentId) {
             HashMap<String, List<String>> parameters = new HashMap<>();
             parameters.put("persistentId", Collections.singletonList(id));
-            return httpClientWrapper.get(buildPath(targetBase, persistendId, "versions", version, endPoint), parameters, outputClass);
+            return httpClientWrapper.get(buildPath(targetBase, persistendId, "versions", version, endPoint), parameters, extraHeaders, outputClass);
         }
         else {
-            return httpClientWrapper.get(buildPath(targetBase, id, "versions", version, endPoint), outputClass);
+            return httpClientWrapper.get(buildPath(targetBase, id, "versions", version, endPoint), Collections.emptyMap(), extraHeaders, outputClass);
         }
     }
 
@@ -223,10 +225,10 @@ public class DatasetApi extends AbstractApi {
             HashMap<String, List<String>> parameters = new HashMap<>();
             parameters.put("persistentId", Collections.singletonList(id));
             parameters.putAll(queryParams);
-            return httpClientWrapper.get(buildPath(targetBase, persistendId, endPoint), parameters, outputClass);
+            return httpClientWrapper.get(buildPath(targetBase, persistendId, endPoint), parameters, extraHeaders, outputClass);
         }
         else {
-            return httpClientWrapper.get(buildPath(targetBase, id, endPoint), outputClass);
+            return httpClientWrapper.get(buildPath(targetBase, id, endPoint), Collections.emptyMap(), extraHeaders, outputClass);
         }
     }
 
