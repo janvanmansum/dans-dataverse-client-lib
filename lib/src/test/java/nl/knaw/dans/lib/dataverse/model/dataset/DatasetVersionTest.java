@@ -29,7 +29,7 @@ class DatasetVersionTest extends ModelDatasetMapperFixture {
         assertEquals(classUnderTest, dsv.getClass());
         assertEquals(7, dsv.getId());
         assertEquals("file://10.5072/FK2/U6AEZM", dsv.getStorageIdentifier());
-        assertEquals("CC0", dsv.getLicense().getLabel());
+        assertEquals("CC0", dsv.getLicense().getName());
         MetadataField title = dsv.getMetadataBlocks()
             .get("citation")
             .getFields()

@@ -18,15 +18,15 @@ package nl.knaw.dans.lib.dataverse.model.dataset;
 import java.net.URI;
 
 public class License {
-    private String label;
+    private String name;
     private URI uri;
 
-    public String getLabel() {
-        return label;
+    public String getName() {
+        return name;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public URI getUri() {
