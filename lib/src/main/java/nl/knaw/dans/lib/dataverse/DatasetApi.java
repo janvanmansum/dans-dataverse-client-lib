@@ -19,6 +19,7 @@ import nl.knaw.dans.lib.dataverse.model.Lock;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetPublicationResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
+import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -82,7 +83,7 @@ public class DatasetApi extends AbstractApi {
     /**
      * See [Dataverse API Guide].
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset
+     * @param version [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset
      */
     public DataverseResponse<List<FileMeta>> getFiles(String version) throws IOException, DataverseException {
         log.trace("ENTER");
@@ -103,7 +104,8 @@ public class DatasetApi extends AbstractApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
+     * multiple values.
      * Replaces existing data.
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
@@ -118,7 +120,8 @@ public class DatasetApi extends AbstractApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
+     * multiple values.
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
      *
@@ -141,7 +144,8 @@ public class DatasetApi extends AbstractApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
+     * multiple values.
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
      *
@@ -174,7 +178,34 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#view-dataset-files-and-folders-as-a-directory-index
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-all-metadata-blocks-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-metadata-block-for-a-dataset
+
+    // TODO: FIRST
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
+
+    /**
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
+     *
+     * @param s JSON document containing the new metadata
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseResponse<DatasetVersion> updateMetadata(String s) throws IOException, DataverseException {
+        // Cheating with endPoint here, because the only version that can be updated is :draft anyway
+        return putToTarget("versions/:draft", s, Collections.emptyMap(), DatasetVersion.class);
+    }
+
+    /**
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
+     *
+     * @param metadataBlocks map of metadata block name to metadata block
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseResponse<DatasetVersion> updateMetadata(Map<String, MetadataBlock> metadataBlocks) throws IOException, DataverseException {
+        return updateMetadata(httpClientWrapper.getObjectMapper().writeValueAsString(Collections.singletonMap("metadataBlocks", metadataBlocks)));
+    }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
 
@@ -187,7 +218,10 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#create-a-private-url-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-private-url-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-the-private-url-from-a-dataset
+
+    // TODO: FIRST
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#report-the-data-file-size-of-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-size-of-downloading-all-the-files-of-a-dataset-version
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#submit-a-dataset-for-review
@@ -202,7 +236,11 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-unpublished-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-published-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#configure-a-dataset-to-use-a-specific-file-store
+
+    // TODO: FIRST
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#view-the-timestamps-on-a-dataset
+    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#set-an-embargo-on-files-in-a-dataset
+    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#remove-an-embargo-on-files-in-a-dataset
 
     /*
      * Helper methods
@@ -219,7 +257,8 @@ public class DatasetApi extends AbstractApi {
         }
     }
 
-    private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass) throws IOException, DataverseException {
+    private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass)
+        throws IOException, DataverseException {
         log.trace("ENTER");
         if (isPersistentId) {
             HashMap<String, List<String>> parameters = new HashMap<>();
@@ -236,7 +275,8 @@ public class DatasetApi extends AbstractApi {
         return getUnversionedFromTarget(endPoint, Collections.emptyMap(), outputClass);
     }
 
-    private <D> DataverseResponse<D> putToTarget(String endPoint, String body, Map<String, List<String>> queryParams, Class<?>... outputClass) throws IOException, DataverseException {
+    private <D> DataverseResponse<D> putToTarget(String endPoint, String body, Map<String, List<String>> queryParams, Class<?>... outputClass)
+        throws IOException, DataverseException {
         log.trace("ENTER");
         if (isPersistentId) {
             HashMap<String, List<String>> parameters = new HashMap<>();
@@ -252,7 +292,8 @@ public class DatasetApi extends AbstractApi {
     /**
      * See [Dataverse API Guide] and [code example]
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks [code example]: https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks
+     * [code example]: https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java
      */
     public DataverseResponse<List<Lock>> getLocks() throws IOException, DataverseException {
         log.trace("getting locks from Dataverse");
@@ -260,9 +301,9 @@ public class DatasetApi extends AbstractApi {
     }
 
     /**
-     * Utility function that lets you wait until all locks are cleared before proceeding. Unlike most other functions in this library, this does not correspond directly with an API call. Rather the
-     * {@link #getLocks()} call is done repeatedly to check if the locks have been cleared. Note that in scenarios where concurrent processes might access the same dataset it is not guaranteed that
-     * the locks, once cleared, stay that way.
+     * Utility function that lets you wait until all locks are cleared before proceeding. Unlike most other functions in this library, this does not correspond directly with an
+     * API call. Rather the {@link #getLocks()} call is done repeatedly to check if the locks have been cleared. Note that in scenarios where concurrent processes might access the
+     * same dataset it is not guaranteed that the locks, once cleared, stay that way.
      *
      * @param maxNumberOfRetries     the maximum number the check for unlock is made, defaults to [[awaitLockStateMaxNumberOfRetries]]
      * @param waitTimeInMilliseconds the time between tries, defaults to [[awaitLockStateMillisecondsBetweenRetries]]
@@ -284,9 +325,9 @@ public class DatasetApi extends AbstractApi {
     }
 
     /**
-     * Utility function that lets you wait until a specified lock type is set. Unlike most other functions in this library, this does not correspond directly with an API call. Rather the {@link
-     * #getLocks()} call is done repeatedly to check if the locks has been set. A use case is when an http/sr workflow wants to make sure that a dataset has been locked on its behalf, so that it can
-     * be sure to have exclusive access via its invocation ID.
+     * Utility function that lets you wait until a specified lock type is set. Unlike most other functions in this library, this does not correspond directly with an API call.
+     * Rather the {@link #getLocks()} call is done repeatedly to check if the locks has been set. A use case is when an http/sr workflow wants to make sure that a dataset has been
+     * locked on its behalf, so that it can be sure to have exclusive access via its invocation ID.
      *
      * @param lockType               the lock type to wait for
      * @param maxNumberOfRetries     the maximum number the check for unlock is made, defaults to #awawaitLockStateMaxNumberOfRetries
@@ -330,7 +371,8 @@ public class DatasetApi extends AbstractApi {
     }
 
     /**
-     * Helper function that waits until the specified lockState function returns `true`, or throws a LockException if this never occurs within `maxNumberOrRetries` with `waitTimeInMilliseconds`
+     * Helper function that waits until the specified lockState function returns `true`, or throws a LockException if this never occurs within `maxNumberOrRetries` with
+     * `waitTimeInMilliseconds`
      * pauses.
      *
      * @param lockState              the function that returns whether the required state has been reached
