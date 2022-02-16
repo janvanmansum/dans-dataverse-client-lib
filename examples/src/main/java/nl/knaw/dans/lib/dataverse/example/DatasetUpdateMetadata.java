@@ -61,7 +61,7 @@ public class DatasetUpdateMetadata extends ExampleBase {
             new ControlledMultiValueField("subject", Collections.singletonList("Chemistry"))
         ));
 
-        // Note that the dataset must be in draft state, otherwise it cannot be update through this API.
+        // Note that the dataset must be in draft state, otherwise it cannot be updated through this API.
         // You may initiate a draft for a new version by making a trivial change to the metadata using the editMetadata API
         try {
 
