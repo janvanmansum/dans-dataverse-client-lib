@@ -15,8 +15,10 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -26,12 +28,17 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -60,29 +67,33 @@ class HttpClientWrapper implements MediaTypes {
         this.config = config;
         this.httpClient = httpClient;
         this.mapper = mapper;
-        this.mapper.getFactory().configure(JsonWriteFeature.ESCAPE_NON_ASCII.mappedFeature(), true);
     }
 
     public DataverseClientConfig getConfig() {
         return config;
     }
 
-    public ObjectMapper getObjectMapper() {
-        return mapper;
+    public String writeValueAsString(Object value) throws JsonProcessingException {
+       return mapper.writeValueAsString(value);
     }
-
-    // TODO: POST multi-part
 
     /*
      * POST methods
      */
+    public <D> DataverseHttpResponse<D> post(Path subPath, HttpEntity body, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+        HttpPost post = new HttpPost(buildURi(subPath, parameters));
+        headers.forEach(post::setHeader);
+        post.setEntity(body);
+        return wrap(dispatch(post), c);
+    }
+
     public <D> DataverseHttpResponse<D> postModelObjectAsJson(Path subPath, Object modelObject, Class<?>... c) throws IOException, DataverseException {
         return postModelObjectAsJson(subPath, modelObject, new HashMap<>(), new HashMap<>(), c);
     }
 
     public <D> DataverseHttpResponse<D> postModelObjectAsJson(Path subPath, Object modelObject, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
         throws IOException, DataverseException {
-        return postJsonString(subPath, mapper.writeValueAsString(modelObject), parameters, headers, c);
+        return postJsonString(subPath, writeValueAsString(modelObject), parameters, headers, c);
     }
 
     public <D> DataverseHttpResponse<D> postJsonString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {

@@ -19,9 +19,15 @@ import nl.knaw.dans.lib.dataverse.model.Lock;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetPublicationResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
+import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +38,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class DatasetApi extends AbstractApi {
 
@@ -156,7 +163,7 @@ public class DatasetApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public DataverseResponse<DatasetVersion> editMetadata(FieldList fields, Boolean replace) throws IOException, DataverseException {
-        return editMetadata(httpClientWrapper.getObjectMapper().writeValueAsString(fields), replace);
+        return editMetadata(httpClientWrapper.writeValueAsString(fields), replace);
     }
 
     /**
@@ -170,7 +177,7 @@ public class DatasetApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public DataverseResponse<DatasetVersion> editMetadata(FieldList fields) throws IOException, DataverseException {
-        return editMetadata(httpClientWrapper.getObjectMapper().writeValueAsString(fields), true);
+        return editMetadata(httpClientWrapper.writeValueAsString(fields), true);
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#export-metadata-of-a-dataset-in-various-formats
@@ -178,9 +185,6 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#view-dataset-files-and-folders-as-a-directory-index
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-all-metadata-blocks-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-metadata-block-for-a-dataset
-
-    // TODO: FIRST
-    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
 
     /**
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
@@ -204,7 +208,7 @@ public class DatasetApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public DataverseResponse<DatasetVersion> updateMetadata(Map<String, MetadataBlock> metadataBlocks) throws IOException, DataverseException {
-        return updateMetadata(httpClientWrapper.getObjectMapper().writeValueAsString(Collections.singletonMap("metadataBlocks", metadataBlocks)));
+        return updateMetadata(httpClientWrapper.writeValueAsString(Collections.singletonMap("metadataBlocks", metadataBlocks)));
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
@@ -219,8 +223,24 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-private-url-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-the-private-url-from-a-dataset
 
-    // TODO: FIRST
-    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
+    /**
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
+     *
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseResponse<FileList> addFile(Path file, String metadata) throws IOException, DataverseException {
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        Optional.ofNullable(file).ifPresent(f -> builder.addPart("file", new FileBody(f.toFile(), ContentType.APPLICATION_OCTET_STREAM, f.getFileName().toString())));
+        Optional.ofNullable(metadata).ifPresent(m -> builder.addPart("jsonData", new StringBody(m, ContentType.APPLICATION_JSON)));
+        return postToTarget("add", builder.build(), Collections.emptyMap(), FileList.class);
+    }
+
+    public DataverseResponse<FileList> addFile(Path file, FileMeta fileMeta) throws IOException, DataverseException {
+        return addFile(file, httpClientWrapper.writeValueAsString(fileMeta));
+    }
+
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#report-the-data-file-size-of-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-size-of-downloading-all-the-files-of-a-dataset-version
@@ -286,6 +306,20 @@ public class DatasetApi extends AbstractApi {
         }
         else {
             return httpClientWrapper.putJsonString(buildPath(targetBase, id, endPoint), body, queryParams, extraHeaders, outputClass);
+        }
+    }
+
+    private <D> DataverseResponse<D> postToTarget(String endPoint, HttpEntity body, Map<String, List<String>> queryParams, Class<?>... outputClass)
+        throws IOException, DataverseException {
+        log.trace("ENTER");
+        if (isPersistentId) {
+            HashMap<String, List<String>> parameters = new HashMap<>();
+            parameters.put("persistentId", Collections.singletonList(id));
+            parameters.putAll(queryParams);
+            return httpClientWrapper.post(buildPath(targetBase, persistendId, endPoint), body, parameters, extraHeaders, outputClass);
+        }
+        else {
+            return httpClientWrapper.post(buildPath(targetBase, id, endPoint), body, queryParams, extraHeaders, outputClass);
         }
     }
 
