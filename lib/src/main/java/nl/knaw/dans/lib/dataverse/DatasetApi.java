@@ -226,6 +226,8 @@ public class DatasetApi extends AbstractApi {
     /**
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
      *
+     * @param file the file to add
+     * @param metadata json document with the file metadata
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -237,10 +239,18 @@ public class DatasetApi extends AbstractApi {
         return postToTarget("add", builder.build(), Collections.emptyMap(), FileList.class);
     }
 
+    /**
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
+     *
+     * @param file the file to add
+     * @param fileMeta json document with the file metadata
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
     public DataverseResponse<FileList> addFile(Path file, FileMeta fileMeta) throws IOException, DataverseException {
         return addFile(file, httpClientWrapper.writeValueAsString(fileMeta));
     }
-
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#report-the-data-file-size-of-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-size-of-downloading-all-the-files-of-a-dataset-version
