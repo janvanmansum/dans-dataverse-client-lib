@@ -13,25 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.lib.dataverse.model.search;
+package nl.knaw.dans.lib.dataverse;
 
+import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope;
+import nl.knaw.dans.lib.dataverse.model.ModelFixture;
+import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
 import org.junit.jupiter.api.Test;
+
+import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ContactTest extends ModelSearchFixture{
-    private static final Class<Contact> classUnderTest = Contact.class;
+public class ListSingleUserTest extends ModelFixture {
+
+    private static class ListSingleUser extends DataverseEnvelope<AuthenticatedUser> {
+    }
+
+    private static final Class<ListSingleUser> wrappedClassUnderTest = ListSingleUser.class;
+    private final File jsonFile = getTestJsonFileFor(wrappedClassUnderTest);
 
     @Test
     public void canDeserialize() throws Exception {
-        Contact c = mapper.readValue(getTestJsonFileFor(classUnderTest), classUnderTest);
-        assertEquals(classUnderTest, c.getClass());
-        assertEquals("Positor01, D", c.getName());
+        assertEquals(
+                "Dataverse Admin",
+                mapper.readValue(jsonFile, wrappedClassUnderTest).getData().getDisplayName()
+        );
     }
 
     @Test
     public void roundTrip() throws Exception {
-        Contact c = roundTrip(getTestJsonFileFor(classUnderTest), classUnderTest);
-        assertEquals(classUnderTest, c.getClass());
+        assertEquals(
+                "Dataverse.org",
+                roundTrip(jsonFile, wrappedClassUnderTest).getData().getAffiliation()
+        );
     }
 }

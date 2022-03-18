@@ -18,8 +18,6 @@ package nl.knaw.dans.lib.dataverse.model.search;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
 
 // Mix between snake_case and camelCase, so we need to specify per field what name conversion strategy to use for (de)serialization
 public abstract class ResultItem {

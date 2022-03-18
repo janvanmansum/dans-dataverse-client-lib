@@ -15,8 +15,6 @@
  */
 package nl.knaw.dans.lib.dataverse.model.file.prestaged;
 
-import nl.knaw.dans.lib.dataverse.model.file.DataFile;
-
 import java.util.List;
 
 public class PrestagedFile {

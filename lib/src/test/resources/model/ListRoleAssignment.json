@@ -1,0 +1,48 @@
+{
+  "status": "OK",
+  "data": [
+    {
+      "id": 6,
+      "assignee": "@dataverseAdmin",
+      "roleId": 11,
+      "_roleAlias": "contributorplus",
+      "definitionPointId": 2
+    },
+    {
+      "id": 1,
+      "assignee": "@dataverseAdmin",
+      "roleId": 1,
+      "_roleAlias": "admin",
+      "definitionPointId": 1
+    },
+    {
+      "id": 2,
+      "assignee": ":authenticated-users",
+      "roleId": 5,
+      "_roleAlias": "dsContributor",
+      "definitionPointId": 1
+    },
+    {
+      "id": 3,
+      "assignee": "@user001",
+      "roleId": 1,
+      "_roleAlias": "admin",
+      "definitionPointId": 1
+    },
+    {
+      "id": 4,
+      "assignee": "@user002",
+      "roleId": 9,
+      "_roleAlias": "datamanager",
+      "definitionPointId": 1
+    },
+    {
+      "id": 5,
+      "assignee": "@datamanager001",
+      "roleId": 9,
+      "_roleAlias": "datamanager",
+      "definitionPointId": 1
+    }
+  ]
+}
+

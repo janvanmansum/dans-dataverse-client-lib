@@ -15,4 +15,15 @@
 #
 
 baseUrl=http://localhost:8080
+
+# login on the machine configured with the baseUrl and visit
+# https://<HOST>/dataverseuser.xhtml?selectTab=apiTokenTab
 apiToken=changeme
+
+# from https://guides.dataverse.org/en/latest/installation/config.html#blockedapikey
+# - to execute admin examples:
+#   curl -X PUT -d s3kretKey http://localhost:8080/api/admin/settings/:BlockedApiKey
+#   curl -X PUT -d unblock-key http://localhost:8080/api/admin/settings/:BlockedApiPolicy
+# - to reset for applications using the library:
+#   curl -X PUT -d localhost-only http://localhost:8080/api/admin/settings/:BlockedApiPolicy/?unblock-key=s3kretKey
+unblockKey=s3kretKey

@@ -30,7 +30,7 @@ public abstract class ExampleBase {
     static {
         try {
             PropertiesConfiguration props = new PropertiesConfiguration("examples/dataverse.properties");
-            DataverseClientConfig config = new DataverseClientConfig(new URI(props.getString("baseUrl")), props.getString("apiToken"));
+            DataverseClientConfig config = new DataverseClientConfig(new URI(props.getString("baseUrl")), props.getString("apiToken"), props.getString("unblockKey", null));
             client = new DataverseClient(config);
         }
         catch (ConfigurationException | URISyntaxException e) {

@@ -23,6 +23,7 @@ public class AuthenticatedUser {
     private String lastName;
     private String email;
     private boolean superuser;
+    private boolean deactivated;
     private String affiliation;
     private String position;
     private String persistentUserId;
@@ -81,6 +82,14 @@ public class AuthenticatedUser {
 
     public boolean isSuperuser() {
         return superuser;
+    }
+
+    public boolean isDeactivated() {
+        return deactivated;
+    }
+
+    public void setDeactivated(boolean deactivated) {
+        this.deactivated = deactivated;
     }
 
     public void setSuperuser(boolean superuser) {

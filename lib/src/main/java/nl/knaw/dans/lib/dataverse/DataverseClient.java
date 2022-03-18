@@ -87,6 +87,10 @@ public class DataverseClient {
         return new DataverseApi(httpClientWrapper, alias);
     }
 
+    public AdminApi admin() {
+        return new AdminApi(httpClientWrapper);
+    }
+
     public SearchApi search() {
         if (searchApi == null)
             searchApi = new SearchApi(httpClientWrapper);

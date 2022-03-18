@@ -16,11 +16,11 @@
 package nl.knaw.dans.lib.dataverse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.json.JsonWriteFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -28,17 +28,12 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -58,6 +53,7 @@ class HttpClientWrapper implements MediaTypes {
     private static final Logger log = LoggerFactory.getLogger(HttpClientWrapper.class);
 
     private static final String HEADER_X_DATAVERSE_KEY = "X-Dataverse-key";
+    private static final String UNBLOCK_KEY = "unblock-key";
 
     private final DataverseClientConfig config;
     private final HttpClient httpClient;
@@ -178,9 +174,13 @@ class HttpClientWrapper implements MediaTypes {
      */
     private URI buildURi(Path subPath, Map<String, List<String>> parameters) {
         try {
-            URI uri = new URIBuilder(config.getBaseUrl().resolve(subPath.toString())).setParameters(parameters.entrySet().stream()
-                .flatMap(e -> e.getValue().stream().map(v -> new BasicNameValuePair(e.getKey(), v)))
-                .collect(Collectors.toList())).build();
+            List<NameValuePair> nameValuePairs = parameters.entrySet().stream()
+                    .flatMap(e -> e.getValue().stream().map(v -> new BasicNameValuePair(e.getKey(), v)))
+                    .collect(Collectors.toList());
+            URIBuilder uriBuilder = new URIBuilder(config.getBaseUrl().resolve(subPath.toString()));
+            uriBuilder.setParameters(nameValuePairs);
+            Optional.ofNullable(config.getUnblockKey()).ifPresent(key -> uriBuilder.setParameter(UNBLOCK_KEY, key));
+            URI uri = uriBuilder.build();
             log.debug("buildUri: {}", uri.toASCIIString());
             return uri;
         }
