@@ -29,7 +29,6 @@ import org.apache.http.impl.client.HttpClients;
 public class DataverseClient {
 
     private final HttpClientWrapper httpClientWrapper;
-    private final ObjectMapper mapper;
     private SearchApi searchApi;
 
     /**
@@ -38,20 +37,18 @@ public class DataverseClient {
      * @param config configuration for this DataverseClient
      */
     public DataverseClient(DataverseClientConfig config) {
-        this(config, HttpClients.createDefault(), null);
+        this(config, null, null);
     }
 
     /**
      * Creates a DataverseClient with a custom HttpClient.
      *
-     * @param config     configuration for this DataverseClient
-     * @param httpClient the `org.apache.http.client.HttpClient` to use when interacting with Dataverse
+     * @param config       configuration for this DataverseClient
+     * @param httpClient   the `org.apache.http.client.HttpClient` to use when interacting with Dataverse, or null to use a default HttpClient
+     * @param objectMapper the Jackson object mapper to use, or null to use a default mapper
      */
     public DataverseClient(DataverseClientConfig config, HttpClient httpClient, ObjectMapper objectMapper) {
-        if (objectMapper == null)
-            mapper = new ObjectMapper();
-        else
-            mapper = objectMapper;
+        ObjectMapper mapper = objectMapper == null ? new ObjectMapper() : objectMapper;
         SimpleModule module = new SimpleModule();
         // TODO: How to get rid of type warnings?
         // TODO: Create proper Jackson module for this?
@@ -60,7 +57,7 @@ public class DataverseClient {
         module.addDeserializer(DataverseItem.class, new DataverseItemDeserializer());
         module.addDeserializer(ResultItem.class, new ResultItemDeserializer(mapper));
         mapper.registerModule(module);
-        this.httpClientWrapper = new HttpClientWrapper(config, httpClient, mapper);
+        this.httpClientWrapper = new HttpClientWrapper(config, httpClient == null ? HttpClients.createDefault() : httpClient, mapper);
     }
 
     public WorkflowsApi workflows() {
