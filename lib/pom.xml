@@ -26,7 +26,7 @@
     </parent>
     <groupId>nl.knaw.dans</groupId>
     <artifactId>dans-dataverse-client-lib</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13-SNAPSHOT</version>
     <name>DANS Dataverse Client Library</name>
     <inceptionYear>2021</inceptionYear>
     <dependencies>
@@ -122,9 +122,5 @@
             </build>
         </profile>
     </profiles>
-
-  <scm>
-    <tag>v0.0.12</tag>
-  </scm>
 </project>
 
