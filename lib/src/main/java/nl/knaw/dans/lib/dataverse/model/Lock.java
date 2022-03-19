@@ -19,6 +19,7 @@ public class Lock {
     private String lockType;
     private String date;
     private String user;
+    private String dataset;
     private String message;
 
     @Override
@@ -27,6 +28,7 @@ public class Lock {
             "lockType='" + lockType + '\'' +
             ", date='" + date + '\'' +
             ", user='" + user + '\'' +
+            ", dataset='" + dataset + '\'' +
             ", message='" + message + '\'' +
             '}';
     }
@@ -55,6 +57,14 @@ public class Lock {
         this.user = user;
     }
 
+    public String getDataset() {
+        return dataset;
+    }
+
+    public void setDataset(String dataset) {
+        this.dataset = dataset;
+    }
+
     public String getMessage() {
         return message;
     }
@@ -62,6 +72,5 @@ public class Lock {
     public void setMessage(String message) {
         this.message = message;
     }
-
 
 }
