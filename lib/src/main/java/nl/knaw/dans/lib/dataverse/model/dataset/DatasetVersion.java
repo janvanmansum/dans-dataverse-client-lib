@@ -30,6 +30,7 @@ public class DatasetVersion {
     private int versionNumber;
     private int versionMinorNumber;
     private String versionState; // TODO: to enum
+    private String versionNote; // TODO: to enum
     private String unf;
     private String lastUpdateTime; // TODO: timestamp?
     private String releaseTime; // TODO: timestamp?
@@ -100,6 +101,14 @@ public class DatasetVersion {
 
     public void setVersionState(String versionState) {
         this.versionState = versionState;
+    }
+
+    public String getVersionNote() {
+        return versionNote;
+    }
+
+    public void setVersionNote(String versionNote) {
+        this.versionNote = versionNote;
     }
 
     @JsonProperty("UNF")
