@@ -1,0 +1,231 @@
+{
+  "id": 3,
+  "identifier": "DAR/LDIU4X",
+  "persistentUrl": "https://doi.org/10.5072/DAR/LDIU4X",
+  "protocol": "doi",
+  "authority": "10.5072",
+  "publisher": "DANS Archaeology Data Station (dev)",
+  "publicationDate": "2022-03-24",
+  "storageIdentifier": "file://10.5072/DAR/LDIU4X",
+  "metadataLanguage": "undefined",
+  "latestVersion": {
+    "id": 2,
+    "datasetId": 3,
+    "datasetPersistentId": "doi:10.5072/DAR/LDIU4X",
+    "storageIdentifier": "file://10.5072/DAR/LDIU4X",
+    "versionNumber": 1,
+    "versionMinorNumber": 0,
+    "versionState": "RELEASED",
+    "lastUpdateTime": "2022-03-24T15:39:28Z",
+    "releaseTime": "2022-03-24T15:39:28Z",
+    "createTime": "2022-03-24T15:38:55Z",
+    "license": {
+      "name": "CC0 1.0",
+      "uri": "http://creativecommons.org/publicdomain/zero/1.0"
+    },
+    "fileAccessRequest": false,
+    "metadataBlocks": {
+      "citation": {
+        "displayName": "Citation Metadata",
+        "name": "citation",
+        "fields": [
+          {
+            "typeName": "title",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "t"
+          },
+          {
+            "typeName": "author",
+            "multiple": true,
+            "typeClass": "compound",
+            "value": [
+              {
+                "authorName": {
+                  "typeName": "authorName",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "User01, Test01"
+                },
+                "authorAffiliation": {
+                  "typeName": "authorAffiliation",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "DANS"
+                }
+              }
+            ]
+          },
+          {
+            "typeName": "datasetContact",
+            "multiple": true,
+            "typeClass": "compound",
+            "value": [
+              {
+                "datasetContactName": {
+                  "typeName": "datasetContactName",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "User01, Test01"
+                },
+                "datasetContactAffiliation": {
+                  "typeName": "datasetContactAffiliation",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "DANS"
+                }
+              }
+            ]
+          },
+          {
+            "typeName": "dsDescription",
+            "multiple": true,
+            "typeClass": "compound",
+            "value": [
+              {
+                "dsDescriptionValue": {
+                  "typeName": "dsDescriptionValue",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "t"
+                }
+              },
+              {
+                "dsDescriptionValue": {
+                  "typeName": "dsDescriptionValue",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "A copy of this dataset is stored in EASY, the DANS CTS certified repository, at <a href=\"http://www.persistent-identifier.nl?identifier=urn:nbn:nl:ui:13-aee15b57-2e5c-417c-9b06-3471cdbc9191\">urn:nbn:nl:ui:13-aee15b57-2e5c-417c-9b06-3471cdbc9191</a>. (Note that this link will become resolvable only after the mirroring process has finished, which will take up to several days after first publication of the dataset.)<input type=\"hidden\" value=\"NBN\"></input>"
+                }
+              }
+            ]
+          },
+          {
+            "typeName": "subject",
+            "multiple": true,
+            "typeClass": "controlledVocabulary",
+            "value": [
+              "Agricultural Sciences"
+            ]
+          },
+          {
+            "typeName": "depositor",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "User01, Test01"
+          },
+          {
+            "typeName": "dateOfDeposit",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "2022-03-24"
+          }
+        ]
+      },
+      "dansRights": {
+        "displayName": "Rights Metadata",
+        "name": "dansRights",
+        "fields": [
+          {
+            "typeName": "dansRightsHolder",
+            "multiple": true,
+            "typeClass": "primitive",
+            "value": [
+              "me"
+            ]
+          },
+          {
+            "typeName": "dansPersonalDataPresent",
+            "multiple": false,
+            "typeClass": "controlledVocabulary",
+            "value": "No"
+          }
+        ]
+      },
+      "dansRelationMetadata": {
+        "displayName": "Relation Metadata",
+        "name": "dansRelationMetadata",
+        "fields": [
+          {
+            "typeName": "dansAudience",
+            "multiple": true,
+            "typeClass": "primitive",
+            "value": [
+              "https://www.narcis.nl/classification/D23360"
+            ],
+            "expandedvalue": [
+              {
+                "@id": "https://www.narcis.nl/classification/D23360",
+                "termName": [
+                  {
+                    "lang": "nl",
+                    "value": "Leeftijdgebonden specialismen"
+                  },
+                  {
+                    "lang": "en",
+                    "value": "Age-related medical specialisms"
+                  }
+                ],
+                "vocabularyUri": "https://www.narcis.nl/classification/"
+              }
+            ]
+          }
+        ]
+      },
+      "dansDataVaultMetadata": {
+        "displayName": "Data Vault Metadata",
+        "name": "dansDataVaultMetadata",
+        "fields": [
+          {
+            "typeName": "dansDataversePid",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "doi:10.5072/DAR/LDIU4X"
+          },
+          {
+            "typeName": "dansDataversePidVersion",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "1.0"
+          },
+          {
+            "typeName": "dansBagId",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "urn:uuid:2d4187d4-d3e7-41b6-abcf-14dce454bbe0"
+          },
+          {
+            "typeName": "dansNbn",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "urn:nbn:nl:ui:13-aee15b57-2e5c-417c-9b06-3471cdbc9191"
+          }
+        ]
+      }
+    },
+    "files": [
+      {
+        "label": "Screenshot 2022-03-13 at 15.49.29.png",
+        "restricted": false,
+        "version": 1,
+        "datasetVersionId": 2,
+        "dataFile": {
+          "id": 4,
+          "persistentId": "",
+          "pidURL": "",
+          "filename": "Screenshot 2022-03-13 at 15.49.29.png",
+          "contentType": "image/png",
+          "filesize": 193417,
+          "storageIdentifier": "file://17fbc9452fb-b7cd23c93eb2",
+          "rootDataFileId": -1,
+          "checksum": {
+            "type": "SHA-1",
+            "value": "ffd6367ccc699d21437254094a2f698dab69251b"
+          },
+          "creationDate": "2022-03-24"
+        }
+      }
+    ],
+    "citation": "User01, Test01, 2022, \"t\", https://doi.org/10.5072/DAR/LDIU4X, DANS Archaeology Data Station (dev), V1"
+  }
+}

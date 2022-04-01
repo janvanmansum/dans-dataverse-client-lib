@@ -46,6 +46,7 @@ public class DatasetVersion {
     private String identifier;
     private Map<String, MetadataBlock> metadataBlocks;
     private List<FileMeta> files;
+    private String citation;
 
     public int getId() {
         return id;
@@ -231,5 +232,13 @@ public class DatasetVersion {
 
     public void setFiles(List<FileMeta> files) {
         this.files = files;
+    }
+
+    public String getCitation() {
+        return citation;
+    }
+
+    public void setCitation(String citation) {
+        this.citation = citation;
     }
 }
