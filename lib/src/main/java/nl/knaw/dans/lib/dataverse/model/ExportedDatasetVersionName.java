@@ -23,15 +23,6 @@ import java.util.regex.Pattern;
  * [to export the bags to a local disk](https://guides.dataverse.org/en/latest/installation/config.html#local-path-configuration).
  */
 public class ExportedDatasetVersionName {
-
-    /*
-    private static final String DOI_PATTERN = "(?<doi>[A-Za-z0-9-]+?)";
-    private static final String SCHEMA_PATTERN = "(-(?<schema>datacite)\\.)?";
-    private static final String DATASET_VERSION_PATTERN = "v(?<major>[0-9]+).(?<minor>[0-9]+)";
-    private static final String EXTENSION_PATTERN = "(?<extension>.zip|.xml)";
-    private static final Pattern PATTERN = Pattern.compile(DOI_PATTERN + SCHEMA_PATTERN + DATASET_VERSION_PATTERN + EXTENSION_PATTERN);
-     */
-
     /*
      Reverse-engineered from edu.harvard.iq.dataverse.engine.command.impl.LocalSubmitToArchiveCommand, the pattern that the local filename should adhere to is:
 
