@@ -25,7 +25,6 @@ import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
@@ -36,11 +35,14 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
+import static java.util.Collections.emptyMap;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
 
 public class DatasetApi extends AbstractApi {
 
@@ -116,9 +118,9 @@ public class DatasetApi extends AbstractApi {
     public DataverseResponse<DatasetPublicationResult> publish() throws IOException, DataverseException {
         Path path = buildPath(targetBase, persistendId, publish);
         HashMap<String, List<String>> parameters = new HashMap<>();
-        parameters.put("persistentId", Collections.singletonList(id));
-        parameters.put("type", Collections.singletonList("major"));
-        return httpClientWrapper.postJsonString(path, "", parameters, Collections.emptyMap(), DatasetPublicationResult.class);
+        parameters.put("persistentId", singletonList(id));
+        parameters.put("type", singletonList("major"));
+        return httpClientWrapper.postJsonString(path, "", parameters, emptyMap(), DatasetPublicationResult.class);
     }
 
     /**
@@ -157,7 +159,7 @@ public class DatasetApi extends AbstractApi {
              * Sic! any value for "replace" is interpreted by Dataverse as "true", even "replace=false"
              * It is by the *absence* of the parameter that replace is set to false.
              */
-            queryParams.put("replace", Collections.singletonList("true"));
+            queryParams.put("replace", singletonList("true"));
         return putToTarget("editMetadata", s, queryParams, DatasetVersion.class);
     }
 
@@ -198,6 +200,21 @@ public class DatasetApi extends AbstractApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-metadata-block-for-a-dataset
 
     /**
+     * See [Dataverse API Guide].
+     *
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/developers/dataset-semantic-metadata-api.html#add-dataset-metadata
+     *
+     * @param metadata JSON document describing the metadata
+     * @return
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseResponse<Object> updateMetadataFromJsonLd(String metadata, boolean replace) throws IOException, DataverseException {
+        Map<String, List<String>> queryParams = singletonMap("replace", singletonList((String.valueOf(replace))));
+        return httpClientWrapper.putJsonLdString(subPath("metadata"), metadata, params(queryParams), extraHeaders, RoleAssignmentReadOnly.class);
+    }
+
+    /**
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
      *
      * @param s JSON document containing the new metadata
@@ -207,7 +224,7 @@ public class DatasetApi extends AbstractApi {
      */
     public DataverseResponse<DatasetVersion> updateMetadata(String s) throws IOException, DataverseException {
         // Cheating with endPoint here, because the only version that can be updated is :draft anyway
-        return putToTarget("versions/:draft", s, Collections.emptyMap(), DatasetVersion.class);
+        return putToTarget("versions/:draft", s, emptyMap(), DatasetVersion.class);
     }
 
     /**
@@ -219,7 +236,7 @@ public class DatasetApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public DataverseResponse<DatasetVersion> updateMetadata(Map<String, MetadataBlock> metadataBlocks) throws IOException, DataverseException {
-        return updateMetadata(httpClientWrapper.writeValueAsString(Collections.singletonMap("metadataBlocks", metadataBlocks)));
+        return updateMetadata(httpClientWrapper.writeValueAsString(singletonMap("metadataBlocks", metadataBlocks)));
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
@@ -239,7 +256,22 @@ public class DatasetApi extends AbstractApi {
         log.trace("ENTER");
         return getUnversionedFromTarget("assignments", List.class, RoleAssignmentReadOnly.class);
     }
-    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#assign-a-new-role-on-a-dataset
+
+    /**
+     * See [Dataverse API Guide].
+     *
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#assign-a-new-role-on-a-dataset
+     *
+     * @param roleAssignment JSON document describing the assignment
+     * @return
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseResponse<RoleAssignmentReadOnly> assignRole(String roleAssignment) throws IOException, DataverseException {
+        return httpClientWrapper.postJsonString(subPath("assignments"), roleAssignment, params(emptyMap()), extraHeaders, RoleAssignmentReadOnly.class);
+    }
+
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-role-assignment-from-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#create-a-private-url-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-private-url-for-a-dataset
@@ -258,7 +290,7 @@ public class DatasetApi extends AbstractApi {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         Optional.ofNullable(file).ifPresent(f -> builder.addPart("file", new FileBody(f.toFile(), ContentType.APPLICATION_OCTET_STREAM, f.getFileName().toString())));
         Optional.ofNullable(metadata).ifPresent(m -> builder.addPart("jsonData", new StringBody(m, ContentType.APPLICATION_JSON)));
-        return postToTarget("add", builder.build(), Collections.emptyMap(), FileList.class);
+        return httpClientWrapper.post(subPath("add"), builder.build(), params(emptyMap()), extraHeaders, FileList.class);
     }
 
     /**
@@ -299,60 +331,46 @@ public class DatasetApi extends AbstractApi {
      */
     private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Class<?>... outputClass) throws IOException, DataverseException {
         log.trace("ENTER");
-        if (isPersistentId) {
-            HashMap<String, List<String>> parameters = new HashMap<>();
-            parameters.put("persistentId", Collections.singletonList(id));
-            return httpClientWrapper.get(buildPath(targetBase, persistendId, "versions", version, endPoint), parameters, extraHeaders, outputClass);
-        }
-        else {
-            return httpClientWrapper.get(buildPath(targetBase, id, "versions", version, endPoint), Collections.emptyMap(), extraHeaders, outputClass);
-        }
+        return httpClientWrapper.get(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass)
         throws IOException, DataverseException {
         log.trace("ENTER");
-        if (isPersistentId) {
-            HashMap<String, List<String>> parameters = new HashMap<>();
-            parameters.put("persistentId", Collections.singletonList(id));
-            parameters.putAll(queryParams);
-            return httpClientWrapper.get(buildPath(targetBase, persistendId, endPoint), parameters, extraHeaders, outputClass);
-        }
-        else {
-            return httpClientWrapper.get(buildPath(targetBase, id, endPoint), Collections.emptyMap(), extraHeaders, outputClass);
-        }
+        return httpClientWrapper.get(subPath(endPoint), params(queryParams), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Class<?>... outputClass) throws IOException, DataverseException {
-        return getUnversionedFromTarget(endPoint, Collections.emptyMap(), outputClass);
+        return getUnversionedFromTarget(endPoint, emptyMap(), outputClass);
     }
 
     private <D> DataverseResponse<D> putToTarget(String endPoint, String body, Map<String, List<String>> queryParams, Class<?>... outputClass)
         throws IOException, DataverseException {
         log.trace("ENTER");
-        if (isPersistentId) {
-            HashMap<String, List<String>> parameters = new HashMap<>();
-            parameters.put("persistentId", Collections.singletonList(id));
-            parameters.putAll(queryParams);
-            return httpClientWrapper.putJsonString(buildPath(targetBase, persistendId, endPoint), body, parameters, extraHeaders, outputClass);
-        }
-        else {
-            return httpClientWrapper.putJsonString(buildPath(targetBase, id, endPoint), body, queryParams, extraHeaders, outputClass);
-        }
+        return httpClientWrapper.putJsonString(subPath(endPoint), body, params(queryParams), extraHeaders, outputClass);
     }
 
-    private <D> DataverseResponse<D> postToTarget(String endPoint, HttpEntity body, Map<String, List<String>> queryParams, Class<?>... outputClass)
-        throws IOException, DataverseException {
-        log.trace("ENTER");
-        if (isPersistentId) {
-            HashMap<String, List<String>> parameters = new HashMap<>();
-            parameters.put("persistentId", Collections.singletonList(id));
-            parameters.putAll(queryParams);
-            return httpClientWrapper.post(buildPath(targetBase, persistendId, endPoint), body, parameters, extraHeaders, outputClass);
-        }
-        else {
-            return httpClientWrapper.post(buildPath(targetBase, id, endPoint), body, queryParams, extraHeaders, outputClass);
-        }
+    private Map<String, List<String>> params(Map<String, List<String>> queryParams) {
+        if (!isPersistentId)
+            return queryParams;
+        HashMap<String, List<String>> parameters = new HashMap<>();
+        parameters.put("persistentId", singletonList(id));
+        parameters.putAll(queryParams);
+        return parameters;
+    }
+
+    private Path subPath(String endPoint) {
+        if (isPersistentId)
+            return buildPath(targetBase, persistendId, endPoint);
+        else
+            return buildPath(targetBase, id, endPoint);
+    }
+
+    private Path versionedSubPath(String endPoint, String version) {
+        if (isPersistentId)
+            return buildPath(targetBase, persistendId, "versions", version, endPoint);
+        else
+            return buildPath(targetBase, id, "versions", version, endPoint);
     }
 
     /**
@@ -382,9 +400,8 @@ public class DatasetApi extends AbstractApi {
     /**
      * The same
      *
-     * @throws IOException
-     * @throws DataverseException
-     * @throws InterruptedException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitUnlock() throws IOException, DataverseException {
         awaitUnlock(httpClientWrapper.getConfig().getAwaitLockStateMaxNumberOfRetries(), httpClientWrapper.getConfig().getAwaitLockStateMillisecondsBetweenRetries());
@@ -408,9 +425,8 @@ public class DatasetApi extends AbstractApi {
      * The same as {@link #awaitLock(String, int, int)} but with defaults for number of tries and time between tries.
      *
      * @param lockType the lock type to wait for
-     * @throws IOException
-     * @throws DataverseException
-     * @throws InterruptedException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitLock(String lockType) throws IOException, DataverseException {
         awaitLock(lockType, httpClientWrapper.getConfig().getAwaitLockStateMaxNumberOfRetries(), httpClientWrapper.getConfig().getAwaitLockStateMillisecondsBetweenRetries());
