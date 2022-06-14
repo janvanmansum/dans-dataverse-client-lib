@@ -26,7 +26,7 @@
     </parent>
     <groupId>nl.knaw.dans</groupId>
     <artifactId>dans-dataverse-client-lib-examples</artifactId>
-    <version>0.0.17-SNAPSHOT</version>
+    <version>0.0.17</version>
     <name>DANS Dataverse Client Library Examples</name>
     <inceptionYear>2021</inceptionYear>
     <properties>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>nl.knaw.dans</groupId>
             <artifactId>dans-dataverse-client-lib</artifactId>
-            <version>0.0.17-SNAPSHOT</version>
+            <version>0.0.17</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -90,7 +90,7 @@
     </build>
 
   <scm>
-    <tag>HEAD</tag>
+    <tag>v0.0.17</tag>
     <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
   </scm>
 </project>
