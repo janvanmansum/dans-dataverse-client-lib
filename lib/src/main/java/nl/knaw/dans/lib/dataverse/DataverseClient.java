@@ -88,6 +88,18 @@ public class DataverseClient {
         return new AdminApi(httpClientWrapper);
     }
 
+    public SwordApi sword() {
+        return new SwordApi(httpClientWrapper);
+    }
+
+    public DataAccessRequestsApi accessRequests(String pid) {
+        return new DataAccessRequestsApi(httpClientWrapper, pid, true);
+    }
+
+    public DataAccessRequestsApi accessRequests(int id) {
+        return new DataAccessRequestsApi(httpClientWrapper, String.valueOf(id), false);
+    }
+
     public SearchApi search() {
         if (searchApi == null)
             searchApi = new SearchApi(httpClientWrapper);

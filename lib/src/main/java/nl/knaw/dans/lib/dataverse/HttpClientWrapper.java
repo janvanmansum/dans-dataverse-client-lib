@@ -37,6 +37,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashMap;
@@ -44,6 +45,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static org.apache.commons.codec.binary.Base64.encodeBase64String;
+import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 /**
  * Helper class that wraps an HttpClient, the configuration data and a Jackson object mapper. It implements generic methods for sending HTTP requests to the server and deserializing the responses
@@ -59,10 +63,21 @@ class HttpClientWrapper implements MediaTypes {
     private final HttpClient httpClient;
     private final ObjectMapper mapper;
 
+    // If false, it is sent through the X-Dataverse-key header
+    private boolean sendApiTokenViaBasicAuth = false;
+
     HttpClientWrapper(DataverseClientConfig config, HttpClient httpClient, ObjectMapper mapper) {
+        log.trace("ENTER");
         this.config = config;
         this.httpClient = httpClient;
         this.mapper = mapper;
+    }
+
+    public HttpClientWrapper sendApiTokenViaBasicAuth() {
+        log.trace("ENTER");
+        HttpClientWrapper wrapper = new HttpClientWrapper(getConfig(), httpClient, mapper);
+        wrapper.sendApiTokenViaBasicAuth = true;
+        return wrapper;
     }
 
     public DataverseClientConfig getConfig() {
@@ -169,6 +184,11 @@ class HttpClientWrapper implements MediaTypes {
         return wrap(dispatch(delete), outputClass);
     }
 
+    public HttpResponse delete(Path subPath) throws IOException, DataverseException {
+        HttpDelete delete = new HttpDelete(buildURi(subPath, new HashMap<>()));
+        return dispatch(delete);
+    }
+
     /*
      *  Helper methods.
      */
@@ -194,12 +214,21 @@ class HttpClientWrapper implements MediaTypes {
     }
 
     private HttpResponse dispatch(HttpUriRequest request) throws IOException, DataverseException {
-        Optional.ofNullable(config.getApiToken()).ifPresent(token -> request.setHeader(HEADER_X_DATAVERSE_KEY, token));
+        Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
         HttpResponse r = httpClient.execute(request);
         if (r.getStatusLine().getStatusCode() >= 200 && r.getStatusLine().getStatusCode() < 300)
             return r;
         else
             throw new DataverseException(r.getStatusLine().getStatusCode(), EntityUtils.toString(r.getEntity()), r);
+    }
+
+    private void setApiTokenHeader(HttpUriRequest request, String apiToken) {
+        if (sendApiTokenViaBasicAuth) {
+            byte[] apiTokenBytes = (apiToken + ":").getBytes(StandardCharsets.UTF_8);
+            request.setHeader(AUTHORIZATION, "Basic " + encodeBase64String(apiTokenBytes));
+        }
+        else
+            request.setHeader(HEADER_X_DATAVERSE_KEY, apiToken);
     }
 
 }

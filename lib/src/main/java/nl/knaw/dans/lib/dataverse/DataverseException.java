@@ -34,4 +34,12 @@ public class DataverseException extends Exception {
     public HttpResponse getHttpResponse() {
         return httpResponse;
     }
+
+    @Override
+    public String toString() {
+        return "DataverseException{" +
+            "status=" + status +
+            ", httpResponse=" + httpResponse +
+            '}';
+    }
 }
