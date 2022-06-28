@@ -16,8 +16,7 @@
 
 site_name: dans-dataverse-client-lib
 theme:
-  name: dans
-  disclaimer: false
+  name: readthedocs
 
 repo_name: DANS-KNAW/dans-dataverse-client-lib
 repo_url: https://github.com/DANS-KNAW/dans-dataverse-client-lib
@@ -33,7 +32,6 @@ plugins:
 
 markdown_extensions:
   - attr_list
-  #- legacy_attr
   - admonition
   - codehilite:
       guess_lang: false
