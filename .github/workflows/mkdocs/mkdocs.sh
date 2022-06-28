@@ -24,6 +24,8 @@ pip install -r .github/workflows/mkdocs/requirements.txt
 
 ./add-javadocs.sh
 
+tree site
+
 echo "START deploying docs to GitHub pages..."
 mkdocs gh-deploy --force
 echo "DONE deploying docs to GitHub pages."
