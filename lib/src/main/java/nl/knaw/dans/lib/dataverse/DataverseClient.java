@@ -92,6 +92,10 @@ public class DataverseClient {
         return new SwordApi(httpClientWrapper);
     }
 
+    public FileApi file(int id) {
+        return new FileApi(httpClientWrapper, String.valueOf(id), false);
+    }
+
     public DataAccessRequestsApi accessRequests(String pid) {
         return new DataAccessRequestsApi(httpClientWrapper, pid, true);
     }
