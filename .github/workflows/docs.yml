@@ -35,7 +35,7 @@ jobs:
             ${{ runner.os }}-pip-
             ${{ runner.os }}-
       - name: Build with Maven
-        run: mvn -B install --file pom.xml
+        run: mvn -B install --file lib/pom.xml
       - name: Run script
         run: bash .github/workflows/mkdocs/mkdocs.sh
         shell: bash

@@ -15,14 +15,9 @@
 #
 
 set -e
-tree ~/.m2
-
 
 echo "START add javadocs..."
 mvn javadoc:javadoc
-
-tree -L 3
-
 
 if [ -d "docs/javadocs" ]; then rm -fr docs/javadocs; fi
 mv lib/target/site/apidocs docs/javadocs
