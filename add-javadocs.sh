@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+set -e
 echo "START build and add javadocs..."
 mvn install
 mvn javadoc:javadoc
