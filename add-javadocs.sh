@@ -15,7 +15,7 @@
 #
 
 set -e
-tree ~/.m2 
+tree ~/.m2
 
 
 echo "START add javadocs..."
