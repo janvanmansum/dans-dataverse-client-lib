@@ -16,15 +16,16 @@
 #
 
 set -e
+set -x
 
 REMOTE="https://@github.com/${GITHUB_REPOSITORY}"
 git remote set-url origin ${REMOTE}
 
 pip install -r .github/workflows/mkdocs/requirements.txt
 
-./add-javadocs.sh
+tree -L 2
 
-tree site
+./add-javadocs.sh
 
 echo "START deploying docs to GitHub pages..."
 mkdocs gh-deploy --force
