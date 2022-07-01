@@ -16,7 +16,6 @@
 #
 
 set -e
-set -x
 
 REMOTE="https://@github.com/${GITHUB_REPOSITORY}"
 git remote set-url origin ${REMOTE}

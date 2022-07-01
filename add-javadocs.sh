@@ -15,8 +15,7 @@
 #
 
 set -e
-echo "START build and add javadocs..."
-mvn install
+echo "START add javadocs..."
 mvn javadoc:javadoc
 
 tree -L 3
