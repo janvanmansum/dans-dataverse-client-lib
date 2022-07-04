@@ -15,8 +15,6 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +22,7 @@ import java.util.Map;
 
 import static java.util.Collections.singletonList;
 
-abstract class AbstractTargetedApi extends AbstractApi{
+abstract class AbstractTargetedApi extends AbstractApi {
 
     protected static final String persistendId = ":persistentId/";
     protected static final String publish = "actions/:publish";

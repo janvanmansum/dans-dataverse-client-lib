@@ -50,7 +50,8 @@ import static org.apache.commons.codec.binary.Base64.encodeBase64String;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 /**
- * Helper class that wraps an HttpClient, the configuration data and a Jackson object mapper. It implements generic methods for sending HTTP requests to the server and deserializing the responses
+ * Helper class that wraps an HttpClient, the configuration data and a Jackson object mapper. It implements generic methods for sending HTTP requests to the server and
+ * deserializing the responses
  * received.
  */
 class HttpClientWrapper implements MediaTypes {
@@ -85,13 +86,14 @@ class HttpClientWrapper implements MediaTypes {
     }
 
     public String writeValueAsString(Object value) throws JsonProcessingException {
-       return mapper.writeValueAsString(value);
+        return mapper.writeValueAsString(value);
     }
 
     /*
      * POST methods
      */
-    public <D> DataverseHttpResponse<D> post(Path subPath, HttpEntity body, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+    public <D> DataverseHttpResponse<D> post(Path subPath, HttpEntity body, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
+        throws IOException, DataverseException {
         HttpPost post = new HttpPost(buildURi(subPath, parameters));
         headers.forEach(post::setHeader);
         post.setEntity(body);
@@ -107,15 +109,18 @@ class HttpClientWrapper implements MediaTypes {
         return postJsonString(subPath, writeValueAsString(modelObject), parameters, headers, c);
     }
 
-    public <D> DataverseHttpResponse<D> postJsonString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+    public <D> DataverseHttpResponse<D> postJsonString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
+        throws IOException, DataverseException {
         return wrap(postString(subPath, s, APPLICATION_JSON, parameters, headers), c);
     }
 
-    public <D> DataverseHttpResponse<D> postJsonLdString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+    public <D> DataverseHttpResponse<D> postJsonLdString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
+        throws IOException, DataverseException {
         return wrap(postString(subPath, s, APPLICATION_JSON_LD, parameters, headers), c);
     }
 
-    private HttpResponse postString(Path subPath, String s, String mediaType, Map<String, List<String>> parameters, Map<String, String> headers) throws IOException, DataverseException {
+    private HttpResponse postString(Path subPath, String s, String mediaType, Map<String, List<String>> parameters, Map<String, String> headers)
+        throws IOException, DataverseException {
         HttpPost post = new HttpPost(buildURi(subPath, parameters));
         post.setHeader(HttpHeaders.CONTENT_TYPE, mediaType);
         headers.forEach(post::setHeader);
@@ -135,19 +140,23 @@ class HttpClientWrapper implements MediaTypes {
         return putJsonString(subPath, mapper.writeValueAsString(modelObject), parameters, headers, c);
     }
 
-    public <D> DataverseHttpResponse<D> putJsonString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+    public <D> DataverseHttpResponse<D> putJsonString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
+        throws IOException, DataverseException {
         return wrap(putString(subPath, s, APPLICATION_JSON, parameters, headers), c);
     }
 
-    public <D> DataverseHttpResponse<D> putJsonLdString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+    public <D> DataverseHttpResponse<D> putJsonLdString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
+        throws IOException, DataverseException {
         return wrap(putString(subPath, s, APPLICATION_JSON_LD, parameters, headers), c);
     }
 
-    public <D> DataverseHttpResponse<D> putTextString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+    public <D> DataverseHttpResponse<D> putTextString(Path subPath, String s, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
+        throws IOException, DataverseException {
         return wrap(putString(subPath, s, TEXT_PLAIN, parameters, headers), c);
     }
 
-    private HttpResponse putString(Path subPath, String s, String mediaType, Map<String, List<String>> parameters, Map<String, String> headers) throws IOException, DataverseException {
+    private HttpResponse putString(Path subPath, String s, String mediaType, Map<String, List<String>> parameters, Map<String, String> headers)
+        throws IOException, DataverseException {
         HttpPut put = new HttpPut(buildURi(subPath, parameters));
         put.setHeader(HttpHeaders.CONTENT_TYPE, mediaType);
         headers.forEach(put::setHeader);
@@ -166,10 +175,17 @@ class HttpClientWrapper implements MediaTypes {
         return get(subPath, parameters, Collections.emptyMap(), outputClass);
     }
 
-    public <D> DataverseHttpResponse<D> get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... outputClass) throws IOException, DataverseException {
+    public <D> DataverseHttpResponse<D> get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... outputClass)
+        throws IOException, DataverseException {
         HttpGet get = new HttpGet(buildURi(subPath, parameters));
         headers.forEach(get::setHeader);
         return wrap(dispatch(get), outputClass);
+    }
+
+    public HttpResponse get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers) throws IOException, DataverseException {
+        HttpGet get = new HttpGet(buildURi(subPath, parameters));
+        headers.forEach(get::setHeader);
+        return dispatch(get);
     }
 
     /*
@@ -195,8 +211,8 @@ class HttpClientWrapper implements MediaTypes {
     private URI buildURi(Path subPath, Map<String, List<String>> parameters) {
         try {
             List<NameValuePair> nameValuePairs = parameters.entrySet().stream()
-                    .flatMap(e -> e.getValue().stream().map(v -> new BasicNameValuePair(e.getKey(), v)))
-                    .collect(Collectors.toList());
+                .flatMap(e -> e.getValue().stream().map(v -> new BasicNameValuePair(e.getKey(), v)))
+                .collect(Collectors.toList());
             URIBuilder uriBuilder = new URIBuilder(config.getBaseUrl().resolve(subPath.toString()));
             uriBuilder.setParameters(nameValuePairs);
             Optional.ofNullable(config.getUnblockKey()).ifPresent(key -> uriBuilder.setParameter(UNBLOCK_KEY, key));
