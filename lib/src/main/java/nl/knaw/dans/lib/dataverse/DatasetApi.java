@@ -116,6 +116,11 @@ public class DatasetApi extends AbstractTargetedApi {
         return httpClientWrapper.postJsonString(path, "", parameters, emptyMap(), DatasetPublicationResult.class);
     }
 
+    public DataverseResponse<DatasetPublicationResult> releaseMigrated(String publicationDateJsonLd, boolean assureIsIndexed) throws IOException, DataverseException {
+        Map<String, List<String>> parameters = singletonMap("assureIsIndexed", singletonList(String.valueOf(assureIsIndexed)));
+        return httpClientWrapper.postJsonLdString(subPath("actions/:releasemigrated"), publicationDateJsonLd, params(parameters), emptyMap(), DatasetPublicationResult.class);
+    }
+
     /**
      * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      * Replaces existing data.
