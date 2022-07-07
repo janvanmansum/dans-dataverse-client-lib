@@ -37,6 +37,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +120,14 @@ public class DatasetApi extends AbstractTargetedApi {
         parameters.put("persistentId", singletonList(id));
         parameters.put("type", singletonList("major"));
         return httpClientWrapper.postJsonString(path, "", parameters, emptyMap(), DatasetPublicationResult.class);
+    }
+
+    public DataverseHttpResponse<DataMessage> publish(String updateType, boolean assureIsIndexed) throws IOException, DataverseException {
+        log.trace("ENTER");
+        HashMap<String, List<String>> parameters = new HashMap<>();
+        parameters.put("assureIsIndexed", singletonList(String.valueOf(assureIsIndexed)));
+        parameters.put("type", singletonList(updateType));
+        return httpClientWrapper.postJsonString(subPath(publish), "", params(parameters), new HashMap<>(), DataMessage.class);
     }
 
     public DataverseResponse<DatasetPublicationResult> releaseMigrated(String publicationDateJsonLd, boolean assureIsIndexed) throws IOException, DataverseException {
