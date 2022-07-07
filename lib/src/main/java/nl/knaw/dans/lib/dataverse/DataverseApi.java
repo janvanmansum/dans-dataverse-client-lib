@@ -278,7 +278,7 @@ public class DataverseApi extends AbstractApi {
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(String dataset) throws IOException, DataverseException {
         log.trace("ENTER");
-        throw new UnsupportedOperationException();
+        return httpClientWrapper.postJsonString(subPath.resolve("datasets"), dataset,Collections.emptyMap(), Collections.emptyMap(), DatasetCreationResult.class);
     }
 
     /**
