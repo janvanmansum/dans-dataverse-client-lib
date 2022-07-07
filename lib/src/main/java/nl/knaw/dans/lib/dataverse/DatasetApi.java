@@ -72,6 +72,11 @@ public class DatasetApi extends AbstractTargetedApi {
         return getUnversionedFromTarget("", DatasetLatestVersion.class);
     }
 
+    public DataverseResponse<DatasetVersion> view() throws IOException, DataverseException {
+        // Not specifying a version results in getting all versions.
+        return getVersionedFromTarget("", Version.LATEST.toString(), DatasetVersion.class);
+    }
+
     /**
      * See [Dataverse API Guide].
      *
