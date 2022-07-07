@@ -24,6 +24,7 @@ import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
+import nl.knaw.dans.lib.dataverse.model.dataset.UpdateType;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.entity.ContentType;
@@ -122,11 +123,11 @@ public class DatasetApi extends AbstractTargetedApi {
         return httpClientWrapper.postJsonString(path, "", parameters, emptyMap(), DatasetPublicationResult.class);
     }
 
-    public DataverseHttpResponse<DataMessage> publish(String updateType, boolean assureIsIndexed) throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> publish(UpdateType updateType, boolean assureIsIndexed) throws IOException, DataverseException {
         log.trace("ENTER");
         HashMap<String, List<String>> parameters = new HashMap<>();
         parameters.put("assureIsIndexed", singletonList(String.valueOf(assureIsIndexed)));
-        parameters.put("type", singletonList(updateType));
+        parameters.put("type", singletonList(updateType.toString()));
         return httpClientWrapper.postJsonString(subPath(publish), "", params(parameters), new HashMap<>(), DataMessage.class);
     }
 
