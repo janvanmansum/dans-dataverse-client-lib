@@ -18,7 +18,7 @@ package nl.knaw.dans.lib.dataverse.model;
 public class DataverseEnvelope<D> {
 
     private String status;
-    private String message;
+    private DataMessage message;
     private D data;
 
     public String getStatus() {
@@ -29,11 +29,11 @@ public class DataverseEnvelope<D> {
         this.status = status;
     }
 
-    public String getMessage() {
+    public DataMessage getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(DataMessage message) {
         this.message = message;
     }
 
