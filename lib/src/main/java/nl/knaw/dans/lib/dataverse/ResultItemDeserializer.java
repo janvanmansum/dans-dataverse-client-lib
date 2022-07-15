@@ -130,7 +130,7 @@ public class ResultItemDeserializer extends StdDeserializer {
     // Generic getter for "objects", currently only used for the mysterious field "publications"
     private List<Map<Object, Object>> getListOfObjects(JsonNode node, String name) throws JsonProcessingException {
         JavaType t = mapper.getTypeFactory().constructParametricType(List.class, Map.class);
-        // writing the node to String and and then parsing it back again seems to be the only way for parametric types.
+        // writing the node to String and then parsing it back again seems to be the only way for parametric types.
         if (node.get(name) == null)
             return null;
         else
