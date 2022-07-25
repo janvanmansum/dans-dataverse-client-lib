@@ -15,29 +15,25 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
-import nl.knaw.dans.lib.dataverse.DataverseResponse;
+import nl.knaw.dans.lib.dataverse.DataverseResponse2;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 public class AdminListSingleUser extends ExampleBase {
 
     private static final Logger log = LoggerFactory.getLogger(AdminListSingleUser.class);
 
-    static {
-    }
-
     public static void main(String[] args) throws Exception {
         String userId = args[0];
-        DataverseResponse<AuthenticatedUser> r = client.admin().listSingleUser(userId);
-        log.info("For exceptions on Admin examples see 'unblockKey' in dataverse.properties.template");
+        DataverseResponse2<AuthenticatedUser> r = client.admin().listSingleUser(userId);
         log.info(r.getEnvelopeAsJson().toPrettyString());
-        log.info("requested Id: " + userId);
-        log.info("Id: " + r.getData().getId());
-        log.info("DisplayName: " + r.getData().getDisplayName());
-        log.info("one-liners showing differences");
-        log.info("model deserialized: " + mapper.writeValueAsString(r.getEnvelope()));
-        log.info("original response:  " + r.getEnvelopeAsString());
+        log.info("Requested Id: {}", userId);
+        log.info("Id: {}", r.getData().getId());
+        log.info("DisplayName: {}", r.getData().getDisplayName());
+        Optional.ofNullable(r.getMessage()).ifPresent(m -> log.info("Message: {}", m));
     }
 }

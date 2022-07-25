@@ -15,8 +15,9 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
-import nl.knaw.dans.lib.dataverse.DataverseResponse;
+import nl.knaw.dans.lib.dataverse.DataverseComplexMessageResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
+import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.slf4j.Logger;
@@ -35,8 +36,11 @@ public class DatasetAddFile extends ExampleBase {
         FileMeta fileMeta = new FileMeta();
         fileMeta.setLabel("Alternative_label");
         fileMeta.setRestricted(true);
-        DataverseResponse<FileList> r = client.dataset(persistentId).addFile(file, fileMeta);
+        DataverseComplexMessageResponse<DataMessage, FileList> r = client.dataset(persistentId).addFile(file, fileMeta);
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
-        log.info("File: {}", r.getData().getFiles().get(0));
+        log.info("File: {}", r.getData().getFiles().get(0).getLabel());
+        if (r.getMessage() != null) {
+            log.info("Message: {}", r.getMessage().getMessage());
+        }
     }
 }

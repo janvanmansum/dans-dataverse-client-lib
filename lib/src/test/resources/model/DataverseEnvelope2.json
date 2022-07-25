@@ -1,0 +1,7 @@
+{
+  "status": "OK",
+  "data": {
+    "unbound field": "value"
+  },
+  "message": "Test message"
+}

@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import nl.knaw.dans.lib.dataverse.DataverseResponse2;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
@@ -32,7 +33,7 @@ public class DatasetEditMetadata extends ExampleBase {
         String title = args[1];
         FieldList fieldList = new FieldList();
         fieldList.add(new PrimitiveSingleValueField("title", title));
-        DataverseResponse<DatasetVersion> r = client.dataset(persistentId).editMetadata(fieldList);
+        DataverseResponse2<DatasetVersion> r = client.dataset(persistentId).editMetadata(fieldList);
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         log.info("Version number: {}", r.getData().getVersionNumber());
     }

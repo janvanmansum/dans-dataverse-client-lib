@@ -98,6 +98,14 @@ class HttpClientWrapper implements MediaTypes {
         return wrap(dispatch(post), c);
     }
 
+    public <M, D> DataverseComplexMessageHttpResponse2<M, D> post2(Path subPath, HttpEntity body, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c) throws IOException, DataverseException {
+        HttpPost post = new HttpPost(buildURi(subPath, parameters));
+        headers.forEach(post::setHeader);
+        post.setEntity(body);
+        return wrap2(dispatch(post), c);
+    }
+
+
     public <D> DataverseHttpResponse<D> postModelObjectAsJson(Path subPath, Object modelObject, Class<?>... c) throws IOException, DataverseException {
         return postModelObjectAsJson(subPath, modelObject, new HashMap<>(), new HashMap<>(), c);
     }
@@ -172,6 +180,13 @@ class HttpClientWrapper implements MediaTypes {
         return wrap(dispatch(get), outputClass);
     }
 
+    public <D> DataverseHttpResponse2<D> get2(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... outputClass) throws IOException, DataverseException {
+        HttpGet get = new HttpGet(buildURi(subPath, parameters));
+        headers.forEach(get::setHeader);
+        return wrap3(dispatch(get), outputClass);
+    }
+
+
     /*
      * DELETE methods
      */
@@ -212,6 +227,15 @@ class HttpClientWrapper implements MediaTypes {
     private <D> DataverseHttpResponse<D> wrap(HttpResponse response, Class<?>... dataClass) throws IOException {
         return new DataverseHttpResponse<>(response, mapper, dataClass);
     }
+
+    private <M, D> DataverseComplexMessageHttpResponse2<M, D> wrap2(HttpResponse response, Class<?>... dataClass) throws IOException {
+        return new DataverseComplexMessageHttpResponse2<>(response, mapper, dataClass);
+    }
+
+    private <D> DataverseHttpResponse2<D> wrap3(HttpResponse response, Class<?>... dataClass) throws IOException {
+        return new DataverseHttpResponse2<>(response, mapper, dataClass);
+    }
+
 
     private HttpResponse dispatch(HttpUriRequest request) throws IOException, DataverseException {
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));

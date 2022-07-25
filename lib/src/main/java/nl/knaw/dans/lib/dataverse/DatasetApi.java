@@ -38,7 +38,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -314,11 +313,11 @@ public class DatasetApi extends AbstractTargetedApi {
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      */
-    public DataverseResponse<FileList> addFile(Path file, String metadata) throws IOException, DataverseException {
+    public DataverseComplexMessageResponse<DataMessage, FileList> addFile(Path file, String metadata) throws IOException, DataverseException {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         Optional.ofNullable(file).ifPresent(f -> builder.addPart("file", new FileBody(f.toFile(), ContentType.APPLICATION_OCTET_STREAM, f.getFileName().toString())));
         Optional.ofNullable(metadata).ifPresent(m -> builder.addPart("jsonData", new StringBody(m, ContentType.APPLICATION_JSON)));
-        return httpClientWrapper.post(subPath("add"), builder.build(), params(emptyMap()), extraHeaders, FileList.class);
+        return httpClientWrapper.post2(subPath("add"), builder.build(), params(emptyMap()), extraHeaders, DataMessage.class, FileList.class);
     }
 
     /**
@@ -330,7 +329,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      */
-    public DataverseResponse<FileList> addFile(Path file, FileMeta fileMeta) throws IOException, DataverseException {
+    public DataverseComplexMessageResponse<DataMessage, FileList> addFile(Path file, FileMeta fileMeta) throws IOException, DataverseException {
         return addFile(file, httpClientWrapper.writeValueAsString(fileMeta));
     }
 

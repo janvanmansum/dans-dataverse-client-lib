@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
-import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope;
+import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,35 +41,43 @@ import java.io.IOException;
  *
  * {@link nl.knaw.dans.lib.dataverse.model}.
  *
+ * @param <M> the type of message in the response message envelope
  * @param <D> the type of the data of the response message envelope
  */
-public class DataverseResponse<D> {
-    private static final Logger log = LoggerFactory.getLogger(DataverseResponse.class);
+public class DataverseComplexMessageResponse<M, D> {
+    private static final Logger log = LoggerFactory.getLogger(DataverseComplexMessageResponse.class);
     private final ObjectMapper mapper;
 
     private final String bodyText;
     private final JavaType dataType;
 
-    protected DataverseResponse(String bodyText, ObjectMapper mapper, Class<?>... dataClass) {
+    protected DataverseComplexMessageResponse(String bodyText, ObjectMapper mapper, Class<?>... typeParameterClasses) {
         log.trace("ENTER");
         log.trace(bodyText);
         this.bodyText = bodyText;
         this.mapper = mapper;
+        if (typeParameterClasses.length < 2 || typeParameterClasses.length > 3) {
+            throw new IllegalArgumentException("typeParmetersClasses must be [M, D] or [M, D (container type), D (element type)]");
+        }
+
         TypeFactory typeFactory = mapper.getTypeFactory();
-        if (dataClass.length == 2) {
-            JavaType inner = typeFactory.constructParametricType(dataClass[0], dataClass[1]);
-            this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, inner);
+        JavaType mType = typeFactory.constructType(typeParameterClasses[0]);
+        if (typeParameterClasses.length == 2) {
+            this.dataType = typeFactory.constructParametricType(DataverseEnvelope2.class, mType, typeFactory.constructType(typeParameterClasses[1]));
         }
-        else {
-            this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, dataClass[0]);
+        else // length == 3
+        {
+            JavaType dType = typeFactory.constructParametricType(typeParameterClasses[1], typeParameterClasses[2]);
+            this.dataType = typeFactory.constructParametricType(DataverseEnvelope2.class, mType, dType);
         }
+
     }
 
     /**
      * @return A dataverse envelope
      * @throws IOException if body cannot be processed properly as JSON
      */
-    public DataverseEnvelope<D> getEnvelope() throws IOException {
+    public DataverseEnvelope2<M, D> getEnvelope() throws IOException {
         return mapper.readValue(bodyText, dataType);
     }
 
@@ -79,6 +87,14 @@ public class DataverseResponse<D> {
      */
     public D getData() throws IOException {
         return getEnvelope().getData();
+    }
+
+    /**
+     * @return the message of the envelope directly, if present
+     * @throws IOException if body cannot be processed properly as JSON
+     */
+    public M getMessage() throws IOException {
+        return getEnvelope().getMessage();
     }
 
     /**

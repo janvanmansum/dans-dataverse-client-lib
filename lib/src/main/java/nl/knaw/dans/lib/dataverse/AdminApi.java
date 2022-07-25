@@ -47,8 +47,8 @@ public class AdminApi extends AbstractApi {
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-user
      */
-    public DataverseResponse<AuthenticatedUser> listSingleUser(String id) throws IOException, DataverseException {
+    public DataverseResponse2<AuthenticatedUser> listSingleUser(String id) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "authenticatedUsers", id);
-        return httpClientWrapper.get(path, new HashMap<>(), new HashMap<>(), AuthenticatedUser.class);
+        return httpClientWrapper.get2(path, new HashMap<>(), new HashMap<>(), AuthenticatedUser.class);
     }
 }
