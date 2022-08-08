@@ -13,35 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.lib.dataverse.model;
+package nl.knaw.dans.lib.dataverse;
 
-public class DataverseEnvelope<D> {
+public enum Version {
+    DRAFT(":draft"),
+    LATEST(":latest"),
+    LATEST_PUBLISHED(":latest-published");
 
-    private String status;
-    private DataMessage message;
-    private D data;
-
-    public String getStatus() {
-        return status;
+    public String toString() {
+        return stringValue;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+    private final String stringValue;
 
-    public DataMessage getMessage() {
-        return message;
-    }
-
-    public void setMessage(DataMessage message) {
-        this.message = message;
-    }
-
-    public D getData() {
-        return data;
-    }
-
-    public void setData(D data) {
-        this.data = data;
+    private Version(String stringValue) {
+        this.stringValue = stringValue;
     }
 }

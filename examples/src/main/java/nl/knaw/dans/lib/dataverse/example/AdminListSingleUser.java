@@ -25,9 +25,6 @@ public class AdminListSingleUser extends ExampleBase {
 
     private static final Logger log = LoggerFactory.getLogger(AdminListSingleUser.class);
 
-    static {
-    }
-
     public static void main(String[] args) throws Exception {
         String userId = args[0];
         DataverseResponse<AuthenticatedUser> r = client.admin().listSingleUser(userId);

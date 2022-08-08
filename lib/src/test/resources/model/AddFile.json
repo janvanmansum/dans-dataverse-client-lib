@@ -1,0 +1,34 @@
+{
+  "status": "OK",
+  "message": {
+    "message": "This file has the same content as test.jpg that is in the dataset. "
+  },
+  "data": {
+    "files": [
+      {
+        "description": "",
+        "label": "test-copy.jpg",
+        "restricted": false,
+        "directoryLabel": "images",
+        "version": 1,
+        "datasetVersionId": 513,
+        "dataFile": {
+          "id": 4062,
+          "persistentId": "",
+          "pidURL": "",
+          "filename": "test-copy.jpg",
+          "contentType": "image/jpeg",
+          "filesize": 612553,
+          "description": "",
+          "storageIdentifier": "file://181fb83880a-3a223fb5a977",
+          "rootDataFileId": -1,
+          "checksum": {
+            "type": "SHA-1",
+            "value": "0d3b4162c0d797384c6fb87778ade0d843307dea"
+          },
+          "creationDate": "2022-07-14"
+        }
+      }
+    ]
+  }
+}

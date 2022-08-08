@@ -28,7 +28,16 @@ public class Dataverse {
     private DataverseType dataverseType;
     private String storageDriverLabel;
     private String creationDate;
+    private DataverseTheme theme;
     private List<DataverseContact> dataverseContacts;
+
+    public DataverseTheme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(DataverseTheme theme) {
+        this.theme = theme;
+    }
 
     public int getId() {
         return id;

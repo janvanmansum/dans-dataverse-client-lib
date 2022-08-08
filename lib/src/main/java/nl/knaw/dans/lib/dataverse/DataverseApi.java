@@ -20,6 +20,7 @@ import nl.knaw.dans.lib.dataverse.model.Role;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
 import nl.knaw.dans.lib.dataverse.model.dataset.Dataset;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetCreationResult;
+import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlockSummary;
 import nl.knaw.dans.lib.dataverse.model.dataverse.Dataverse;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItem;
 import org.slf4j.Logger;
@@ -135,9 +136,9 @@ public class DataverseApi extends AbstractApi {
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-roles-defined-in-a-dataverse-collection
      */
-    public DataverseHttpResponse<DataMessage> listRoles() throws IOException, DataverseException {
+    public DataverseHttpResponse<List<Role>> listRoles() throws IOException, DataverseException {
         log.trace("ENTER");
-        return httpClientWrapper.get(subPath.resolve("roles"), DataMessage.class);
+        return httpClientWrapper.get(subPath.resolve("roles"), List.class, Role.class);
     }
 
     /**
@@ -233,11 +234,9 @@ public class DataverseApi extends AbstractApi {
      *
      * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-metadata-blocks-defined-on-a-dataverse-collection
      */
-    public DataverseHttpResponse<DataMessage> listMetadataBlocks() throws IOException, DataverseException {
+    public DataverseHttpResponse<List<MetadataBlockSummary>> listMetadataBlocks() throws IOException, DataverseException {
         log.trace("ENTER");
-        // TODO: implement
-        throw new UnsupportedOperationException();
-    }
+        return httpClientWrapper.get(subPath.resolve("metadatablocks"), List.class, MetadataBlockSummary.class);    }
 
     /**
      * See [Dataverse API Guide].
@@ -278,7 +277,7 @@ public class DataverseApi extends AbstractApi {
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(String dataset) throws IOException, DataverseException {
         log.trace("ENTER");
-        throw new UnsupportedOperationException();
+        return httpClientWrapper.postJsonString(subPath.resolve("datasets"), dataset,Collections.emptyMap(), Collections.emptyMap(), DatasetCreationResult.class);
     }
 
     /**

@@ -22,13 +22,13 @@ import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DatasetViewLatestVersion extends ExampleBase {
+public class DatasetGetLatestVersion extends ExampleBase {
 
-    private static final Logger log = LoggerFactory.getLogger(DatasetViewLatestVersion.class);
+    private static final Logger log = LoggerFactory.getLogger(DatasetGetLatestVersion.class);
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
-        DataverseResponse<DatasetLatestVersion> r = client.dataset(persistentId).viewLatestVersion();
+        DataverseResponse<DatasetLatestVersion> r = client.dataset(persistentId).getLatestVersion();
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
 
         DatasetLatestVersion metadataExport = r.getData();

@@ -13,35 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.lib.dataverse.model;
+package nl.knaw.dans.lib.dataverse.model.dataset;
 
-public class DataverseEnvelope<D> {
+public class MetadataBlockSummary {
+    int id;
+    String name;
+    String displayName;
 
-    private String status;
-    private DataMessage message;
-    private D data;
-
-    public String getStatus() {
-        return status;
+    public int getId() {
+        return id;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public DataMessage getMessage() {
-        return message;
+    public String getName() {
+        return name;
     }
 
-    public void setMessage(DataMessage message) {
-        this.message = message;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public D getData() {
-        return data;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setData(D data) {
-        this.data = data;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 }

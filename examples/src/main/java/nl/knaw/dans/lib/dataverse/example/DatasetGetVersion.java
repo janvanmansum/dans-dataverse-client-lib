@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import nl.knaw.dans.lib.dataverse.DatasetApi;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
@@ -22,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DatasetGetVersion extends ExampleBase {
 
@@ -29,8 +31,13 @@ public class DatasetGetVersion extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
-        String version = args[1];
-        DataverseResponse<DatasetVersion> r = client.dataset(persistentId).getVersion(version);
+        String version = null;
+        if (args.length > 1) {
+            version = args[1];
+        }
+
+        DatasetApi dataset = client.dataset(persistentId);
+        DataverseResponse<DatasetVersion> r = version == null ? dataset.getVersion() : dataset.getVersion(version);
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         log.info("Create Time: {}", r.getData().getCreateTime());
         log.info("Version State: {}", r.getData().getVersionState());

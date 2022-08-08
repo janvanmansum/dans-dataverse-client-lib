@@ -13,35 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.lib.dataverse.model;
+package nl.knaw.dans.lib.dataverse.model.dataverse;
 
-public class DataverseEnvelope<D> {
+public class DataverseTheme {
+    int id;
+    String logo;
+    String logoBackgroundColor;
 
-    private String status;
-    private DataMessage message;
-    private D data;
-
-    public String getStatus() {
-        return status;
+    public int getId() {
+        return id;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public DataMessage getMessage() {
-        return message;
+    public String getLogo() {
+        return logo;
     }
 
-    public void setMessage(DataMessage message) {
-        this.message = message;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
-    public D getData() {
-        return data;
+    public String getLogoBackgroundColor() {
+        return logoBackgroundColor;
     }
 
-    public void setData(D data) {
-        this.data = data;
+    public void setLogoBackgroundColor(String logoBackgroundColor) {
+        this.logoBackgroundColor = logoBackgroundColor;
     }
 }
