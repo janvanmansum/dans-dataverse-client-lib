@@ -22,8 +22,6 @@ git remote set-url origin ${REMOTE}
 
 pip install -r .github/workflows/mkdocs/requirements.txt
 
-tree -L 2
-
 ./add-javadocs.sh
 
 echo "START deploying docs to GitHub pages..."
