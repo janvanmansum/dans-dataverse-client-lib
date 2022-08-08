@@ -36,7 +36,7 @@ public class AddFileTest extends ModelFixture {
     @Test
     public void canDeserialize() throws Exception {
         assertEquals(
-                "PAN-00016988-001-copy.jpg",
+                "test-copy.jpg",
                 mapper.readValue(jsonFile, wrappedClassUnderTest).getData().getFiles().get(0).getLabel()
         );
     }
@@ -44,7 +44,7 @@ public class AddFileTest extends ModelFixture {
     @Test
     public void roundTrip() throws Exception {
         assertEquals(
-                "This file has the same content as PAN-00016988-001-copy.jpg that is in the dataset.",
+                "This file has the same content as test.jpg that is in the dataset.",
                 roundTrip(jsonFile, wrappedClassUnderTest).getMessage().getMessage().trim()
         );
     }

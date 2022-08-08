@@ -70,23 +70,21 @@ public class DatasetApi extends AbstractTargetedApi {
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      */
-    public DataverseResponse<DatasetLatestVersion> viewLatestVersion() throws IOException, DataverseException {
+    public DataverseResponse<DatasetLatestVersion> getLatestVersion() throws IOException, DataverseException {
         return getUnversionedFromTarget("", DatasetLatestVersion.class);
-    }
-
-    public DataverseResponse<DatasetVersion> view() throws IOException, DataverseException {
-        // Not specifying a version results in getting all versions.
-        return getVersionedFromTarget("", Version.LATEST.toString(), DatasetVersion.class);
     }
 
     /**
      * See [Dataverse API Guide].
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-versions-of-a-dataset
+     * Retrieves that latest version of a dataset. The difference with {@link #getLatestVersion()} is that the latter returns a different type
+     * of object. It is not clear why these variants exist.
+     *
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset
      */
-    public DataverseResponse<List<DatasetVersion>> getAllVersions() throws IOException, DataverseException {
+    public DataverseResponse<DatasetVersion> getVersion() throws IOException, DataverseException {
         // Not specifying a version results in getting all versions.
-        return getVersionedFromTarget("", "", List.class, DatasetVersion.class);
+        return getVersionedFromTarget("", Version.LATEST.toString(), DatasetVersion.class);
     }
 
     /**
@@ -98,6 +96,17 @@ public class DatasetApi extends AbstractTargetedApi {
         if (StringUtils.isBlank(version))
             throw new IllegalArgumentException("Argument 'version' may not be empty");
         return getVersionedFromTarget("", version, DatasetVersion.class);
+    }
+
+
+    /**
+     * See [Dataverse API Guide].
+     *
+     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-versions-of-a-dataset
+     */
+    public DataverseResponse<List<DatasetVersion>> getAllVersions() throws IOException, DataverseException {
+        // Not specifying a version results in getting all versions.
+        return getVersionedFromTarget("", "", List.class, DatasetVersion.class);
     }
 
     /**

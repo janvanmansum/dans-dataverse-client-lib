@@ -31,6 +31,6 @@ public class DataverseListRoles extends ExampleBase {
     public static void main(String[] args) throws Exception {
         DataverseHttpResponse<List<Role>> r = client.dataverse("root").listRoles();
         log.info(r.getEnvelopeAsString());
-        log.info("envelope data name: " + r.getEnvelope().getData().get(0).getName());
+        log.info("Name of first role: " + r.getEnvelope().getData().get(0).getName());
     }
 }

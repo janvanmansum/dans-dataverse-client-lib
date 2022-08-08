@@ -1,13 +1,13 @@
 {
   "status": "OK",
   "message": {
-    "message": "This file has the same content as PAN-00016988-001-copy.jpg that is in the dataset. "
+    "message": "This file has the same content as test.jpg that is in the dataset. "
   },
   "data": {
     "files": [
       {
         "description": "",
-        "label": "PAN-00016988-001-copy.jpg",
+        "label": "test-copy.jpg",
         "restricted": false,
         "directoryLabel": "images",
         "version": 1,
@@ -16,7 +16,7 @@
           "id": 4062,
           "persistentId": "",
           "pidURL": "",
-          "filename": "PAN-00016988-001-copy.jpg",
+          "filename": "test-copy.jpg",
           "contentType": "image/jpeg",
           "filesize": 612553,
           "description": "",
