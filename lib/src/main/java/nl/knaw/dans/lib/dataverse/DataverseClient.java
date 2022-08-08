@@ -115,6 +115,14 @@ public class DataverseClient {
         return new DataAccessRequestsApi(httpClientWrapper, String.valueOf(id), false);
     }
 
+    public BasicFileAccessApi basicFileAccess(String pid) {
+        return new BasicFileAccessApi(httpClientWrapper, pid, true);
+    }
+
+    public BasicFileAccessApi basicFileAccess(int id) {
+        return new BasicFileAccessApi(httpClientWrapper, Integer.toString(id), false);
+    }
+
     public SearchApi search() {
         if (searchApi == null)
             searchApi = new SearchApi(httpClientWrapper);

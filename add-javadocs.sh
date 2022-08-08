@@ -14,9 +14,11 @@
 # limitations under the License.
 #
 
-echo "START build and add javadocs..."
-mvn install
+set -e
+
+echo "START add javadocs..."
 mvn javadoc:javadoc
+
 if [ -d "docs/javadocs" ]; then rm -fr docs/javadocs; fi
 mv lib/target/site/apidocs docs/javadocs
 echo "DONE build and add javadocs"
