@@ -16,19 +16,24 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>nl.knaw.dans.shared</groupId>
-        <artifactId>dans-java-project</artifactId>
-        <version>7.4.0</version>
-        <relativePath />
+        <artifactId>dans-dropwizard-project</artifactId>
+        <version>7.5.0</version>
+        <relativePath/>
     </parent>
     <groupId>nl.knaw.dans</groupId>
     <artifactId>dans-dataverse-client-lib</artifactId>
     <version>0.1.2-SNAPSHOT</version>
     <name>DANS Dataverse Client Library</name>
     <inceptionYear>2021</inceptionYear>
+    <scm>
+        <tag>HEAD</tag>
+        <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -41,7 +46,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.5.12</version>
+            <version>4.5.13</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -93,44 +98,14 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>11</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>build-javadocs</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-                <jdk>1.8.0</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <skip>false</skip>
-                            <doclet>ch.raffael.doclets.pegdown.PegdownDoclet</doclet>
-                            <docletArtifact>
-                                <groupId>ch.raffael.pegdown-doclet</groupId>
-                                <artifactId>pegdown-doclet</artifactId>
-                                <version>1.1</version>
-                            </docletArtifact>
-                            <useStandardDocletOptions>true</useStandardDocletOptions>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-  <scm>
-    <tag>HEAD</tag>
-    <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
-  </scm>
 </project>
 

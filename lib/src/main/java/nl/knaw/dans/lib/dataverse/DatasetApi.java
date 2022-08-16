@@ -48,6 +48,11 @@ import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 
+/**
+ * API end-points dealing with a single dataset.
+ *
+ * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#datasets" target="_blank">Dataverse documentation</a>
+ */
 public class DatasetApi extends AbstractTargetedApi {
 
     private static final Logger log = LoggerFactory.getLogger(DatasetApi.class);
@@ -64,23 +69,23 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#get-json-representation-of-a-dataset
-     *
      * @return a JSON object that starts at the dataset level, most fields are replicated at the dataset version level.
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-json-representation-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetLatestVersion> getLatestVersion() throws IOException, DataverseException {
         return getUnversionedFromTarget("", DatasetLatestVersion.class);
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
      * Retrieves that latest version of a dataset. The difference with {@link #getLatestVersion()} is that the latter returns a different type
      * of object. It is not clear why these variants exist.
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset
+     * @return object containing the Dataset version metadata
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> getVersion() throws IOException, DataverseException {
         // Not specifying a version results in getting all versions.
@@ -88,9 +93,8 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset
+     * @param version version to retrieve
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> getVersion(String version) throws IOException, DataverseException {
         if (StringUtils.isBlank(version))
@@ -98,11 +102,8 @@ public class DatasetApi extends AbstractTargetedApi {
         return getVersionedFromTarget("", version, DatasetVersion.class);
     }
 
-
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-versions-of-a-dataset
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-versions-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<List<DatasetVersion>> getAllVersions() throws IOException, DataverseException {
         // Not specifying a version results in getting all versions.
@@ -110,9 +111,8 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * @param version [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset
+     * @param version version to get file metadata from
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<List<FileMeta>> getFiles(String version) throws IOException, DataverseException {
         log.trace("ENTER");
@@ -120,9 +120,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#publish-a-dataset
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#publish-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetPublicationResult> publish() throws IOException, DataverseException {
         Path path = buildPath(targetBase, persistendId, publish);
@@ -146,30 +144,29 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
-     * Replaces existing data.
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
+     * multiple values.
      *
      * @param s JSON document containing the edits to perform
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> editMetadata(String s) throws IOException, DataverseException {
         return editMetadata(s, true);
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
+     * multiple values.
      *
      * @param s       JSON document containing the edits to perform
      * @param replace whether to replace existing values
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> editMetadata(String s, Boolean replace) throws IOException, DataverseException {
         log.trace("ENTER");
@@ -184,15 +181,15 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
+     * multiple values.
      *
      * @param fields  list of fields to edit
      * @param replace whether to replace existing values
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> editMetadata(FieldList fields, Boolean replace) throws IOException, DataverseException {
         return editMetadata(httpClientWrapper.writeValueAsString(fields), replace);
@@ -201,12 +198,11 @@ public class DatasetApi extends AbstractTargetedApi {
     /**
      * Edits the current draft's metadata, adding the fields that do not exist yet.
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata
-     *
      * @param fields list of fields to edit
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> editMetadata(FieldList fields) throws IOException, DataverseException {
         return editMetadata(httpClientWrapper.writeValueAsString(fields), true);
@@ -219,14 +215,11 @@ public class DatasetApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-metadata-block-for-a-dataset
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/developers/dataset-semantic-metadata-api.html#add-dataset-metadata
-     *
      * @param metadata JSON document describing the metadata
-     * @return
+     * @return a generic DataverseResponse
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/developers/dataset-semantic-metadata-api.html#add-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<Object> updateMetadataFromJsonLd(String metadata, boolean replace) throws IOException, DataverseException {
         Map<String, List<String>> queryParams = singletonMap("replace", singletonList((String.valueOf(replace))));
@@ -234,14 +227,11 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
-     *
      * @param s JSON document containing the new metadata
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> updateMetadata(String s) throws IOException, DataverseException {
         // Cheating with endPoint here, because the only version that can be updated is :draft anyway
@@ -249,14 +239,11 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset
-     *
      * @param metadataBlocks map of metadata block name to metadata block
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> updateMetadata(Map<String, MetadataBlock> metadataBlocks) throws IOException, DataverseException {
         return updateMetadata(httpClientWrapper.writeValueAsString(singletonMap("metadataBlocks", metadataBlocks)));
@@ -265,13 +252,10 @@ public class DatasetApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-draft
-     *
-     * @return
+     * @return a data message
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-draft" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DataMessage> deleteDraft() throws IOException, DataverseException {
         log.trace("ENTER");
@@ -282,13 +266,10 @@ public class DatasetApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#revert-citation-date-field-type-to-default-for-dataset
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-role-assignments-on-a-dataverse-api
-     *
-     * @return
+     * @return role assignment information
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-role-assignments-on-a-dataverse-api" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<RoleAssignmentReadOnly>> listRoleAssignments() throws IOException, DataverseException {
         log.trace("ENTER");
@@ -296,14 +277,11 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#assign-a-new-role-on-a-dataset
-     *
      * @param roleAssignment JSON document describing the assignment
-     * @return
+     * @return role assignment information
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#assign-a-new-role-on-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<RoleAssignmentReadOnly> assignRole(String roleAssignment) throws IOException, DataverseException {
         return httpClientWrapper.postJsonString(subPath("assignments"), roleAssignment, params(emptyMap()), extraHeaders, RoleAssignmentReadOnly.class);
@@ -315,13 +293,12 @@ public class DatasetApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-the-private-url-from-a-dataset
 
     /**
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
-     *
      * @param file     the file to add
      * @param metadata json document with the file metadata
-     * @return DatasetVersion
+     * @return a file list
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<FileList> addFile(Path file, String metadata) throws IOException, DataverseException {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -331,28 +308,26 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
-     *
      * @param file     the file to add
      * @param fileMeta json document with the file metadata
-     * @return DatasetVersion
+     * @return a file list
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<FileList> addFile(Path file, FileMeta fileMeta) throws IOException, DataverseException {
         return addFile(file, httpClientWrapper.writeValueAsString(fileMeta));
     }
 
     /**
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset
-     *
-     * At least one of the parameters should be provided.
-     *
      * @param optDataFile     content of the file
      * @param optFileMetadata metadata of the file
-     * @return
+     * @return a file list
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset" target="_blank">Dataverse documentation</a>
+     *
+     * At least one of the parameters should be provided.
      */
     public DataverseHttpResponse<FileList> addFileItem(Optional<File> optDataFile, Optional<String> optFileMetadata) throws IOException, DataverseException {
         log.trace("{} {}", optDataFile, optFileMetadata);
@@ -395,13 +370,13 @@ public class DatasetApi extends AbstractTargetedApi {
      */
 
     /**
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#set-an-embargo-on-files-in-a-dataset
-     *
      * @param json the embargo data
-     * @return
+     * @return a hash map
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#set-an-embargo-on-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
+    // TODO: can the hash map be converted to a more specific object?
     public DataverseHttpResponse<HashMap> setEmbargo(String json) throws IOException, DataverseException {
         return httpClientWrapper.postJsonString(subPath("files/actions/:set-embargo"), json, params(emptyMap()), extraHeaders, HashMap.class);
     }
@@ -433,9 +408,9 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * See [Dataverse API Guide] and [code example]
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks [code example]: https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java
+     * @return a list of locks
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks" target="_blank">...</a>
+     * @see <a href="https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java">Code example</a>
      */
     public DataverseResponse<List<Lock>> getLocks() throws IOException, DataverseException {
         log.trace("getting locks from Dataverse");
@@ -443,8 +418,10 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Utility function that lets you wait until all locks are cleared before proceeding. Unlike most other functions in this library, this does not correspond directly with an API call. Rather the
-     * {@link #getLocks()} call is done repeatedly to check if the locks have been cleared. Note that in scenarios where concurrent processes might access the same dataset it is not guaranteed that
+     * Utility function that lets you wait until all locks are cleared before proceeding. Unlike most other functions in this library, this does not correspond directly with an API
+     * call. Rather the
+     * {@link #getLocks()} call is done repeatedly to check if the locks have been cleared. Note that in scenarios where concurrent processes might access the same dataset it is
+     * not guaranteed that
      * the locks, once cleared, stay that way.
      *
      * @param maxNumberOfRetries     the maximum number the check for unlock is made, defaults to [[awaitLockStateMaxNumberOfRetries]]
@@ -466,8 +443,10 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Utility function that lets you wait until a specified lock type is set. Unlike most other functions in this library, this does not correspond directly with an API call. Rather the {@link
-     * #getLocks()} call is done repeatedly to check if the locks has been set. A use case is when an http/sr workflow wants to make sure that a dataset has been locked on its behalf, so that it can
+     * Utility function that lets you wait until a specified lock type is set. Unlike most other functions in this library, this does not correspond directly with an API call.
+     * Rather the {@link
+     * #getLocks()} call is done repeatedly to check if the locks has been set. A use case is when an http/sr workflow wants to make sure that a dataset has been locked on its
+     * behalf, so that it can
      * be sure to have exclusive access via its invocation ID.
      *
      * @param lockType               the lock type to wait for
@@ -511,7 +490,8 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Helper function that waits until the specified lockState function returns `true`, or throws a LockException if this never occurs within `maxNumberOrRetries` with `waitTimeInMilliseconds`
+     * Helper function that waits until the specified lockState function returns `true`, or throws a LockException if this never occurs within `maxNumberOrRetries` with
+     * `waitTimeInMilliseconds`
      * pauses.
      *
      * @param lockState              the function that returns whether the required state has been reached
