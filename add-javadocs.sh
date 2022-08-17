@@ -16,14 +16,13 @@
 
 set -e
 
+
 echo "START add javadocs..."
 mvn javadoc:javadoc
 
 if [ -d "docs/javadocs" ]; then rm -fr docs/javadocs; fi
 mv lib/target/site/apidocs docs/javadocs
 
-echo "Set useModuleDirectories = false..."
-sed -i '' 's/^.*useModuleDirectories = true.*$/var useModuleDirectories = false;/' 'docs/javadocs/index.html'
 echo "DONE build and add javadocs"
 
 
