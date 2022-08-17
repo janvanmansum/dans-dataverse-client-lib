@@ -18,7 +18,9 @@ set -e
 
 
 echo "START add javadocs..."
+pushd lib
 mvn javadoc:javadoc
+popd
 
 if [ -d "docs/javadocs" ]; then rm -fr docs/javadocs; fi
 mv lib/target/site/apidocs docs/javadocs
