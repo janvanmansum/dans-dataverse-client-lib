@@ -39,14 +39,11 @@ public class SearchApi extends AbstractApi {
     /**
      * A basic search action with default options.
      *
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/search.html
-     *
      * @param query search query
      * @return a search result
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/search.html" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<SearchResult> find(String query) throws IOException, DataverseException {
         return find(query, new SearchOptions());
@@ -55,15 +52,12 @@ public class SearchApi extends AbstractApi {
     /**
      * A search action with specific {@link SearchOptions}.
      *
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/search.html
-     *
      * @param query   search query
      * @param options further options for futher filtering and rendering the results
      * @return a search result
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/search.html" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<SearchResult> find(String query, SearchOptions options)
         throws IOException, DataverseException {
@@ -96,11 +90,11 @@ public class SearchApi extends AbstractApi {
         return new ResultItemIterator(this, query, searchOptions);
     }
 
-
     /**
-     * Returns an iterator to all the results for the specified query and default options. The caller is responsible for calling the {@link ResultItem}s to the appropriate subclass.
+     * Returns an iterator to all the results for the specified query and default options. The caller is responsible for calling the {@link ResultItem}s to the appropriate
+     * subclass.
      *
-     * @param query         the query to execute
+     * @param query the query to execute
      * @return an iterator over the results
      */
     public Iterator<ResultItem> iterator(String query) {

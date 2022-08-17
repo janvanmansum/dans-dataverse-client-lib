@@ -20,19 +20,19 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>nl.knaw.dans.shared</groupId>
-        <artifactId>dans-java-project</artifactId>
-        <version>7.4.0</version>
-        <relativePath />
+        <artifactId>dans-dropwizard-project</artifactId>
+        <version>7.5.0</version>
+        <relativePath/>
     </parent>
     <groupId>nl.knaw.dans</groupId>
     <artifactId>dans-dataverse-client-lib-examples</artifactId>
     <version>0.1.2-SNAPSHOT</version>
     <name>DANS Dataverse Client Library Examples</name>
     <inceptionYear>2021</inceptionYear>
-    <properties>
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
+    <scm>
+        <tag>HEAD</tag>
+        <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
+    </scm>
     <dependencies>
         <dependency>
             <groupId>nl.knaw.dans</groupId>
@@ -78,20 +78,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
-
-  <scm>
-    <tag>HEAD</tag>
-    <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
-  </scm>
 </project>
 

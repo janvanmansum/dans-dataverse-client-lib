@@ -25,11 +25,9 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 /**
- * API end-points that operate on a dataverse collection.
+ * Administration API end-points.
  *
- * See [Dataverse API Guide].
- *
- * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#dataverse-collections
+ * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#admin" target="_blank">Dataverse documentation</a>
  */
 public class AdminApi extends AbstractApi {
 
@@ -43,9 +41,11 @@ public class AdminApi extends AbstractApi {
     }
 
     /**
-     * See [Dataverse API Guide].
-     *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#list-single-user
+     * @param id username
+     * @return the user
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-single-user" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<AuthenticatedUser> listSingleUser(String id) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "authenticatedUsers", id);

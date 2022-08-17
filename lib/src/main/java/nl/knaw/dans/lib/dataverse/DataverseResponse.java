@@ -26,22 +26,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 
 /**
- * Response from Dataverse. A typical response from Dataverse is a JSON document with the following format:
+ * Response from Dataverse.
  *
- * <!-- @formatter:off -->
- * ```json
- *  {
- *    "status": "OK",
- *    "data": {
- *        "myfield": "myvalue"
- *    }
- *  }
- * ```
- * <!-- @formatter:on -->
- *
- * {@link nl.knaw.dans.lib.dataverse.model}.
- *
- * @param <D> the type of the data of the response message envelope
+ * @param <D> the type of the data of the response message envelope, one of the classes in {@link nl.knaw.dans.lib.dataverse.model}
  */
 public class DataverseResponse<D> {
     private static final Logger log = LoggerFactory.getLogger(DataverseResponse.class);
