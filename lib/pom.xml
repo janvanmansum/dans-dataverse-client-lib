@@ -114,6 +114,12 @@
                     <linksource>false</linksource>
                     <bottom><![CDATA[Copyright ${project.inceptionYear}, <a href="http://www.dans.knaw.nl">DANS<a>]]></bottom>
                     <additionalJOptions>
+                        <!-- -J-version prints the Java version used. Sometimes the following warnings appear
+
+                          javadoc: warning - The code being documented uses modules but the packages defined in https://docs.oracle.com/javase/8/docs/api/ are in the unnamed module.
+
+                          This suggests that Java 8 is sometimes used.
+                         -->
                         <additionalJOption>-J-version</additionalJOption>
                         <additionalJOption>-J-Xmx1g</additionalJOption>
                         <additionalJOption>-J-Djava.awt.headless=true</additionalJOption>
