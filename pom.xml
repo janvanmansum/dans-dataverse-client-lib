@@ -62,6 +62,7 @@
                     <excludes>
                         <exclude>LICENSE</exclude>
                         <exclude>docs/</exclude>
+                        <exclude>venv/</exclude>
                     </excludes>
                 </configuration>
                 <executions>

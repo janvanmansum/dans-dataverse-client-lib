@@ -51,13 +51,12 @@ public class FileApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#adding-file-metadata
 
     /**
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#replacing-files
-     *
-     * @param optDataFile
-     * @param optFileMetadata json
-     * @return
+     * @param optDataFile the data file
+     * @param optFileMetadata json containing file metadata
+     * @return a file list
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#replacing-files" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<FileList> replaceFileItem(Optional<File> optDataFile, Optional<String> optFileMetadata) throws IOException, DataverseException {
         logger.trace("{} {}", optDataFile, optFileMetadata);
@@ -70,12 +69,11 @@ public class FileApi extends AbstractTargetedApi {
     }
 
     /**
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/native-api.html#updating-file-metadata
-     *
      * @param json the file metadata
-     * @return
+     * @return hash map
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#updating-file-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<HashMap> updateMetadata(String json) throws IOException, DataverseException {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();

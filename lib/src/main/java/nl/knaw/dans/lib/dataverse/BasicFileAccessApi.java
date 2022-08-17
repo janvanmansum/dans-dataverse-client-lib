@@ -56,7 +56,7 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
     }
 
     /**
-     * @param options the request options, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#parameters" target="_blank"></a>Dataverse documentation</a>
+     * @param options the request options, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#parameters" target="_blank">Dataverse documentation</a>
      * @return a HttpResponse object
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request

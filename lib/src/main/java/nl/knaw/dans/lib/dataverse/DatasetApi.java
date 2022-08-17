@@ -82,7 +82,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * Retrieves that latest version of a dataset. The difference with {@link #getLatestVersion()} is that the latter returns a different type
      * of object. It is not clear why these variants exist.
      *
-     * @return object containing the Dataset version metadata
+     * @return object containing the dataset version metadata
      * @throws IOException        if an I/O exception occurs
      * @throws DataverseException if Dataverse could not handle the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset" target="_blank">Dataverse documentation</a>
@@ -94,6 +94,9 @@ public class DatasetApi extends AbstractTargetedApi {
 
     /**
      * @param version version to retrieve
+     * @return object containing the dataset version metadata
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetVersion> getVersion(String version) throws IOException, DataverseException {
@@ -103,6 +106,9 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
+     * @return list of objects containing dataset version metadata
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-versions-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<List<DatasetVersion>> getAllVersions() throws IOException, DataverseException {
@@ -111,6 +117,9 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
+     * @return a list of file metas
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
      * @param version version to get file metadata from
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
@@ -120,6 +129,9 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
+     * @return dataset publication result
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#publish-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseResponse<DatasetPublicationResult> publish() throws IOException, DataverseException {
@@ -216,6 +228,7 @@ public class DatasetApi extends AbstractTargetedApi {
 
     /**
      * @param metadata JSON document describing the metadata
+     * @param replace replace existing metadata
      * @return a generic DataverseResponse
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -409,6 +422,8 @@ public class DatasetApi extends AbstractTargetedApi {
 
     /**
      * @return a list of locks
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks" target="_blank">...</a>
      * @see <a href="https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java">Code example</a>
      */
@@ -426,6 +441,8 @@ public class DatasetApi extends AbstractTargetedApi {
      *
      * @param maxNumberOfRetries     the maximum number the check for unlock is made, defaults to [[awaitLockStateMaxNumberOfRetries]]
      * @param waitTimeInMilliseconds the time between tries, defaults to [[awaitLockStateMillisecondsBetweenRetries]]
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitUnlock(int maxNumberOfRetries, int waitTimeInMilliseconds) throws IOException, DataverseException {
         log.trace(String.format("awaitUnlock: maxNumberOfRetries %d, waitTimeInMilliseconds %d", maxNumberOfRetries, waitTimeInMilliseconds));
@@ -452,6 +469,8 @@ public class DatasetApi extends AbstractTargetedApi {
      * @param lockType               the lock type to wait for
      * @param maxNumberOfRetries     the maximum number the check for unlock is made, defaults to #awawaitLockStateMaxNumberOfRetries
      * @param waitTimeInMilliseconds the time between tries, defaults to [[awaitLockStateMillisecondsBetweenRetries]]
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitLock(String lockType, int maxNumberOfRetries, int waitTimeInMilliseconds) throws IOException, DataverseException {
         log.trace(String.format("awaitLock: lockType %s, maxNumberOfRetries %d, waitTimeInMilliseconds %d", lockType, maxNumberOfRetries, waitTimeInMilliseconds));

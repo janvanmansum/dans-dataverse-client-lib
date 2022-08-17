@@ -237,6 +237,7 @@ public class DataverseApi extends AbstractApi {
     }
 
     /**
+     * @param isRoot whether to make this dataverse collection a metadata blocks root
      * @return a data message
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -249,6 +250,7 @@ public class DataverseApi extends AbstractApi {
     }
 
     /**
+     * @param dataset JSON string defining the dataset to create
      * @return a creation result message
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request

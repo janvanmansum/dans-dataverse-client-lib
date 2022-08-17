@@ -35,11 +35,12 @@ public class SwordApi extends AbstractApi {
     /**
      * Deletes a file from the current draft of the dataset.
      *
-     * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/sword.html#delete-a-file-by-database-id
-     *
      * @param databaseId the database ID of the file to delete.
-     *                   To look up use DatasetApi#listFiles.
-     * @return
+     *                   To look up use @{link DatasetApi#listFiles}.
+     * @return a generic http response
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/sword.html#delete-a-file-by-database-id" target="_blank">Dataverse documentation</a>
      */
     public HttpResponse deleteFile(int databaseId) throws IOException, DataverseException {
         log.trace("ENTER");
