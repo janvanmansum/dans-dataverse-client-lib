@@ -21,8 +21,8 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>nl.knaw.dans.shared</groupId>
-        <artifactId>dans-dropwizard-project</artifactId>
-        <version>7.5.0</version>
+        <artifactId>dans-java11-project</artifactId>
+        <version>9.0.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
     <groupId>nl.knaw.dans</groupId>
@@ -46,7 +46,6 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
-            <version>4.5.13</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
@@ -99,23 +98,19 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration combine.self="override">
                     <encoding>UTF-8</encoding>
                     <linksource>false</linksource>
+                    <failOnWarnings>true</failOnWarnings>
                     <bottom><![CDATA[Copyright ${project.inceptionYear}, <a href="http://www.dans.knaw.nl">DANS<a>]]></bottom>
                     <additionalJOptions>
                         <additionalJOption>-J-Xmx1g</additionalJOption>
                         <additionalJOption>-J-Djava.awt.headless=true</additionalJOption>
+                        <!--
+                        Otherwise JavaDoc will try to group the html files per module and produce dead links starting with 'undefined'.
+                        -->
                         <additionalJOption>--no-module-directories</additionalJOption>
                     </additionalJOptions>
                 </configuration>

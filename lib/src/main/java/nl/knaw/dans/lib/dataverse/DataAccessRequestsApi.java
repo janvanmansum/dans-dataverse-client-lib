@@ -48,6 +48,7 @@ public class DataAccessRequestsApi extends AbstractTargetedApi {
         return toggle("false");
     }
 
+
     private DataverseResponse<DataMessage> toggle(String bool) throws IOException, DataverseException {
         return httpClientWrapper.putTextString(subPath, bool, params, headers, DataMessage.class);
     }
