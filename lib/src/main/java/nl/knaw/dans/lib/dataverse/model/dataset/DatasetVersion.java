@@ -23,12 +23,12 @@ import java.util.Map;
 
 public class DatasetVersion {
 
-    private int id;
-    private int datasetId;
+    private Integer id;
+    private Integer datasetId;
     private String datasetPersistentId;
     private String storageIdentifier;
-    private int versionNumber;
-    private int versionMinorNumber;
+    private Integer versionNumber;
+    private Integer versionMinorNumber;
     private String versionState; // TODO: to enum
     private String versionNote; // TODO: to enum
     private String unf;
@@ -37,7 +37,7 @@ public class DatasetVersion {
     private String createTime; // TODO: timestamp?
     private String distributionDate; // TODO: timestamp?
     private String productionDate; // TODO: timestamp?
-    private boolean fileAccessRequest;
+    private Boolean fileAccessRequest;
     private String termsOfUse;
     private String termsOfAccess;
     private License license;
@@ -48,19 +48,19 @@ public class DatasetVersion {
     private List<FileMeta> files;
     private String citation;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getDatasetId() {
+    public Integer getDatasetId() {
         return datasetId;
     }
 
-    public void setDatasetId(int datasetId) {
+    public void setDatasetId(Integer datasetId) {
         this.datasetId = datasetId;
     }
 
@@ -80,19 +80,19 @@ public class DatasetVersion {
         this.storageIdentifier = storageIdentifier;
     }
 
-    public int getVersionNumber() {
+    public Integer getVersionNumber() {
         return versionNumber;
     }
 
-    public void setVersionNumber(int versionNumber) {
+    public void setVersionNumber(Integer versionNumber) {
         this.versionNumber = versionNumber;
     }
 
-    public int getVersionMinorNumber() {
+    public Integer getVersionMinorNumber() {
         return versionMinorNumber;
     }
 
-    public void setVersionMinorNumber(int versionMinorNumber) {
+    public void setVersionMinorNumber(Integer versionMinorNumber) {
         this.versionMinorNumber = versionMinorNumber;
     }
 
@@ -162,11 +162,11 @@ public class DatasetVersion {
         this.productionDate = productionDate;
     }
 
-    public boolean isFileAccessRequest() {
+    public Boolean isFileAccessRequest() {
         return fileAccessRequest;
     }
 
-    public void setFileAccessRequest(boolean fileAccessRequest) {
+    public void setFileAccessRequest(Boolean fileAccessRequest) {
         this.fileAccessRequest = fileAccessRequest;
     }
 
