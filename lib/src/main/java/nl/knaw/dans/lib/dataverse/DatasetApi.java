@@ -17,10 +17,12 @@ package nl.knaw.dans.lib.dataverse;
 
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.Lock;
+import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignmentReadOnly;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetLatestVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetPublicationResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
+import nl.knaw.dans.lib.dataverse.model.dataset.Embargo;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
@@ -300,6 +302,10 @@ public class DatasetApi extends AbstractTargetedApi {
         return httpClientWrapper.postJsonString(subPath("assignments"), roleAssignment, params(emptyMap()), extraHeaders, RoleAssignmentReadOnly.class);
     }
 
+    public DataverseResponse<RoleAssignmentReadOnly> assignRole(RoleAssignment roleAssignment) throws IOException, DataverseException {
+        return assignRole(httpClientWrapper.writeValueAsString(roleAssignment));
+    }
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-role-assignment-from-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#create-a-private-url-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-private-url-for-a-dataset
@@ -383,13 +389,17 @@ public class DatasetApi extends AbstractTargetedApi {
      */
 
     /**
-     * @param json the embargo data
+     * @param embargo the embargo data
      * @return a hash map
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#set-an-embargo-on-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
     // TODO: can the hash map be converted to a more specific object?
+    public DataverseHttpResponse<HashMap> setEmbargo(Embargo embargo) throws IOException, DataverseException {
+        return setEmbargo(httpClientWrapper.writeValueAsString(embargo));
+    }
+
     public DataverseHttpResponse<HashMap> setEmbargo(String json) throws IOException, DataverseException {
         return httpClientWrapper.postJsonString(subPath("files/actions/:set-embargo"), json, params(emptyMap()), extraHeaders, HashMap.class);
     }

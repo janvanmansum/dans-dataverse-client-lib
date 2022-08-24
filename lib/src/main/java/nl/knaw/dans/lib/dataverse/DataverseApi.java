@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.Role;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
@@ -265,8 +266,7 @@ public class DataverseApi extends AbstractApi {
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(Dataset dataset) throws IOException, DataverseException {
         log.trace("ENTER");
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return createDataset(httpClientWrapper.writeValueAsString(dataset));
     }
 
     /* https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection
@@ -275,6 +275,10 @@ public class DataverseApi extends AbstractApi {
         log.trace("ENTER");
         // TODO: implement
         throw new UnsupportedOperationException();
+    }
+
+    public DataverseHttpResponse<DatasetCreationResult> importDataset(Dataset dataset, Optional<String> optPersistentId, boolean autoPublish) throws IOException, DataverseException {
+        return importDataset(httpClientWrapper.writeValueAsString(dataset), optPersistentId, autoPublish);
     }
 
     public DataverseHttpResponse<DatasetCreationResult> importDataset(String dataset, Optional<String> optPersistentId, boolean autoPublish)
