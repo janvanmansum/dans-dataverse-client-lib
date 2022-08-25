@@ -26,11 +26,11 @@
     </parent>
     <groupId>nl.knaw.dans</groupId>
     <artifactId>dans-dataverse-client-lib</artifactId>
-    <version>0.4.1-SNAPSHOT</version>
+    <version>0.5.0</version>
     <name>DANS Dataverse Client Library</name>
     <inceptionYear>2021</inceptionYear>
     <scm>
-        <tag>HEAD</tag>
+        <tag>v0.5.0</tag>
         <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
     </scm>
     <dependencies>
