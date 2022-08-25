@@ -58,16 +58,13 @@ import static java.util.Collections.singletonMap;
 public class DatasetApi extends AbstractTargetedApi {
 
     private static final Logger log = LoggerFactory.getLogger(DatasetApi.class);
-    private final Map<String, String> extraHeaders = new HashMap<>();
 
     protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         this(httpClientWrapper, id, isPersistentId, null);
     }
 
     protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
-        super(httpClientWrapper, id, isPersistentId, Paths.get("api/datasets/"));
-        if (invocationId != null)
-            extraHeaders.put("X-Dataverse-invocationID", invocationId);
+        super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/datasets/"));
     }
 
     /**

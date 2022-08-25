@@ -68,7 +68,7 @@ public class DataverseClient {
     public void checkConnection() throws IOException, DataverseException {
         logger.info("Checking if root dataverse can be reached...");
         dataverse("root").view().getData();
-            logger.info("OK: root dataverse is reachable.");
+        logger.info("OK: root dataverse is reachable.");
     }
 
     public WorkflowsApi workflows() {
@@ -107,6 +107,10 @@ public class DataverseClient {
         return new FileApi(httpClientWrapper, String.valueOf(id), false);
     }
 
+    public FileApi file(int id, String invocationId) {
+        return new FileApi(httpClientWrapper, String.valueOf(id), false, invocationId);
+    }
+
     public DataAccessRequestsApi accessRequests(String pid) {
         return new DataAccessRequestsApi(httpClientWrapper, pid, true);
     }
@@ -115,12 +119,28 @@ public class DataverseClient {
         return new DataAccessRequestsApi(httpClientWrapper, String.valueOf(id), false);
     }
 
+    public DataAccessRequestsApi accessRequests(String pid, String invocationId) {
+        return new DataAccessRequestsApi(httpClientWrapper, pid, true, invocationId);
+    }
+
+    public DataAccessRequestsApi accessRequests(int id, String invocationId) {
+        return new DataAccessRequestsApi(httpClientWrapper, String.valueOf(id), false, invocationId);
+    }
+
     public BasicFileAccessApi basicFileAccess(String pid) {
         return new BasicFileAccessApi(httpClientWrapper, pid, true);
     }
 
+    public BasicFileAccessApi basicFileAccess(String pid, String invocationId) {
+        return new BasicFileAccessApi(httpClientWrapper, pid, true, invocationId);
+    }
+
     public BasicFileAccessApi basicFileAccess(int id) {
         return new BasicFileAccessApi(httpClientWrapper, Integer.toString(id), false);
+    }
+
+    public BasicFileAccessApi basicFileAccess(int id, String invocationId) {
+        return new BasicFileAccessApi(httpClientWrapper, Integer.toString(id), false, invocationId);
     }
 
     public SearchApi search() {
