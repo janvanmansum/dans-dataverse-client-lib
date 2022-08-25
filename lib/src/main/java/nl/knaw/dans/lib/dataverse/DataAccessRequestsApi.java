@@ -34,9 +34,15 @@ public class DataAccessRequestsApi extends AbstractTargetedApi {
     private final HashMap<String, String> headers = new HashMap<>();
 
     protected DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
-        super(httpClientWrapper, id, isPersistentId, Paths.get("api/access/"));
+        super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/access/"));
         log.trace("ENTER");
     }
+
+    protected DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+        super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/"));
+        log.trace("ENTER");
+    }
+
 
     public DataverseResponse<DataMessage> enable() throws IOException, DataverseException {
         log.trace("ENTER");

@@ -39,7 +39,11 @@ public class FileApi extends AbstractTargetedApi {
     private static final Logger logger = LoggerFactory.getLogger(DatasetApi.class);
 
     protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
-        super(httpClientWrapper, id, isPersistentId, Paths.get("api/v1/files/"));
+        super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/v1/files/"));
+    }
+
+    protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+        super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/v1/files/"));
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#restrict-files
@@ -51,7 +55,7 @@ public class FileApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#adding-file-metadata
 
     /**
-     * @param optDataFile the data file
+     * @param optDataFile     the data file
      * @param optFileMetadata json containing file metadata
      * @return a file list
      * @throws IOException        when I/O problems occur during the interaction with Dataverse

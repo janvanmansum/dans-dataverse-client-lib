@@ -31,8 +31,13 @@ import java.util.Optional;
  */
 public class BasicFileAccessApi extends AbstractTargetedApi {
     protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
-        super(httpClientWrapper, id, isPersistentId, Paths.get("api/access/datafile"));
+        super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/access/datafile"));
     }
+
+    protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+        super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/datafile"));
+    }
+
 
     /**
      * @return a HttpResponse object
@@ -87,7 +92,7 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
         if (range != null) {
             headers.put("Range", "bytes=" + range.getStart() + "-" + range.getEnd());
         }
-
+        headers.putAll(extraHeaders);
         return httpClientWrapper.get(subPath(""), params, headers);
     }
 }
