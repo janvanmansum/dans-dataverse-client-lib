@@ -32,6 +32,8 @@ public class AuthenticatedUser {
     private String lastApiUseTime;
     private String authenticationProviderId;
 
+    private String emailLastConfirmed;
+
     public int getId() {
         return id;
     }
@@ -150,5 +152,13 @@ public class AuthenticatedUser {
 
     public void setAuthenticationProviderId(String authenticationProviderId) {
         this.authenticationProviderId = authenticationProviderId;
+    }
+
+    public String getEmailLastConfirmed() {
+        return emailLastConfirmed;
+    }
+
+    public void setEmailLastConfirmed(String emailLastConfirmed) {
+        this.emailLastConfirmed = emailLastConfirmed;
     }
 }
