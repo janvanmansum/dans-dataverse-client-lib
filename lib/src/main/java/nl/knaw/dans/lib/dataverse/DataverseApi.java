@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.Role;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
+import nl.knaw.dans.lib.dataverse.model.RoleAssignmentReadOnly;
 import nl.knaw.dans.lib.dataverse.model.dataset.Dataset;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetCreationResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlockSummary;
@@ -175,10 +176,8 @@ public class DataverseApi extends AbstractApi {
 
     /* https://guides.dataverse.org/en/latest/api/native-api.html#list-role-assignments-in-a-dataverse-collection
      */
-    public DataverseHttpResponse<DataMessage> listRoleAssignments() throws IOException, DataverseException {
-        log.trace("ENTER");
-        // TODO: implement
-        throw new UnsupportedOperationException();
+    public DataverseHttpResponse<List<RoleAssignmentReadOnly>> listRoleAssignments() throws IOException, DataverseException {
+        return httpClientWrapper.get(subPath.resolve("assignments"), List.class, RoleAssignmentReadOnly.class);
     }
 
     /*
