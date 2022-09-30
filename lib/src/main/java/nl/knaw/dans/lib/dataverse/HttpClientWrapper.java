@@ -124,7 +124,7 @@ class HttpClientWrapper implements MediaTypes {
         HttpPost post = new HttpPost(buildURi(subPath, parameters));
         post.setHeader(HttpHeaders.CONTENT_TYPE, mediaType);
         headers.forEach(post::setHeader);
-        post.setEntity(new StringEntity(s));
+        post.setEntity(new StringEntity(s, StandardCharsets.UTF_8));
         return dispatch(post);
     }
 
@@ -160,7 +160,7 @@ class HttpClientWrapper implements MediaTypes {
         HttpPut put = new HttpPut(buildURi(subPath, parameters));
         put.setHeader(HttpHeaders.CONTENT_TYPE, mediaType);
         headers.forEach(put::setHeader);
-        put.setEntity(new StringEntity(s));
+        put.setEntity(new StringEntity(s, StandardCharsets.UTF_8));
         return dispatch(put);
     }
 
