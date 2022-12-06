@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Administration API end-points.
@@ -51,4 +53,32 @@ public class AdminApi extends AbstractApi {
         Path path = buildPath(targetBase, "authenticatedUsers", id);
         return httpClientWrapper.get(path, new HashMap<>(), new HashMap<>(), AuthenticatedUser.class);
     }
+
+    /**
+     * @param key   the settings key
+     * @param value the new value
+     * @return the result
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
+     * @see <a href="https://guides.dataverse.org/en/latest/installation/config.html#database-settings" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseResponse<Map<String, String>> putDatabaseSetting(String key, String value) throws IOException, DataverseException {
+        Path path = buildPath(targetBase, "settings", key);
+        return httpClientWrapper.putJsonString(path, value, new HashMap<>(), new HashMap<>(), Map.class);
+    }
+
+    /**
+     * @param key   the settings key
+     * @return the result
+     * @throws IOException        if an I/O exception occurs
+     * @throws DataverseException if Dataverse could not handle the request
+     * @see <a href="https://guides.dataverse.org/en/latest/installation/config.html#database-settings" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseResponse<DataMessage> getDatabaseSetting(String key) throws IOException, DataverseException {
+        Path path = buildPath(targetBase, "settings", key);
+        return httpClientWrapper.get(path, DataMessage.class);
+    }
+
+
+
 }
