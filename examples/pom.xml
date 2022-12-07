@@ -31,7 +31,7 @@
     <inceptionYear>2021</inceptionYear>
     <scm>
         <tag>HEAD</tag>
-        <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
     </scm>
     <dependencies>
         <dependency>

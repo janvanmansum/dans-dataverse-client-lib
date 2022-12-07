@@ -26,7 +26,7 @@
     <packaging>pom</packaging>
     <scm>
         <!-- Note: GitHub repo has a different name than the artifact -->
-        <developerConnection>scm:git:https://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
+        <developerConnection>scm:git:ssh://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
         <tag>HEAD</tag>
     </scm>
 
