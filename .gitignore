@@ -5,3 +5,8 @@
 /site
 /data
 /.venv-mkdocs
+/*/target
+/*.releaseBackup
+/release.properties
+/*/*.releaseBackup
+/*/release.properties
