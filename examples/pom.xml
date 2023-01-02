@@ -16,15 +16,15 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>nl.knaw.dans.shared</groupId>
-        <artifactId>dans-java11-project</artifactId>
-        <version>9.5.0</version>
-        <relativePath />
+        <groupId>nl.knaw.dans</groupId>
+        <artifactId>dd-parent</artifactId>
+        <version>0.5.0</version>
+        <relativePath/>
     </parent>
-    <groupId>nl.knaw.dans</groupId>
     <artifactId>dans-dataverse-client-lib-examples</artifactId>
     <version>0.9.1-SNAPSHOT</version>
     <name>DANS Dataverse Client Library Examples</name>
@@ -52,6 +52,7 @@
             <artifactId>commons-configuration</artifactId>
         </dependency>
     </dependencies>
+
     <repositories>
         <repository>
             <id>DANS</id>
@@ -61,6 +62,18 @@
             <url>https://maven.dans.knaw.nl/releases</url>
         </repository>
     </repositories>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <pluginRepositories>
         <pluginRepository>
             <id>DANS</id>
@@ -70,21 +83,5 @@
             <url>https://maven.dans.knaw.nl/releases</url>
         </pluginRepository>
     </pluginRepositories>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration combine.self="override">
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
 
