@@ -15,8 +15,10 @@
  */
 package nl.knaw.dans.lib.dataverse.model.file;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties({ "md5" }) // The optional "md5" property is redundant and only there for backward compatibility. 
 public class DataFile {
   private int   id;
   private String persistentId;
