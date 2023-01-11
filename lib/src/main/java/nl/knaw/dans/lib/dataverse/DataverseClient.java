@@ -66,9 +66,9 @@ public class DataverseClient {
     }
 
     public void checkConnection() throws IOException, DataverseException {
-        logger.info("Checking if root dataverse can be reached...");
+        logger.debug("Checking if root dataverse can be reached...");
         dataverse("root").view().getData();
-        logger.info("OK: root dataverse is reachable.");
+        logger.debug("OK: root dataverse is reachable.");
     }
 
     public WorkflowsApi workflows() {
