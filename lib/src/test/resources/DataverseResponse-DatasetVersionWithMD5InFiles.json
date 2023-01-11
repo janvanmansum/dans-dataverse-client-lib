@@ -1,0 +1,261 @@
+{
+  "status": "OK",
+  "data": {
+    "id": 5,
+    "datasetId": 2,
+    "datasetPersistentId": "doi:10.80227/test-FUB0OA",
+    "storageIdentifier": "file://10.80227/test-FUB0OA",
+    "versionNumber": 3,
+    "versionMinorNumber": 1,
+    "versionState": "DRAFT",
+    "lastUpdateTime": "2023-01-10T13:02:58Z",
+    "createTime": "2023-01-10T13:02:58Z",
+    "license": {
+      "name": "CC0 1.0",
+      "uri": "http://creativecommons.org/publicdomain/zero/1.0"
+    },
+    "fileAccessRequest": false,
+    "metadataBlocks": {
+      "citation": {
+        "displayName": "Citation Metadata",
+        "name": "citation",
+        "fields": [
+          {
+            "typeName": "title",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "test1"
+          },
+          {
+            "typeName": "subtitle",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "Subje"
+          },
+          {
+            "typeName": "author",
+            "multiple": true,
+            "typeClass": "compound",
+            "value": [
+              {
+                "authorName": {
+                  "typeName": "authorName",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "Admin, Dataverse"
+                },
+                "authorAffiliation": {
+                  "typeName": "authorAffiliation",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "Dataverse.org"
+                }
+              }
+            ]
+          },
+          {
+            "typeName": "datasetContact",
+            "multiple": true,
+            "typeClass": "compound",
+            "value": [
+              {
+                "datasetContactName": {
+                  "typeName": "datasetContactName",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "Admin, Dataverse"
+                },
+                "datasetContactAffiliation": {
+                  "typeName": "datasetContactAffiliation",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "Dataverse.org"
+                }
+              }
+            ]
+          },
+          {
+            "typeName": "dsDescription",
+            "multiple": true,
+            "typeClass": "compound",
+            "value": [
+              {
+                "dsDescriptionValue": {
+                  "typeName": "dsDescriptionValue",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "test1"
+                }
+              }
+            ]
+          },
+          {
+            "typeName": "subject",
+            "multiple": true,
+            "typeClass": "controlledVocabulary",
+            "value": [
+              "Earth and Environmental Sciences"
+            ]
+          },
+          {
+            "typeName": "depositor",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "Admin, Dataverse"
+          },
+          {
+            "typeName": "dateOfDeposit",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "2022-04-14"
+          }
+        ]
+      },
+      "dansDataVaultMetadata": {
+        "displayName": "Data Vault Metadata",
+        "name": "dansDataVaultMetadata",
+        "fields": [
+          {
+            "typeName": "dansDataversePid",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "doi:10.80227/test-FUB0OA"
+          },
+          {
+            "typeName": "dansDataversePidVersion",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "3.0"
+          },
+          {
+            "typeName": "dansBagId",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "urn:uuid:5ef14d2c-10f5-4b5a-a55b-01618f2d4009"
+          },
+          {
+            "typeName": "dansNbn",
+            "multiple": false,
+            "typeClass": "primitive",
+            "value": "urn:nbn:nl:ui:13-0fcd7b84-3fd4-49f0-918a-b60eec8d9e6c"
+          }
+        ]
+      }
+    },
+    "files": [
+      {
+        "label": "1kB-1.bin",
+        "restricted": false,
+        "version": 1,
+        "datasetVersionId": 5,
+        "dataFile": {
+          "id": 7,
+          "persistentId": "",
+          "pidURL": "",
+          "filename": "1kB-1.bin",
+          "contentType": "application/macbinary",
+          "filesize": 1024,
+          "storageIdentifier": "file://18040f4fd7d-56fcd0ce7ae4",
+          "rootDataFileId": -1,
+          "md5": "ca492e46698218627813b8f037986e94",
+          "checksum": {
+            "type": "MD5",
+            "value": "ca492e46698218627813b8f037986e94"
+          },
+          "creationDate": "2022-04-19"
+        }
+      },
+      {
+        "label": "1MB-1.bin",
+        "restricted": false,
+        "version": 1,
+        "datasetVersionId": 5,
+        "dataFile": {
+          "id": 8,
+          "persistentId": "",
+          "pidURL": "",
+          "filename": "1MB-1.bin",
+          "contentType": "application/macbinary",
+          "filesize": 1048576,
+          "storageIdentifier": "file://18040f50bcc-fe457992a1ed",
+          "rootDataFileId": -1,
+          "md5": "6f438741cf7e0c7917a92156efdbaea1",
+          "checksum": {
+            "type": "MD5",
+            "value": "6f438741cf7e0c7917a92156efdbaea1"
+          },
+          "creationDate": "2022-04-19"
+        }
+      },
+      {
+        "label": "test1.txt",
+        "restricted": false,
+        "directoryLabel": "duplicate-test",
+        "version": 1,
+        "datasetVersionId": 5,
+        "dataFile": {
+          "id": 11,
+          "persistentId": "",
+          "pidURL": "",
+          "filename": "test1.txt",
+          "contentType": "text/plain",
+          "filesize": 6,
+          "storageIdentifier": "file://18040f67f85-a009ac4ae60a",
+          "rootDataFileId": -1,
+          "md5": "3e7705498e8be60520841409ebc69bc1",
+          "checksum": {
+            "type": "MD5",
+            "value": "3e7705498e8be60520841409ebc69bc1"
+          },
+          "creationDate": "2022-04-19"
+        }
+      },
+      {
+        "label": "test2.txt",
+        "restricted": false,
+        "directoryLabel": "duplicate-test/dir1",
+        "version": 1,
+        "datasetVersionId": 5,
+        "dataFile": {
+          "id": 10,
+          "persistentId": "",
+          "pidURL": "",
+          "filename": "test2.txt",
+          "contentType": "text/plain",
+          "filesize": 6,
+          "storageIdentifier": "file://18040f67f99-454dfa8a5bac",
+          "rootDataFileId": -1,
+          "md5": "126a8a51b9d1bbd07fddc65819a542c3",
+          "checksum": {
+            "type": "MD5",
+            "value": "126a8a51b9d1bbd07fddc65819a542c3"
+          },
+          "creationDate": "2022-04-19"
+        }
+      },
+      {
+        "label": "test2.txt",
+        "restricted": false,
+        "directoryLabel": "duplicate-test/dir2",
+        "version": 1,
+        "datasetVersionId": 5,
+        "dataFile": {
+          "id": 9,
+          "persistentId": "",
+          "pidURL": "",
+          "filename": "test2.txt",
+          "contentType": "text/plain",
+          "filesize": 6,
+          "storageIdentifier": "file://18040f67f8e-2e4fb2e431ff",
+          "rootDataFileId": -1,
+          "md5": "126a8a51b9d1bbd07fddc65819a542c3",
+          "checksum": {
+            "type": "MD5",
+            "value": "126a8a51b9d1bbd07fddc65819a542c3"
+          },
+          "creationDate": "2022-04-19"
+        }
+      }
+    ]
+  }
+}

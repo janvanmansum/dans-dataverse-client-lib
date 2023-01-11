@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataverse.Dataverse;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -30,12 +31,26 @@ public class DataverseResponseTest extends MapperFixture {
     }
 
     @Test
-    public void simpleDataverseViewReponseCanBeDeserialized() throws Exception {
+    public void simpleDataverseViewResponseCanBeDeserialized() throws Exception {
         DataverseResponse<Dataverse> r =
             new DataverseResponse<>(FileUtils.readFileToString(getTestJsonFileFor(classUnderTest), StandardCharsets.UTF_8),
                 mapper, Dataverse.class);
         Assertions.assertEquals("root", r.getData().getAlias());
         Assertions.assertEquals("Dataverse Name", r.getData().getName());
+    }
+
+    @Test
+    public void DatasetVersionWithMD5InFilesResponseCanBeDeserialized() throws Exception {
+        DataverseResponse<DatasetVersion> r =
+                new DataverseResponse<>(FileUtils.readFileToString(getTestJsonFileFor(classUnderTest, 
+                        "DatasetVersionWithMD5InFiles"), StandardCharsets.UTF_8),
+                        mapper, DatasetVersion.class);
+        // The "md5" property should be ignored preventing failure during object mapping. 
+        // We can not check md5 is not there, it is simply not a property of the DataFile POJO. 
+        // Some simple assertion anyway. 
+        Assertions.assertEquals(2, r.getData().getDatasetId());
+        Assertions.assertEquals(3, r.getData().getVersionNumber());
+        Assertions.assertEquals(5, r.getData().getFiles().size());
     }
 
 //    @Test
