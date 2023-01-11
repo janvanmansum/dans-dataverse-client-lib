@@ -75,10 +75,42 @@ public class FileMeta {
         this.directoryLabel = directoryLabel;
     }
 
+    /**
+     * Dataverse uses "restrict" in the <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset">Add File To Dataset</a> API, but returns "restricted" in the
+     * response message; "restricted" is ignored by Add File To Dataset. This library works around the confusion by supporting both the "restrict" and "restricted" property, storing them in the same
+     * private field.
+     *
+     * @return whether the file is or should be restricted
+     * @see #getRestricted()
+     */
+    public Boolean getRestrict() {
+        return restricted;
+    }
+
+    /**
+     * See comments in the {@link #getRestrict()} method docs.
+     *
+     * @return whether the file is or should be restricted
+     */
+    public void setRestrict(Boolean restrict) {
+        this.restricted = restrict;
+    }
+
+    /**
+     * See comments in the {@link #getRestrict()} method docs. *
+     *
+     * @return whether the file is or should be restricted
+     * @see #getRestrict()
+     */
     public Boolean getRestricted() {
         return restricted;
     }
 
+    /**
+     * See comments in the {@link #getRestrict()} method docs.
+     *
+     * @return whether the file is or should be restricted
+     */
     public void setRestricted(Boolean restricted) {
         this.restricted = restricted;
     }
