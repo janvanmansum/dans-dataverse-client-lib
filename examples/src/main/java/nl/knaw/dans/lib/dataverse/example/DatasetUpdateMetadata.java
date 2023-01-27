@@ -19,19 +19,15 @@ import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
 import nl.knaw.dans.lib.dataverse.DataverseException;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.dataset.CompoundField;
 import nl.knaw.dans.lib.dataverse.model.dataset.ControlledMultiValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
-import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
-import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveMultiValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 public class DatasetUpdateMetadata extends ExampleBase {
 

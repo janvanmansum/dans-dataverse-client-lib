@@ -1,0 +1,31 @@
+{
+  "status": "OK",
+  "data": {
+    "latestVersion": {
+      "versionNumber": 1,
+      "versionMinorNumber": 0,
+      "versionState": "DRAFT",
+      "metadataBlocks": {
+        "citation": {
+          "displayName": "Citation Metadata",
+          "name": "citation",
+          "fields": [
+            {
+              "typeName": "series",
+              "multiple": false,
+              "typeClass": "compound",
+              "value": {
+                "seriesInformation": {
+                  "typeName": "seriesInformation",
+                  "multiple": false,
+                  "typeClass": "primitive",
+                  "value": "<p>COOL5-18<br>In het schooljaar 2007/2008 is...</p>"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

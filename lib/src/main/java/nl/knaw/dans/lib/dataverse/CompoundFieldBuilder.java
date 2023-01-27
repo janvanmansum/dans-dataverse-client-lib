@@ -15,9 +15,11 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
-import nl.knaw.dans.lib.dataverse.model.dataset.CompoundField;
+import nl.knaw.dans.lib.dataverse.model.dataset.CompoundMultiValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.ControlledSingleValueField;
+import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
 import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
+import nl.knaw.dans.lib.dataverse.model.dataset.CompoundSingleValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.SingleValueField;
 
 import java.util.HashMap;
@@ -54,8 +56,11 @@ public class CompoundFieldBuilder {
         return this;
     }
 
-    public CompoundField build() {
+    public MetadataField build() {
         values.add(currentValue);
-        return new CompoundField(typeName, multiple, values);
+        if (multiple)
+            return new CompoundMultiValueField(typeName, values);
+        else
+            return new CompoundSingleValueField(typeName, values.get(0));
     }
 }

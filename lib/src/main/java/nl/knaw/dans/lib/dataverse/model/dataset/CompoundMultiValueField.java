@@ -18,15 +18,15 @@ package nl.knaw.dans.lib.dataverse.model.dataset;
 import java.util.List;
 import java.util.Map;
 
-public class CompoundField extends MetadataField {
+public class CompoundMultiValueField extends MetadataField {
 
     private List<Map<String, SingleValueField>> value;
 
-    public CompoundField() {
+    public CompoundMultiValueField() {
     }
 
-    public CompoundField(String typeName, boolean multiple, List<Map<String, SingleValueField>> value) {
-        super("compound", typeName, multiple);
+    public CompoundMultiValueField(String typeName, List<Map<String, SingleValueField>> value) {
+        super("compound", typeName, true);
         this.value = value;
     }
 

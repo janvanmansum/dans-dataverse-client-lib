@@ -21,14 +21,14 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CompoundFieldTest extends ModelDatasetMapperFixture {
-    private static final Class<?> classUnderTest = CompoundField.class;
+public class CompoundMultiValueFieldTest extends ModelDatasetMapperFixture {
+    private static final Class<?> classUnderTest = CompoundMultiValueField.class;
 
     @Test
     public void canDeserialize() throws Exception {
         MetadataField f = mapper.readValue(getTestJsonFileFor(classUnderTest), MetadataField.class);
         assertEquals(classUnderTest, f.getClass());
-        CompoundField compoundField = (CompoundField) f;
+        CompoundMultiValueField compoundField = (CompoundMultiValueField) f;
         assertEquals(1, compoundField.getValue().size());
         Map<String, SingleValueField> firstValue = compoundField.getValue().get(0);
         assertEquals("User01, Test01", firstValue.get("authorName").getValue());
