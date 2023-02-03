@@ -16,9 +16,15 @@
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
 public class DataverseTheme {
-    int id;
-    String logo;
-    String logoBackgroundColor;
+    private int id;
+    private String logo;
+    private String logoBackgroundColor;
+
+    private String tagline;
+
+    private String linkColor;
+
+    private String textColor;
 
     public int getId() {
         return id;
@@ -42,5 +48,29 @@ public class DataverseTheme {
 
     public void setLogoBackgroundColor(String logoBackgroundColor) {
         this.logoBackgroundColor = logoBackgroundColor;
+    }
+
+    public String getTagline() {
+        return tagline;
+    }
+
+    public void setTagline(String tagline) {
+        this.tagline = tagline;
+    }
+
+    public String getLinkColor() {
+        return linkColor;
+    }
+
+    public void setLinkColor(String linkColor) {
+        this.linkColor = linkColor;
+    }
+
+    public String getTextColor() {
+        return textColor;
+    }
+
+    public void setTextColor(String textColor) {
+        this.textColor = textColor;
     }
 }
