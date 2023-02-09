@@ -15,23 +15,10 @@
  */
 package nl.knaw.dans.lib.dataverse.model;
 
+import lombok.Data;
+
+@Data
 public class RoleAssignment {
     private String assignee;
     private String role;
-
-    public String getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(String assignee) {
-        this.assignee = assignee;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }

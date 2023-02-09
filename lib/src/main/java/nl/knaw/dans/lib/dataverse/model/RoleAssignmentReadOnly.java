@@ -15,6 +15,9 @@
  */
 package nl.knaw.dans.lib.dataverse.model;
 
+import lombok.Data;
+
+@Data
 public class RoleAssignmentReadOnly {
     private int id;
     private String assignee;
@@ -22,52 +25,4 @@ public class RoleAssignmentReadOnly {
     private String _roleAlias;
     private String definitionPointId;
     private String privateUrlToken;
-
-    public String getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(String assignee) {
-        this.assignee = assignee;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(int roleId) {
-        this.roleId = roleId;
-    }
-
-    public String get_roleAlias() {
-        return _roleAlias;
-    }
-
-    public void set_roleAlias(String _roleAlias) {
-        this._roleAlias = _roleAlias;
-    }
-
-    public String getDefinitionPointId() {
-        return definitionPointId;
-    }
-
-    public void setDefinitionPointId(String definitionPointId) {
-        this.definitionPointId = definitionPointId;
-    }
-
-    public String getPrivateUrlToken() {
-        return privateUrlToken;
-    }
-
-    public void setPrivateUrlToken(String privateUrlToken) {
-        this.privateUrlToken = privateUrlToken;
-    }
 }

@@ -24,7 +24,7 @@ public class DatasetAwaitLock extends ExampleBase {
     private static final Logger log = LoggerFactory.getLogger(DatasetAwaitLock.class);
 
     /**
-     * The easiest way to test this manually is to create an InReview lock. Other locks will be released to quickly.
+     * The easiest way to test this manually is to create an InReview lock. Other locks will be released too quickly.
      *
      * 1. Create a dataset.
      * 2. Start the program.

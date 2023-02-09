@@ -16,46 +16,16 @@
 package nl.knaw.dans.lib.dataverse.model.workflow;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
+@AllArgsConstructor
 public class ResumeMessage {
-
+    @JsonProperty("Status")
     private String status;
+    @JsonProperty("Reason")
     private String reason;
+    @JsonProperty("Message")
     private String message;
-
-    public ResumeMessage(@JsonProperty("Status") String status, @JsonProperty("Reason") String reason, @JsonProperty("Message") String message) {
-        this.status = status;
-        this.reason = reason;
-        this.message = message;
-    }
-
-    @JsonProperty("Status")
-    public String getStatus() {
-        return status;
-    }
-
-    @JsonProperty("Status")
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    @JsonProperty("Reason")
-    public String getReason() {
-        return reason;
-    }
-
-    @JsonProperty("Reason")
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    @JsonProperty("Message")
-    public String getMessage() {
-        return message;
-    }
-
-    @JsonProperty("Message")
-    public void setMessage(String message) {
-        this.message = message;
-    }
 }

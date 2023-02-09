@@ -15,33 +15,11 @@
  */
 package nl.knaw.dans.lib.dataverse.model;
 
-public class DataverseEnvelope<D> {
+import lombok.Data;
 
+@Data
+public class DataverseEnvelope<D> {
     private String status;
     private DataMessage message;
     private D data;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public DataMessage getMessage() {
-        return message;
-    }
-
-    public void setMessage(DataMessage message) {
-        this.message = message;
-    }
-
-    public D getData() {
-        return data;
-    }
-
-    public void setData(D data) {
-        this.data = data;
-    }
 }

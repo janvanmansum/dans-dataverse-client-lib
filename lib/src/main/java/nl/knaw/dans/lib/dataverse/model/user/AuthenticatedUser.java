@@ -15,6 +15,9 @@
  */
 package nl.knaw.dans.lib.dataverse.model.user;
 
+import lombok.Data;
+
+@Data
 public class AuthenticatedUser {
     private int id;
     private String identifier;
@@ -31,134 +34,5 @@ public class AuthenticatedUser {
     private String lastLoginTime;
     private String lastApiUseTime;
     private String authenticationProviderId;
-
     private String emailLastConfirmed;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isSuperuser() {
-        return superuser;
-    }
-
-    public boolean isDeactivated() {
-        return deactivated;
-    }
-
-    public void setDeactivated(boolean deactivated) {
-        this.deactivated = deactivated;
-    }
-
-    public void setSuperuser(boolean superuser) {
-        this.superuser = superuser;
-    }
-
-    public String getAffiliation() {
-        return affiliation;
-    }
-
-    public void setAffiliation(String affiliation) {
-        this.affiliation = affiliation;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public String getPersistentUserId() {
-        return persistentUserId;
-    }
-
-    public void setPersistentUserId(String persistentUserId) {
-        this.persistentUserId = persistentUserId;
-    }
-
-    public String getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(String createdTime) {
-        this.createdTime = createdTime;
-    }
-
-    public String getLastLoginTime() {
-        return lastLoginTime;
-    }
-
-    public void setLastLoginTime(String lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
-    }
-
-    public String getLastApiUseTime() {
-        return lastApiUseTime;
-    }
-
-    public void setLastApiUseTime(String lastApiUseTime) {
-        this.lastApiUseTime = lastApiUseTime;
-    }
-
-    public String getAuthenticationProviderId() {
-        return authenticationProviderId;
-    }
-
-    public void setAuthenticationProviderId(String authenticationProviderId) {
-        this.authenticationProviderId = authenticationProviderId;
-    }
-
-    public String getEmailLastConfirmed() {
-        return emailLastConfirmed;
-    }
-
-    public void setEmailLastConfirmed(String emailLastConfirmed) {
-        this.emailLastConfirmed = emailLastConfirmed;
-    }
 }
