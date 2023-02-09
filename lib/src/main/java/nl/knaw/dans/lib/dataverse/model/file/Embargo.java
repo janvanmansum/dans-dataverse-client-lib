@@ -15,24 +15,10 @@
  */
 package nl.knaw.dans.lib.dataverse.model.file;
 
+import lombok.Data;
+
+@Data
 public class Embargo {
-
-  private String dateAvailable;
-  private String reason;
-
-  public String getDateAvailable() {
-    return dateAvailable;
-  }
-
-  public void setDateAvailable(String dateAvailable) {
-    this.dateAvailable = dateAvailable;
-  }
-
-  public String getReason() {
-    return reason;
-  }
-
-  public void setReason(String reason) {
-    this.reason = reason;
-  }
+    private String dateAvailable;
+    private String reason;
 }

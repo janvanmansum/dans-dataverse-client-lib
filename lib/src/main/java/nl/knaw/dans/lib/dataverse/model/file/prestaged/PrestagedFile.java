@@ -15,8 +15,11 @@
  */
 package nl.knaw.dans.lib.dataverse.model.file.prestaged;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class PrestagedFile {
     private String storageIdentifier;
     private String fileName;
@@ -27,76 +30,4 @@ public class PrestagedFile {
     private List<String> categories;
     private Boolean restrict;
     private Boolean forceReplace;
-
-    public String getStorageIdentifier() {
-        return storageIdentifier;
-    }
-
-    public void setStorageIdentifier(String storageIdentifier) {
-        this.storageIdentifier = storageIdentifier;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-    }
-
-    public Checksum getChecksum() {
-        return checksum;
-    }
-
-    public void setChecksum(Checksum checksum) {
-        this.checksum = checksum;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDirectoryLabel() {
-        return directoryLabel;
-    }
-
-    public void setDirectoryLabel(String directoryLabel) {
-        this.directoryLabel = directoryLabel;
-    }
-
-    public List<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
-    }
-
-    public Boolean getRestrict() {
-        return restrict;
-    }
-
-    public void setRestrict(Boolean restrict) {
-        this.restrict = restrict;
-    }
-
-    public Boolean getForceReplace() {
-        return forceReplace;
-    }
-
-    public void setForceReplace(Boolean forceReplace) {
-        this.forceReplace = forceReplace;
-    }
 }

@@ -15,9 +15,13 @@
  */
 package nl.knaw.dans.lib.dataverse.model.file;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Checksum {
 
   private String type;
