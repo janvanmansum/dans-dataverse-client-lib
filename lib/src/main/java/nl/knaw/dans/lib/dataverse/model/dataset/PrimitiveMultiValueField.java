@@ -15,24 +15,21 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.List;
 
+@NoArgsConstructor
 public class PrimitiveMultiValueField extends MetadataField {
-    private List<String> value;
 
-    public PrimitiveMultiValueField() {
-    }
+    @Getter
+    @Setter
+    private List<String> value;
 
     public PrimitiveMultiValueField(String typeName, List<String> value) {
         super("primitive", typeName, true);
-        this.value = value;
-    }
-
-    public List<String> getValue() {
-        return value;
-    }
-
-    public void setValue(List<String> value) {
         this.value = value;
     }
 }

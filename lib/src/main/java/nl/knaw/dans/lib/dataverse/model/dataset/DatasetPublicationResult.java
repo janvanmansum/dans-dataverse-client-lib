@@ -15,8 +15,11 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
+
 import java.net.URI;
 
+@Data
 public class DatasetPublicationResult {
     private int id;
     private String identifier;
@@ -27,76 +30,4 @@ public class DatasetPublicationResult {
     private String publicationDate;
     private String storageIdentifier;
     private String metadataLanguage;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public URI getPersistentUrl() {
-        return persistentUrl;
-    }
-
-    public void setPersistentUrl(URI persistentUrl) {
-        this.persistentUrl = persistentUrl;
-    }
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String getPublicationDate() {
-        return publicationDate;
-    }
-
-    public void setPublicationDate(String publicationDate) {
-        this.publicationDate = publicationDate;
-    }
-
-    public String getStorageIdentifier() {
-        return storageIdentifier;
-    }
-
-    public void setStorageIdentifier(String storageIdentifier) {
-        this.storageIdentifier = storageIdentifier;
-    }
-
-    public String getMetadataLanguage() {
-        return metadataLanguage;
-    }
-
-    public void setMetadataLanguage(String metadataLanguage) {
-        this.metadataLanguage = metadataLanguage;
-    }
 }

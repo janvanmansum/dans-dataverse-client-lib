@@ -41,5 +41,6 @@ public class DatasetGetVersion extends ExampleBase {
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         log.info("Create Time: {}", r.getData().getCreateTime());
         log.info("Version State: {}", r.getData().getVersionState());
+        log.info("Version UNF: {}", r.getData().getUnf());
     }
 }

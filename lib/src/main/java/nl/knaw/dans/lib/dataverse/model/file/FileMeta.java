@@ -90,7 +90,7 @@ public class FileMeta {
     /**
      * See comments in the {@link #getRestrict()} method docs.
      *
-     * @return whether the file is or should be restricted
+     * @param restrict whether to restrict the file or not
      */
     public void setRestrict(Boolean restrict) {
         this.restricted = restrict;
@@ -109,7 +109,7 @@ public class FileMeta {
     /**
      * See comments in the {@link #getRestrict()} method docs.
      *
-     * @return whether the file is or should be restricted
+     * @param restricted whether to restrict the file or not
      */
     public void setRestricted(Boolean restricted) {
         this.restricted = restricted;

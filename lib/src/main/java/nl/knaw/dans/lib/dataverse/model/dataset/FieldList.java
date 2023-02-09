@@ -15,19 +15,14 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class FieldList {
     private List<MetadataField> fields = new ArrayList<>();
-
-    public List<MetadataField> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<MetadataField> fields) {
-        this.fields = fields;
-    }
 
     public void add(MetadataField field) {
         fields.add(field);
