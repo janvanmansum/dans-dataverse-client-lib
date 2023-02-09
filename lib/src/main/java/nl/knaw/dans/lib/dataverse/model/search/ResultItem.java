@@ -16,17 +16,22 @@
 package nl.knaw.dans.lib.dataverse.model.search;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.net.URI;
 
 // Mix between snake_case and camelCase, so we need to specify per field what name conversion strategy to use for (de)serialization
+@Data
 public abstract class ResultItem {
     private final SearchItemType type;
     private String name;
     private URI url;
     private String description;
     private String publishedAt; // TODO: to date format
-
+    protected ResultItem() {
+        this.type = SearchItemType.dataset;
+    }
     protected ResultItem(SearchItemType type) {
         this.type = type;
     }
