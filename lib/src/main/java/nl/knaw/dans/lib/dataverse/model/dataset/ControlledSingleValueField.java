@@ -15,23 +15,21 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
-public class ControlledSingleValueField extends MetadataField implements SingleValueField{
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = true)
+public class ControlledSingleValueField extends MetadataField implements SingleValueField {
 
     private String value;
 
-    public ControlledSingleValueField() {
-    }
-
     public ControlledSingleValueField(String typeName, String value) {
         super("controlledVocabulary", typeName, false);
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
         this.value = value;
     }
 }

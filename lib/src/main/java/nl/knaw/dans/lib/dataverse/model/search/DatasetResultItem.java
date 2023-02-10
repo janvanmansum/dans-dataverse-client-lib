@@ -17,11 +17,13 @@ package nl.knaw.dans.lib.dataverse.model.search;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.List;
 import java.util.Map;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DatasetResultItem extends ResultItem {
 
     @JsonProperty("global_id")

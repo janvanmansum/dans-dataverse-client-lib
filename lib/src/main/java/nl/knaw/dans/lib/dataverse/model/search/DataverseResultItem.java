@@ -15,12 +15,13 @@
  */
 package nl.knaw.dans.lib.dataverse.model.search;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.net.URI;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DataverseResultItem extends ResultItem {
     private String identifier;
 

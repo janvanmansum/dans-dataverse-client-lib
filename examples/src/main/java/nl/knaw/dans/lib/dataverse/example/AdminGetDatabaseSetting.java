@@ -21,8 +21,6 @@ import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
-
 public class AdminGetDatabaseSetting extends ExampleBase {
 
     private static final Logger log = LoggerFactory.getLogger(AdminGetDatabaseSetting.class);

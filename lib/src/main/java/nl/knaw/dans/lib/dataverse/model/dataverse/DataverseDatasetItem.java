@@ -16,10 +16,12 @@
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.net.URI;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DataverseDatasetItem extends DataverseItem {
     private String identifier;
     private URI persistentUrl;

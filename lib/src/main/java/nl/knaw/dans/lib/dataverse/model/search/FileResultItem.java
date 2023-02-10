@@ -16,9 +16,11 @@
 package nl.knaw.dans.lib.dataverse.model.search;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import nl.knaw.dans.lib.dataverse.model.file.Checksum;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class FileResultItem extends ResultItem {
     private String fileType;
     private String fileContentType;

@@ -16,8 +16,10 @@
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class DataverseSubverseItem extends DataverseItem {
     private String title;
 

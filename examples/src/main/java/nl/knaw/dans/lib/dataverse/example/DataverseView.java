@@ -16,8 +16,8 @@
 package nl.knaw.dans.lib.dataverse.example;
 
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
-import nl.knaw.dans.lib.dataverse.model.dataverse.Dataverse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
+import nl.knaw.dans.lib.dataverse.model.dataverse.Dataverse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

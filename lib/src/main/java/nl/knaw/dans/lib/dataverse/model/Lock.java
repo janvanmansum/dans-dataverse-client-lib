@@ -16,7 +16,6 @@
 package nl.knaw.dans.lib.dataverse.model;
 
 import lombok.Data;
-import lombok.ToString;
 
 @Data
 public class Lock {
