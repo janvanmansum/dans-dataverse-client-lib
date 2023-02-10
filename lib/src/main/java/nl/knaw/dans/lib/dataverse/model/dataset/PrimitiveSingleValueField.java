@@ -17,16 +17,9 @@ package nl.knaw.dans.lib.dataverse.model.dataset;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-//@NoArgsConstructor
-//@Getter
-//@Setter
-//@EqualsAndHashCode(callSuper = true)
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class PrimitiveSingleValueField extends MetadataField implements SingleValueField {
 
     private String value;

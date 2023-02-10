@@ -15,16 +15,12 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Map;
 
-@NoArgsConstructor
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(callSuper = true)
 public class CompoundSingleValueField extends MetadataField {
 
