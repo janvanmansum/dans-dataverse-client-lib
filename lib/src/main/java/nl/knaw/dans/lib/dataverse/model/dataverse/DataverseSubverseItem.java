@@ -15,6 +15,11 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class DataverseSubverseItem extends DataverseItem {
     private String title;
 
@@ -24,14 +29,6 @@ public class DataverseSubverseItem extends DataverseItem {
 
     public DataverseSubverseItem(String title, int id) {
         super(DataverseItemType.dataverse, id);
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
         this.title = title;
     }
 }

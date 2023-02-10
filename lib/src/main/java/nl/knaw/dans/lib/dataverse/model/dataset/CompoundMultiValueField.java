@@ -15,26 +15,21 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 import java.util.Map;
 
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class CompoundMultiValueField extends MetadataField {
 
     private List<Map<String, SingleValueField>> value;
 
-    public CompoundMultiValueField() {
-    }
-
     public CompoundMultiValueField(String typeName, List<Map<String, SingleValueField>> value) {
         super("compound", typeName, true);
-        this.value = value;
-    }
-
-    public List<Map<String, SingleValueField>> getValue() {
-        return value;
-    }
-
-    public void setValue(List<Map<String, SingleValueField>> value) {
         this.value = value;
     }
 }

@@ -15,23 +15,10 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
+
+@Data
 public class Dataset {
     private DatasetVersion datasetVersion;
     private DatasetVersion latestVersion;
-
-    public DatasetVersion getDatasetVersion() {
-        return datasetVersion;
-    }
-
-    public void setDatasetVersion(DatasetVersion datasetVersion) {
-        this.datasetVersion = datasetVersion;
-    }
-
-    public DatasetVersion getLatestVersion() {
-        return latestVersion;
-    }
-
-    public void setLatestVersion(DatasetVersion latestVersion) {
-        this.latestVersion = latestVersion;
-    }
 }

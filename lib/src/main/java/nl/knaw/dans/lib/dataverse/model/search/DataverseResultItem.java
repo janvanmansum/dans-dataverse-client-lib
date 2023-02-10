@@ -15,8 +15,13 @@
  */
 package nl.knaw.dans.lib.dataverse.model.search;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.net.URI;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class DataverseResultItem extends ResultItem {
     private String identifier;
 
@@ -32,13 +37,4 @@ public class DataverseResultItem extends ResultItem {
         setPublishedAt(publishedAt);
         this.identifier = identifier;
     }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
 }

@@ -15,25 +15,16 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class FileList {
     private List<FileMeta> files;
-
-    public FileList() {
-    }
-
-    public FileList(List<FileMeta> files) {
-        this.files = files;
-    }
-
-    public List<FileMeta> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<FileMeta> files) {
-        this.files = files;
-    }
 }

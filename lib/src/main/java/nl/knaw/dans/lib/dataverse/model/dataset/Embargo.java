@@ -15,38 +15,15 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Embargo {
     private String dateAvailable;
     private String reason;
     private int[] fileIds;
-
-    public Embargo(String dateAvailable, String reason, int[] fileIds) {
-        this.dateAvailable = dateAvailable;
-        this.reason = reason;
-        this.fileIds = fileIds;
-    }
-
-    public String getDateAvailable() {
-        return dateAvailable;
-    }
-
-    public void setDateAvailable(String dateAvailable) {
-        this.dateAvailable = dateAvailable;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public int[] getFileIds() {
-        return fileIds;
-    }
-
-    public void setFileIds(int[] fileIds) {
-        this.fileIds = fileIds;
-    }
 }

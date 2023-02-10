@@ -15,23 +15,11 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
+
+@Data
 public class DatasetCreationResult {
     private int id;
     private String persistentId;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getPersistentId() {
-        return persistentId;
-    }
-
-    public void setPersistentId(String persistentId) {
-        this.persistentId = persistentId;
-    }
 }
+

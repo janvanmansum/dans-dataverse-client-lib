@@ -15,24 +15,18 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class ControlledMultiValueField extends MetadataField {
     private List<String> value;
 
-    public ControlledMultiValueField() {
-    }
-
     public ControlledMultiValueField(String typeName, List<String> value) {
         super("controlledVocabulary", typeName, true);
-        this.value = value;
-    }
-
-    public List<String> getValue() {
-        return value;
-    }
-
-    public void setValue(List<String> value) {
         this.value = value;
     }
 }

@@ -16,36 +16,16 @@
 package nl.knaw.dans.lib.dataverse.model.file.prestaged;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Checksum {
+    @JsonProperty("@type")
     private String type;
+    @JsonProperty("@value")
     private String value;
-
-    public Checksum() {
-    }
-
-    public Checksum(String type, String value) {
-        this.type = type;
-        this.value = value;
-    }
-
-    @JsonProperty("@type")
-    public String getType() {
-        return type;
-    }
-
-    @JsonProperty("@type")
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    @JsonProperty("@value")
-    public String getValue() {
-        return value;
-    }
-
-    @JsonProperty("@value")
-    public void setValue(String value) {
-        this.value = value;
-    }
 }

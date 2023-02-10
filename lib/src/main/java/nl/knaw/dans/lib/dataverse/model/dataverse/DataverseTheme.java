@@ -15,62 +15,14 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
+import lombok.Data;
+
+@Data
 public class DataverseTheme {
     private int id;
     private String logo;
     private String logoBackgroundColor;
-
     private String tagline;
-
     private String linkColor;
-
     private String textColor;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getLogo() {
-        return logo;
-    }
-
-    public void setLogo(String logo) {
-        this.logo = logo;
-    }
-
-    public String getLogoBackgroundColor() {
-        return logoBackgroundColor;
-    }
-
-    public void setLogoBackgroundColor(String logoBackgroundColor) {
-        this.logoBackgroundColor = logoBackgroundColor;
-    }
-
-    public String getTagline() {
-        return tagline;
-    }
-
-    public void setTagline(String tagline) {
-        this.tagline = tagline;
-    }
-
-    public String getLinkColor() {
-        return linkColor;
-    }
-
-    public void setLinkColor(String linkColor) {
-        this.linkColor = linkColor;
-    }
-
-    public String getTextColor() {
-        return textColor;
-    }
-
-    public void setTextColor(String textColor) {
-        this.textColor = textColor;
-    }
 }

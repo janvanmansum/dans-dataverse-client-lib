@@ -15,31 +15,14 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DataverseContact {
     private int displayOrder;
     private String contactEmail;
-
-    public DataverseContact() {
-    }
-
-    public DataverseContact(int displayOrder, String contactEmail) {
-        this.displayOrder = displayOrder;
-        this.contactEmail = contactEmail;
-    }
-
-    public int getDisplayOrder() {
-        return displayOrder;
-    }
-
-    public void setDisplayOrder(int displayOrder) {
-        this.displayOrder = displayOrder;
-    }
-
-    public String getContactEmail() {
-        return contactEmail;
-    }
-
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
-    }
 }

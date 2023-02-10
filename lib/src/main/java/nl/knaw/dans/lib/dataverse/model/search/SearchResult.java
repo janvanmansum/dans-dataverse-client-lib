@@ -17,11 +17,17 @@ package nl.knaw.dans.lib.dataverse.model.search;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
 
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SearchResult {
     private String q;
     private int totalCount;
@@ -29,64 +35,4 @@ public class SearchResult {
     private Map<String, String> spellingAlternatives;
     private List<ResultItem> items;
     private int countInResponse;
-
-    public SearchResult() {
-    }
-
-    public SearchResult(String q, int totalCount, int start, Map<String, String> spellingAlternatives, List<ResultItem> items, int countInResponse) {
-        this.q = q;
-        this.totalCount = totalCount;
-        this.start = start;
-        this.spellingAlternatives = spellingAlternatives;
-        this.items = items;
-        this.countInResponse = countInResponse;
-    }
-
-    public String getQ() {
-        return q;
-    }
-
-    public void setQ(String q) {
-        this.q = q;
-    }
-
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public int getStart() {
-        return start;
-    }
-
-    public void setStart(int start) {
-        this.start = start;
-    }
-
-    public Map<String, String> getSpellingAlternatives() {
-        return spellingAlternatives;
-    }
-
-    public void setSpellingAlternatives(Map<String, String> spellingAlternatives) {
-        this.spellingAlternatives = spellingAlternatives;
-    }
-
-    public List<ResultItem> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ResultItem> items) {
-        this.items = items;
-    }
-
-    public int getCountInResponse() {
-        return countInResponse;
-    }
-
-    public void setCountInResponse(int countInResponse) {
-        this.countInResponse = countInResponse;
-    }
 }

@@ -15,11 +15,13 @@
  */
 package nl.knaw.dans.lib.dataverse.model.file;
 
+import lombok.Data;
 import nl.knaw.dans.lib.dataverse.model.file.prestaged.Checksum;
 import nl.knaw.dans.lib.dataverse.model.file.prestaged.PrestagedFile;
 
 import java.util.List;
 
+@Data
 public class FileMeta {
 
     private String label;
@@ -28,12 +30,9 @@ public class FileMeta {
     private int version;
     private int datasetVersionId;
     private Boolean restricted;
-    private List<String> categories; // TODO Enum or vocab? https://guides.dataverse.org/en/latest/user/dataset-management.html?highlight=category#file-tags
+    private List<String> categories;
     private DataFile dataFile;
     private Boolean forceReplace;
-
-    public FileMeta() {
-    }
 
     public PrestagedFile toPrestagedFile() {
         if (dataFile == null)
@@ -51,30 +50,6 @@ public class FileMeta {
         return p;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getDirectoryLabel() {
-        return directoryLabel;
-    }
-
-    public void setDirectoryLabel(String directoryLabel) {
-        this.directoryLabel = directoryLabel;
-    }
-
     /**
      * Dataverse uses "restrict" in the <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset">Add File To Dataset</a> API, but returns "restricted" in the
      * response message; "restricted" is ignored by Add File To Dataset. This library works around the confusion by supporting both the "restrict" and "restricted" property, storing them in the same
@@ -90,7 +65,7 @@ public class FileMeta {
     /**
      * See comments in the {@link #getRestrict()} method docs.
      *
-     * @return whether the file is or should be restricted
+     * @param restrict whether to restrict the file or not
      */
     public void setRestrict(Boolean restrict) {
         this.restricted = restrict;
@@ -109,51 +84,10 @@ public class FileMeta {
     /**
      * See comments in the {@link #getRestrict()} method docs.
      *
-     * @return whether the file is or should be restricted
+     * @param restricted whether to restrict the file or not
      */
     public void setRestricted(Boolean restricted) {
         this.restricted = restricted;
     }
-
-    public List<String> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
-    }
-
-    public Boolean getForceReplace() {
-        return forceReplace;
-    }
-
-    public void setForceReplace(Boolean forceReplace) {
-        this.forceReplace = forceReplace;
-    }
-
-    public DataFile getDataFile() {
-        return dataFile;
-    }
-
-    public void setDataFile(DataFile dataFile) {
-        this.dataFile = dataFile;
-    }
-
-    public int getDatasetVersionId() {
-        return datasetVersionId;
-    }
-
-    public void setDatasetVersionId(int datasetVersionId) {
-        this.datasetVersionId = datasetVersionId;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
 }
 

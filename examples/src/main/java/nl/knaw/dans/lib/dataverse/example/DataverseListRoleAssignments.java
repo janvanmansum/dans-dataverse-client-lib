@@ -17,8 +17,6 @@ package nl.knaw.dans.lib.dataverse.example;
 
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.Role;
-import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignmentReadOnly;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

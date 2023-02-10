@@ -15,42 +15,16 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public abstract class MetadataField {
 
     private String typeClass;
     private String typeName;
     private boolean multiple;
-
-    public MetadataField() {
-    }
-
-    public MetadataField(String typeClass, String typeName, boolean multiple) {
-        this.typeClass = typeClass;
-        this.typeName = typeName;
-        this.multiple = multiple;
-    }
-
-    public String getTypeClass() {
-        return typeClass;
-    }
-
-    public void setTypeClass(String typeClass) {
-        this.typeClass = typeClass;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public boolean isMultiple() {
-        return multiple;
-    }
-
-    public void setMultiple(boolean multiple) {
-        this.multiple = multiple;
-    }
 }

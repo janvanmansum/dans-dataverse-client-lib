@@ -15,13 +15,16 @@
  */
 package nl.knaw.dans.lib.dataverse.model;
 
+import lombok.Getter;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Utility class to parse the names of dataset versions exported to RDA bags and metadata files. This is useful if you use `LocalSubmitToArchiveCommand`
- * [to export the bags to a local disk](https://guides.dataverse.org/en/latest/installation/config.html#local-path-configuration).
+ * Utility class to parse the names of dataset versions exported to RDA bags and metadata files. This is useful if you use <code>LocalSubmitToArchiveCommand</code> <a
+ * href="https://guides.dataverse.org/en/latest/installation/config.html#local-path-configuration" target="_blank">to export the bags to a local disk</a>.
  */
+@Getter
 public class ExportedDatasetVersionName {
     /*
      Reverse-engineered from edu.harvard.iq.dataverse.engine.command.impl.LocalSubmitToArchiveCommand, the pattern that the local filename should adhere to is:
@@ -34,6 +37,11 @@ public class ExportedDatasetVersionName {
     private static final String EXTENSION_PATTERN = "(?<extension>.zip|.xml)";
     private static final Pattern PATTERN = Pattern.compile(SPACENAME_PATTERN + SCHEMA_PATTERN + DATASET_VERSION_PATTERN + EXTENSION_PATTERN);
 
+    /**
+     * The part of the filename derived from the global ID (doi, handle)
+     *
+     * @return the spacename
+     */
     private final String spaceName;
     private final String schema;
     private final int majorVersion;
@@ -54,30 +62,5 @@ public class ExportedDatasetVersionName {
         majorVersion = Integer.parseInt(matcher.group("major"));
         minorVersion = Integer.parseInt(matcher.group("minor"));
         extension = matcher.group("extension");
-    }
-
-    /**
-     * The part of the filename derived from the global ID (doi, handle)
-     *
-     * @return the spacename
-     */
-    public String getSpaceName() {
-        return spaceName;
-    }
-
-    public String getSchema() {
-        return schema;
-    }
-
-    public int getMajorVersion() {
-        return majorVersion;
-    }
-
-    public int getMinorVersion() {
-        return minorVersion;
-    }
-
-    public String getExtension() {
-        return extension;
     }
 }

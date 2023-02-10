@@ -16,11 +16,13 @@
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 
 import java.util.List;
 import java.util.Map;
 
+@Data
 public class DatasetVersion {
 
     private Integer id;
@@ -29,17 +31,24 @@ public class DatasetVersion {
     private String storageIdentifier;
     private Integer versionNumber;
     private Integer versionMinorNumber;
-    private String versionState; // TODO: to enum
-    private String versionNote; // TODO: to enum
+    private String versionState;
+    private String versionNote;
+    @JsonProperty("UNF")
     private String unf;
-    private String lastUpdateTime; // TODO: timestamp?
-    private String releaseTime; // TODO: timestamp?
-    private String createTime; // TODO: timestamp?
-    private String distributionDate; // TODO: timestamp?
-    private String productionDate; // TODO: timestamp?
+    private String lastUpdateTime;
+    private String releaseTime;
+    private String createTime;
+    private String distributionDate;
+    private String productionDate;
     private Boolean fileAccessRequest;
     private String termsOfUse;
     private String termsOfAccess;
+    private String dataAccessPlace;
+    private String originalArchive;
+    private String availabilityStatus;
+    private String contactForAccess;
+    private String sizeOfCollection;
+    private String studyCompletion;
     private License license;
     private String protocol;
     private String authority;
@@ -47,198 +56,4 @@ public class DatasetVersion {
     private Map<String, MetadataBlock> metadataBlocks;
     private List<FileMeta> files;
     private String citation;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getDatasetId() {
-        return datasetId;
-    }
-
-    public void setDatasetId(Integer datasetId) {
-        this.datasetId = datasetId;
-    }
-
-    public String getDatasetPersistentId() {
-        return datasetPersistentId;
-    }
-
-    public void setDatasetPersistentId(String datasetPersistentId) {
-        this.datasetPersistentId = datasetPersistentId;
-    }
-
-    public String getStorageIdentifier() {
-        return storageIdentifier;
-    }
-
-    public void setStorageIdentifier(String storageIdentifier) {
-        this.storageIdentifier = storageIdentifier;
-    }
-
-    public Integer getVersionNumber() {
-        return versionNumber;
-    }
-
-    public void setVersionNumber(Integer versionNumber) {
-        this.versionNumber = versionNumber;
-    }
-
-    public Integer getVersionMinorNumber() {
-        return versionMinorNumber;
-    }
-
-    public void setVersionMinorNumber(Integer versionMinorNumber) {
-        this.versionMinorNumber = versionMinorNumber;
-    }
-
-    public String getVersionState() {
-        return versionState;
-    }
-
-    public void setVersionState(String versionState) {
-        this.versionState = versionState;
-    }
-
-    public String getVersionNote() {
-        return versionNote;
-    }
-
-    public void setVersionNote(String versionNote) {
-        this.versionNote = versionNote;
-    }
-
-    @JsonProperty("UNF")
-    public String getUNF() {
-        return unf;
-    }
-
-    @JsonProperty("UNF")
-    public void setUNF(String unf) {
-        this.unf = unf;
-    }
-
-    public String getLastUpdateTime() {
-        return lastUpdateTime;
-    }
-
-    public void setLastUpdateTime(String lastUpdateTime) {
-        this.lastUpdateTime = lastUpdateTime;
-    }
-
-    public String getReleaseTime() {
-        return releaseTime;
-    }
-
-    public void setReleaseTime(String releaseTime) {
-        this.releaseTime = releaseTime;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public String getDistributionDate() {
-        return distributionDate;
-    }
-
-    public void setDistributionDate(String distributionDate) {
-        this.distributionDate = distributionDate;
-    }
-
-    public String getProductionDate() {
-        return productionDate;
-    }
-
-    public void setProductionDate(String productionDate) {
-        this.productionDate = productionDate;
-    }
-
-    public Boolean isFileAccessRequest() {
-        return fileAccessRequest;
-    }
-
-    public void setFileAccessRequest(Boolean fileAccessRequest) {
-        this.fileAccessRequest = fileAccessRequest;
-    }
-
-    public String getTermsOfUse() {
-        return termsOfUse;
-    }
-
-    public void setTermsOfUse(String termsOfUse) {
-        this.termsOfUse = termsOfUse;
-    }
-
-    public String getTermsOfAccess() {
-        return termsOfAccess;
-    }
-
-    public void setTermsOfAccess(String termsOfAccess) {
-        this.termsOfAccess = termsOfAccess;
-    }
-
-    public License getLicense() {
-        return license;
-    }
-
-    public void setLicense(License license) {
-        this.license = license;
-    }
-
-    public String getProtocol() {
-        return protocol;
-    }
-
-    public void setProtocol(String protocol) {
-        this.protocol = protocol;
-    }
-
-    public String getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
-
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public Map<String, MetadataBlock> getMetadataBlocks() {
-        return metadataBlocks;
-    }
-
-    public void setMetadataBlocks(Map<String, MetadataBlock> metadataBlocks) {
-        this.metadataBlocks = metadataBlocks;
-    }
-
-    public List<FileMeta> getFiles() {
-        return files;
-    }
-
-    public void setFiles(List<FileMeta> files) {
-        this.files = files;
-    }
-
-    public String getCitation() {
-        return citation;
-    }
-
-    public void setCitation(String citation) {
-        this.citation = citation;
-    }
 }

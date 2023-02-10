@@ -15,28 +15,17 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class PrimitiveSingleValueField extends MetadataField implements SingleValueField {
 
     private String value;
 
-    public PrimitiveSingleValueField() {
-    }
-
     public PrimitiveSingleValueField(String typeName, String value) {
         super("primitive", typeName, false);
-        this.value = value;
-    }
-
-    public PrimitiveSingleValueField(String typeClass, String typeName, String value) {
-        super(typeClass, typeName, false);
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
         this.value = value;
     }
 }

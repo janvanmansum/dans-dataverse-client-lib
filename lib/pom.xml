@@ -54,6 +54,10 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
@@ -100,6 +104,24 @@
         <plugins>
             <plugin>
                 <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration combine.children="override">
+                    <sourcepath>target/delombok</sourcepath>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok-maven-plugin</artifactId>
+                <version>1.18.20.0</version>
+                <configuration>
+                    <sourceDirectory>src/main/java</sourceDirectory>
+                    <outputDirectory>target/delombok</outputDirectory>
+                    <verbose>true</verbose>
+                    <formatPreferences>
+                        <generateDelombokComment>skip</generateDelombokComment>
+                        <javaLangAsFQN>skip</javaLangAsFQN>
+                        <suppressWarnings>skip</suppressWarnings>
+                    </formatPreferences>
+                </configuration>
             </plugin>
         </plugins>
     </build>

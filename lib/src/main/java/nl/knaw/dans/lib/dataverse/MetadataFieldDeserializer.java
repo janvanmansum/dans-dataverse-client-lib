@@ -67,7 +67,6 @@ public class MetadataFieldDeserializer extends StdDeserializer {
             }
             else {
                 return new PrimitiveSingleValueField(
-                    typeClass,
                     typeName,
                     valueNode.asText());
             }

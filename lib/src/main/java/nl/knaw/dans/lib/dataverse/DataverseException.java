@@ -15,31 +15,17 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.Getter;
 import org.apache.http.HttpResponse;
 
+@Getter
 public class DataverseException extends Exception {
     private final int status;
     private final HttpResponse httpResponse;
 
     public DataverseException(int status, String msg, HttpResponse httpResponse) {
-        super(msg);
+        super(String.format("status: %d; message: %s", status, msg));
         this.status = status;
         this.httpResponse = httpResponse;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public HttpResponse getHttpResponse() {
-        return httpResponse;
-    }
-
-    @Override
-    public String toString() {
-        return "DataverseException{" +
-            "status=" + status +
-            ", httpResponse=" + httpResponse +
-            '}';
     }
 }

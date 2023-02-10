@@ -15,25 +15,16 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.net.URI;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class License {
     private String name;
     private URI uri;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public URI getUri() {
-        return uri;
-    }
-
-    public void setUri(URI uri) {
-        this.uri = uri;
-    }
 }
