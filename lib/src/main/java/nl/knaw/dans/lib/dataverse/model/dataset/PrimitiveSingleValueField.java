@@ -24,6 +24,10 @@ public class PrimitiveSingleValueField extends MetadataField implements SingleVa
 
     private String value;
 
+    public PrimitiveSingleValueField() {
+        super("primitive", "", false);
+    }
+
     public PrimitiveSingleValueField(String typeName, String value) {
         super("primitive", typeName, false);
         this.value = value;

@@ -25,6 +25,10 @@ import java.util.List;
 public class ControlledMultiValueField extends MetadataField {
     private List<String> value;
 
+    public ControlledMultiValueField() {
+        super("compound", "", true);
+    }
+
     public ControlledMultiValueField(String typeName, List<String> value) {
         super("controlledVocabulary", typeName, true);
         this.value = value;

@@ -21,12 +21,15 @@ import lombok.EqualsAndHashCode;
 import java.util.List;
 import java.util.Map;
 
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class CompoundMultiValueField extends MetadataField {
 
     private List<Map<String, SingleValueField>> value;
+
+    public CompoundMultiValueField() {
+        super("compound", "", true);
+    }
 
     public CompoundMultiValueField(String typeName, List<Map<String, SingleValueField>> value) {
         super("compound", typeName, true);

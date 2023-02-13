@@ -26,6 +26,10 @@ public class CompoundSingleValueField extends MetadataField {
 
     private Map<String, SingleValueField> value;
 
+    public CompoundSingleValueField() {
+        super("compound", "", false);
+    }
+
     public CompoundSingleValueField(String typeName, Map<String, SingleValueField> value) {
         super("compound", typeName, false);
         this.value = value;
