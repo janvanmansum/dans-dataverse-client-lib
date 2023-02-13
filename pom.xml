@@ -26,14 +26,14 @@
     </parent>
 
     <artifactId>dans-dataverse-client-lib-build</artifactId>
-    <version>0.16.0</version>
+    <version>0.16.1-SNAPSHOT</version>
     <inceptionYear>2021</inceptionYear>
     <name>DANS Dataverse Client Library Master Build</name>
     <packaging>pom</packaging>
     <scm>
         <!-- Note: GitHub repo has a different name than the artifact -->
         <developerConnection>scm:git:ssh://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
-        <tag>v0.16.0</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <repositories>
