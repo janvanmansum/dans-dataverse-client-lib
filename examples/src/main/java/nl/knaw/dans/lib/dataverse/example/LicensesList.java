@@ -13,27 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.lib.dataverse;
+package nl.knaw.dans.lib.dataverse.example;
 
-import org.apache.commons.lang3.StringUtils;
+import nl.knaw.dans.lib.dataverse.ExampleBase;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
+public class LicensesList extends ExampleBase {
+    private static final Logger log = LoggerFactory.getLogger(DataversePublish.class);
 
-abstract class AbstractApi {
+    public static void main(String[] args) throws Exception {
+        log.info("--- BEGIN JSON OBJECT ---");
+        var response = client.license().getLicenses();
+        log.info("--- END JSON OBJECT ---");
 
-    protected final HttpClientWrapper httpClientWrapper;
-
-    protected AbstractApi(HttpClientWrapper httpClientWrapper) {
-        this.httpClientWrapper = httpClientWrapper;
-    }
-
-    protected Path buildPath(Path base, String... components) {
-        Path p = base;
-        for (String c : components) {
-            if (StringUtils.isNotBlank(c)) {
-                p = p.resolve(c + "/");
-            }
+        for (var r: response.getData()) {
+            log.info("License: {}", r);
         }
-        return p;
     }
 }
