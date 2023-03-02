@@ -148,4 +148,8 @@ public class DataverseClient {
             searchApi = new SearchApi(httpClientWrapper);
         return searchApi;
     }
+
+    public LicenseApi license() {
+        return new LicenseApi(httpClientWrapper);
+    }
 }

@@ -13,27 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.lib.dataverse;
+package nl.knaw.dans.lib.dataverse.model.license;
 
-import org.apache.commons.lang3.StringUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Data;
 
-import java.nio.file.Path;
-
-abstract class AbstractApi {
-
-    protected final HttpClientWrapper httpClientWrapper;
-
-    protected AbstractApi(HttpClientWrapper httpClientWrapper) {
-        this.httpClientWrapper = httpClientWrapper;
-    }
-
-    protected Path buildPath(Path base, String... components) {
-        Path p = base;
-        for (String c : components) {
-            if (StringUtils.isNotBlank(c)) {
-                p = p.resolve(c + "/");
-            }
-        }
-        return p;
-    }
+@Data
+@Builder
+public class CreateLicense {
+    private String name;
+    private String shortDescription;
+    private String uri;
+    private String iconUrl;
+    private boolean active;
+    @JsonProperty("isDefault")
+    private boolean defaultLicense;
+    // this is not returned by the API, but can be used to create a new license
+    private Long sortOrder;
 }
