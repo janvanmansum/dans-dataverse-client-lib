@@ -61,7 +61,7 @@ public class DataverseResponse<D> {
 
     /**
      * @return A dataverse envelope
-     * @throws IOException if body cannot be processed properly as JSON
+     * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
     public DataverseEnvelope<D> getEnvelope() throws IOException {
         return mapper.readValue(bodyText, dataType);
@@ -69,7 +69,7 @@ public class DataverseResponse<D> {
 
     /**
      * @return the payload of the envelope directly
-     * @throws IOException if body cannot be processed properly as JSON
+     * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
     public D getData() throws IOException {
         return getEnvelope().getData();
@@ -77,7 +77,7 @@ public class DataverseResponse<D> {
 
     /**
      * @return the envelope as a JSON AST
-     * @throws IOException if body cannot be processed properly as JSON
+     * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
     public JsonNode getEnvelopeAsJson() throws IOException {
         return mapper.readTree(bodyText);

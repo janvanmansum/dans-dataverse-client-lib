@@ -16,6 +16,7 @@
 package nl.knaw.dans.lib.dataverse;
 
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
+import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -79,7 +80,7 @@ public class FileApi extends AbstractTargetedApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#updating-file-metadata" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<HashMap> updateMetadata(String json) throws IOException, DataverseException {
+    public DataverseHttpResponse<String> updateMetadata(String json) throws IOException, DataverseException {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         builder.addBinaryBody("jsonData", json.getBytes(StandardCharsets.UTF_8), ContentType.APPLICATION_JSON, "jsonData");
