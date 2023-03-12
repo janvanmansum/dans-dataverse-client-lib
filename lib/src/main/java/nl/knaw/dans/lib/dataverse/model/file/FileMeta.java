@@ -19,6 +19,8 @@ import lombok.Data;
 import nl.knaw.dans.lib.dataverse.model.file.prestaged.Checksum;
 import nl.knaw.dans.lib.dataverse.model.file.prestaged.PrestagedFile;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 @Data
@@ -30,7 +32,7 @@ public class FileMeta {
     private int version;
     private int datasetVersionId;
     private Boolean restricted;
-    private List<String> categories;
+    private List<String> categories = new ArrayList<>();
     private DataFile dataFile;
     private Boolean forceReplace;
 

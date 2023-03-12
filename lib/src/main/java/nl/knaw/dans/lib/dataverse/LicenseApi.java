@@ -43,35 +43,35 @@ public class LicenseApi extends AbstractApi {
         this.targetBase = Paths.get("api/licenses/");
     }
 
-    public DataverseResponse<List<License>> getLicenses() throws IOException, DataverseException {
+    public DataverseHttpResponse<List<License>> getLicenses() throws IOException, DataverseException {
         return httpClientWrapper.get(targetBase, List.class, License.class);
     }
 
-    public DataverseResponse<License> getLicenseById(long id) throws IOException, DataverseException {
+    public DataverseHttpResponse<License> getLicenseById(long id) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "" + id);
         return httpClientWrapper.get(path, License.class);
     }
 
-    public DataverseResponse<DataMessage> addLicense(CreateLicense license) throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> addLicense(CreateLicense license) throws IOException, DataverseException {
         return httpClientWrapper.postModelObjectAsJson(targetBase, license, DataMessage.class);
     }
 
-    public DataverseResponse<DataMessage> getDefaultLicense() throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> getDefaultLicense() throws IOException, DataverseException {
         Path path = buildPath(targetBase, "default");
         return httpClientWrapper.get(path, DataMessage.class);
     }
 
-    public DataverseResponse<DataMessage> setDefaultLicense(long id) throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> setDefaultLicense(long id) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "" + id);
         return httpClientWrapper.putJsonString(path, "", Map.of(), Map.of(), DataMessage.class);
     }
 
-    public DataverseResponse<DataMessage> setActiveState(long id, boolean active) throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> setActiveState(long id, boolean active) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "" + id, ":active", "" + active);
         return httpClientWrapper.putJsonString(path, "", Map.of(), Map.of(), DataMessage.class);
     }
 
-    public DataverseResponse<DataMessage> deleteLicense(long id) throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> deleteLicense(long id) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "" + id);
         return httpClientWrapper.delete(path, DataMessage.class);
     }

@@ -45,7 +45,7 @@ public class SearchApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/search.html" target="_blank">Dataverse documentation</a>
      */
-    public DataverseResponse<SearchResult> find(String query) throws IOException, DataverseException {
+    public DataverseHttpResponse<SearchResult> find(String query) throws IOException, DataverseException {
         return find(query, new SearchOptions());
     }
 
@@ -59,7 +59,7 @@ public class SearchApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/search.html" target="_blank">Dataverse documentation</a>
      */
-    public DataverseResponse<SearchResult> find(String query, SearchOptions options)
+    public DataverseHttpResponse<SearchResult> find(String query, SearchOptions options)
         throws IOException, DataverseException {
         Map<String, List<String>> parameters = new HashMap<>();
         parameters.put("q", Collections.singletonList(query));

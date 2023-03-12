@@ -20,6 +20,7 @@ import nl.knaw.dans.lib.dataverse.DataverseException;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.ControlledMultiValueField;
+import nl.knaw.dans.lib.dataverse.model.dataset.DatasetLatestVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
@@ -57,13 +58,17 @@ public class DatasetUpdateMetadata extends ExampleBase {
             new ControlledMultiValueField("subject", Collections.singletonList("Chemistry"))
         ));
 
-        // Note that the dataset must be in draft state, otherwise it cannot be updated through this API.
+        // Note that if the dataset is not already in draft state, the draft created here will not be indexed.
         // You may initiate a draft for a new version by making a trivial change to the metadata using the editMetadata API
         try {
-
-            DataverseResponse<DatasetVersion> r = client.dataset(persistentId).updateMetadata(Collections.singletonMap("citation", citation));
-            log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
-            log.info("Version number: {}", r.getData().getVersionNumber());
+            DataverseResponse<DatasetLatestVersion> r = client.dataset(persistentId).getLatestVersion();
+            DatasetVersion latest = r.getData().getLatestVersion();
+            latest.setTermsOfAccess("Some new terms. Pray I don't alter them any further.");
+            latest.setFiles(Collections.emptyList());
+            latest.setMetadataBlocks(Collections.singletonMap("citation", citation));
+            var r2 = client.dataset(persistentId).updateMetadata(latest);
+            log.info("Response message: {}", r2.getEnvelopeAsJson().toPrettyString());
+            log.info("Version number: {}", r2.getData().getVersionNumber());
         } catch (DataverseException e) {
             System.out.println(e.getMessage());
         }

@@ -44,18 +44,18 @@ public class DataAccessRequestsApi extends AbstractTargetedApi {
     }
 
 
-    public DataverseResponse<DataMessage> enable() throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> enable() throws IOException, DataverseException {
         log.trace("ENTER");
         return toggle("true");
     }
 
-    public DataverseResponse<DataMessage> disable() throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> disable() throws IOException, DataverseException {
         log.trace("ENTER");
         return toggle("false");
     }
 
 
-    private DataverseResponse<DataMessage> toggle(String bool) throws IOException, DataverseException {
+    private DataverseHttpResponse<DataMessage> toggle(String bool) throws IOException, DataverseException {
         headers.putAll(extraHeaders);
         return httpClientWrapper.putTextString(subPath, bool, params, headers, DataMessage.class);
     }
