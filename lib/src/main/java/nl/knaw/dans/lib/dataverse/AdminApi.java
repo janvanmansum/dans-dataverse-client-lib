@@ -49,7 +49,7 @@ public class AdminApi extends AbstractApi {
      * @throws DataverseException if Dataverse could not handle the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-single-user" target="_blank">Dataverse documentation</a>
      */
-    public DataverseResponse<AuthenticatedUser> listSingleUser(String id) throws IOException, DataverseException {
+    public DataverseHttpResponse<AuthenticatedUser> listSingleUser(String id) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "authenticatedUsers", id);
         return httpClientWrapper.get(path, new HashMap<>(), new HashMap<>(), AuthenticatedUser.class);
     }
@@ -62,7 +62,7 @@ public class AdminApi extends AbstractApi {
      * @throws DataverseException if Dataverse could not handle the request
      * @see <a href="https://guides.dataverse.org/en/latest/installation/config.html#database-settings" target="_blank">Dataverse documentation</a>
      */
-    public DataverseResponse<Map<String, String>> putDatabaseSetting(String key, String value) throws IOException, DataverseException {
+    public DataverseHttpResponse<Map<String, String>> putDatabaseSetting(String key, String value) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "settings", key);
         return httpClientWrapper.putJsonString(path, value, new HashMap<>(), new HashMap<>(), Map.class);
     }
@@ -74,7 +74,7 @@ public class AdminApi extends AbstractApi {
      * @throws DataverseException if Dataverse could not handle the request
      * @see <a href="https://guides.dataverse.org/en/latest/installation/config.html#database-settings" target="_blank">Dataverse documentation</a>
      */
-    public DataverseResponse<DataMessage> getDatabaseSetting(String key) throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> getDatabaseSetting(String key) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "settings", key);
         return httpClientWrapper.get(path, DataMessage.class);
     }
