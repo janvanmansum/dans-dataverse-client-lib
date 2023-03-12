@@ -26,6 +26,7 @@ import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -37,15 +38,14 @@ public class DatasetUpdateMetadataFromJsonLd extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
+        URI licenseUri = new URI(args[1]);
 
-        var dvCore = "https://dataverse.org/schema/core#";
-        Map<String, Object> fileTermsOfAccessValue = new HashMap<>();
+        var licenseObject = Map.of("http://schema.org/license", licenseUri);
+        var jsonLd = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(licenseObject);
 
-        fileTermsOfAccessValue.put(dvCore + "termsOfAccess", "N/a");
-        fileTermsOfAccessValue.put(dvCore + "fileRequestAccess", false);
-
-        var jsonLd = mapper.writeValueAsString(Collections.singletonMap(dvCore + "fileTermsOfAccess", fileTermsOfAccessValue));
+        log.info("--- BEGIN JSON OBJECT ---");
         System.out.println(jsonLd);
+        log.info("--- END JSON OBJECT ---");
 
         try {
 

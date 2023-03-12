@@ -58,12 +58,12 @@ public class DatasetUpdateMetadata extends ExampleBase {
             new ControlledMultiValueField("subject", Collections.singletonList("Chemistry"))
         ));
 
-        // Note that the dataset must be in draft state, otherwise it cannot be updated through this API.
+        // Note that if the dataset is not already in draft state, the draft created here will not be indexed.
         // You may initiate a draft for a new version by making a trivial change to the metadata using the editMetadata API
         try {
             DataverseResponse<DatasetLatestVersion> r = client.dataset(persistentId).getLatestVersion();
             DatasetVersion latest = r.getData().getLatestVersion();
-            latest.setTermsOfAccess("Blaaah");
+            latest.setTermsOfAccess("Some new terms. Pray I don't alter them any further.");
             latest.setFiles(Collections.emptyList());
             latest.setMetadataBlocks(Collections.singletonMap("citation", citation));
             var r2 = client.dataset(persistentId).updateMetadata(latest);
