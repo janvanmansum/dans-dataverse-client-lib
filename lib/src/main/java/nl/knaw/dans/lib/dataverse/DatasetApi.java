@@ -77,8 +77,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Retrieves that latest version of a dataset. The difference with {@link #getLatestVersion()} is that the latter returns a different type
-     * of object. It is not clear why these variants exist.
+     * Retrieves that latest version of a dataset. The difference with {@link #getLatestVersion()} is that the latter returns a different type of object. It is not clear why these variants exist.
      *
      * @return object containing the dataset version metadata
      * @throws IOException        if an I/O exception occurs
@@ -115,10 +114,10 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
+     * @param version version to get file metadata from
      * @return a list of file metas
      * @throws IOException        if an I/O exception occurs
      * @throws DataverseException if Dataverse could not handle the request
-     * @param version version to get file metadata from
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<FileMeta>> getFiles(String version) throws IOException, DataverseException {
@@ -154,8 +153,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
-     * multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      *
      * @param s JSON document containing the edits to perform
      * @return DatasetVersion
@@ -168,8 +166,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
-     * multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      *
      * @param s       JSON document containing the edits to perform
      * @param replace whether to replace existing values
@@ -191,8 +188,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
-     * multiple values.
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      *
      * @param fields  list of fields to edit
      * @param replace whether to replace existing values
@@ -226,7 +222,7 @@ public class DatasetApi extends AbstractTargetedApi {
 
     /**
      * @param metadata JSON document describing the metadata
-     * @param replace replace existing metadata
+     * @param replace  replace existing metadata
      * @return a generic DataverseHttpResponse
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -250,20 +246,19 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * @param metadataBlocks map of metadata block name to metadata block
+     * Note that not all the attributes of the DatasetVersion object are writable. Dataverse may ignore some (e.g., license) or return an error if some are filled in (e.g., files).
+     * However, for a few attributes, such as fileAccessRequest and termsOfAccess, it is necessary to pass the whole version object instead of only
+     * the metadata blocks (as is done in the example of the API documentation).
+     *
+     * @param version a version object containing the new metadata
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<DatasetVersion> updateMetadata(Map<String, MetadataBlock> metadataBlocks) throws IOException, DataverseException {
-        return updateMetadata(httpClientWrapper.writeValueAsString(singletonMap("metadataBlocks", metadataBlocks)));
-    }
-
     public DataverseHttpResponse<DatasetVersion> updateMetadata(DatasetVersion version) throws IOException, DataverseException {
         return updateMetadata(httpClientWrapper.writeValueAsString(version));
     }
-
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
 
@@ -444,10 +439,8 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Utility function that lets you wait until all locks are cleared before proceeding. Unlike most other functions in this library, this does not correspond directly with an API
-     * call. Rather the
-     * {@link #getLocks()} call is done repeatedly to check if the locks have been cleared. Note that in scenarios where concurrent processes might access the same dataset it is
-     * not guaranteed that
+     * Utility function that lets you wait until all locks are cleared before proceeding. Unlike most other functions in this library, this does not correspond directly with an API call. Rather the
+     * {@link #getLocks()} call is done repeatedly to check if the locks have been cleared. Note that in scenarios where concurrent processes might access the same dataset it is not guaranteed that
      * the locks, once cleared, stay that way.
      *
      * @param maxNumberOfRetries     the maximum number the check for unlock is made, defaults to [[awaitLockStateMaxNumberOfRetries]]
@@ -471,11 +464,9 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Utility function that lets you wait until a specified lock type is set. Unlike most other functions in this library, this does not correspond directly with an API call.
-     * Rather the {@link
-     * #getLocks()} call is done repeatedly to check if the locks has been set. A use case is when an http/sr workflow wants to make sure that a dataset has been locked on its
-     * behalf, so that it can
-     * be sure to have exclusive access via its invocation ID.
+     * Utility function that lets you wait until a specified lock type is set. Unlike most other functions in this library, this does not correspond directly with an API call. Rather the
+     * {@link #getLocks()} call is done repeatedly to check if the locks has been set. A use case is when an http/sr workflow wants to make sure that a dataset has been locked on its behalf, so that
+     * it can be sure to have exclusive access via its invocation ID.
      *
      * @param lockType               the lock type to wait for
      * @param maxNumberOfRetries     the maximum number the check for unlock is made, defaults to #awawaitLockStateMaxNumberOfRetries
@@ -520,8 +511,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Helper function that waits until the specified lockState function returns `true`, or throws a LockException if this never occurs within `maxNumberOrRetries` with
-     * `waitTimeInMilliseconds`
+     * Helper function that waits until the specified lockState function returns `true`, or throws a LockException if this never occurs within `maxNumberOrRetries` with `waitTimeInMilliseconds`
      * pauses.
      *
      * @param lockState              the function that returns whether the required state has been reached
