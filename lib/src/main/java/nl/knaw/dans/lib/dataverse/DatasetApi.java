@@ -40,10 +40,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
@@ -57,7 +55,7 @@ import static java.util.Collections.singletonMap;
 public class DatasetApi extends AbstractTargetedApi {
 
     private static final Logger log = LoggerFactory.getLogger(DatasetApi.class);
-
+    
     protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         this(httpClientWrapper, id, isPersistentId, null);
     }
@@ -162,7 +160,21 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(String s) throws IOException, DataverseException {
-        return editMetadata(s, true);
+        return editMetadata(s, true, emptyMap());
+    }
+
+    /**
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     *
+     * @param s            JSON document containing the edits to perform
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetVersion> editMetadata(String s, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        return editMetadata(s, true, metadataKeys);
     }
 
     /**
@@ -177,7 +189,25 @@ public class DatasetApi extends AbstractTargetedApi {
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(String s, Boolean replace) throws IOException, DataverseException {
         log.trace("ENTER");
-        HashMap<String, List<String>> queryParams = new HashMap<>();
+        return editMetadata(s, replace, emptyMap());
+    }
+
+    /**
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
+     * multiple values. 
+     * Whenever there are metadata field from a block that is protected by a 'key', the corresponding keys must be provided. 
+     *
+     * @param s       JSON document containing the edits to perform
+     * @param replace whether to replace existing values
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetVersion> editMetadata(String s, Boolean replace, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        log.trace("ENTER");
+        Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
         if (replace)
             /*
              * Sic! any value for "replace" is interpreted by Dataverse as "true", even "replace=false"
@@ -198,7 +228,22 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(FieldList fields, Boolean replace) throws IOException, DataverseException {
-        return editMetadata(httpClientWrapper.writeValueAsString(fields), replace);
+        return editMetadata(fields, replace, emptyMap());
+    }
+
+    /**
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     *
+     * @param fields       list of fields to edit
+     * @param replace      whether to replace existing values
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetVersion> editMetadata(FieldList fields, Boolean replace, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        return editMetadata(httpClientWrapper.writeValueAsString(fields), replace, metadataKeys);
     }
 
     /**
@@ -211,7 +256,21 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(FieldList fields) throws IOException, DataverseException {
-        return editMetadata(httpClientWrapper.writeValueAsString(fields), true);
+        return editMetadata(fields, true, emptyMap());
+    }
+
+    /**
+     * Edits the current draft's metadata, adding the fields that do not exist yet.
+     *
+     * @param fields       list of fields to edit
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetVersion> editMetadata(FieldList fields, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        return editMetadata(fields, true, metadataKeys);
     }
 
     // TODO https://guides.dataverse.org/en/latest/api/native-api.html#export-metadata-of-a-dataset-in-various-formats
@@ -229,7 +288,21 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/developers/dataset-semantic-metadata-api.html#add-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<Object> updateMetadataFromJsonLd(String metadata, boolean replace) throws IOException, DataverseException {
-        Map<String, List<String>> queryParams = singletonMap("replace", singletonList((String.valueOf(replace))));
+        return updateMetadataFromJsonLd(metadata, replace, emptyMap());
+    }
+
+    /**
+     * @param metadata     JSON document describing the metadata
+     * @param replace      replace existing metadata
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
+     * @return a generic DataverseResponse
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/developers/dataset-semantic-metadata-api.html#add-dataset-metadata" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<Object> updateMetadataFromJsonLd(String metadata, boolean replace, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
+        queryParams.put("replace", singletonList((String.valueOf(replace))));
         return httpClientWrapper.putJsonLdString(subPath("metadata"), metadata, params(queryParams), extraHeaders, RoleAssignmentReadOnly.class);
     }
 
@@ -241,8 +314,21 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> updateMetadata(String s) throws IOException, DataverseException {
+        return updateMetadata(s, emptyMap());
+    }
+
+    /**
+     * @param s JSON document containing the new metadata
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
+     * @return DatasetVersion
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetVersion> updateMetadata(String s, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
         // Cheating with endPoint here, because the only version that can be updated is :draft anyway
-        return putToTarget("versions/:draft", s, emptyMap(), DatasetVersion.class);
+        return putToTarget("versions/:draft", s, queryParams, DatasetVersion.class);
     }
 
     /**
@@ -257,7 +343,19 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> updateMetadata(DatasetVersion version) throws IOException, DataverseException {
-        return updateMetadata(httpClientWrapper.writeValueAsString(version));
+        return updateMetadata(httpClientWrapper.writeValueAsString(version), emptyMap());
+    }
+
+    /**
+     * @param version a version object containing the new metadata
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
+     * @return DatasetVersion
+     * @throws IOException
+     * @throws DataverseException
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetVersion> updateMetadata(DatasetVersion version, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        return updateMetadata(httpClientWrapper.writeValueAsString(version), metadataKeys);
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-metadata
@@ -554,4 +652,5 @@ public class DatasetApi extends AbstractTargetedApi {
         if (!lockState.get(locks, lockType))
             throw new RuntimeException(String.format("%s. Number of tries = %d, wait time between tries = %d ms.", errorMessage, maxNumberOfRetries, waitTimeInMilliseconds));
     }
+    
 }

@@ -29,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 
 public class DatasetUpdateMetadata extends ExampleBase {
 
@@ -36,6 +37,12 @@ public class DatasetUpdateMetadata extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
+        var keyMap = new HashMap<String, String>();
+        if (args.length > 1) {
+            var mdKeyValue = args[1];
+            keyMap.put("citation", mdKeyValue);
+            System.out.println("Supplied citation metadata key: " + mdKeyValue );
+        }
 
         MetadataBlock citation = new MetadataBlock();
         citation.setDisplayName("Citation Metadata");
@@ -66,7 +73,7 @@ public class DatasetUpdateMetadata extends ExampleBase {
             latest.setTermsOfAccess("Some new terms. Pray I don't alter them any further.");
             latest.setFiles(Collections.emptyList());
             latest.setMetadataBlocks(Collections.singletonMap("citation", citation));
-            var r2 = client.dataset(persistentId).updateMetadata(latest);
+            var r2 = client.dataset(persistentId).updateMetadata(latest, keyMap);
             log.info("Response message: {}", r2.getEnvelopeAsJson().toPrettyString());
             log.info("Version number: {}", r2.getData().getVersionNumber());
         } catch (DataverseException e) {

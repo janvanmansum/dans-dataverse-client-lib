@@ -18,6 +18,10 @@ package nl.knaw.dans.lib.dataverse;
 import org.apache.commons.lang3.StringUtils;
 
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 abstract class AbstractApi {
 
@@ -35,5 +39,15 @@ abstract class AbstractApi {
             }
         }
         return p;
+    }
+
+    protected static final String MDKEY_PARAM_NAME_PREFIX = "mdkey.";
+
+    protected Map<String, List<String>> getQueryParamsFromMetadataKeys(Map<String, String> metadataKeys) {
+        return metadataKeys.entrySet().stream()
+                .collect(Collectors.toMap(
+                        e -> MDKEY_PARAM_NAME_PREFIX + e.getKey(),
+                        e -> Collections.singletonList(e.getValue())
+                ));
     }
 }

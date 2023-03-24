@@ -23,6 +23,8 @@ import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
+
 public class DatasetEditMetadata extends ExampleBase {
 
     private static final Logger log = LoggerFactory.getLogger(DatasetEditMetadata.class);
@@ -30,9 +32,17 @@ public class DatasetEditMetadata extends ExampleBase {
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
         String title = args[1];
+
+        var keyMap = new HashMap<String, String>();
+        if (args.length > 2) {
+            var mdKeyValue = args[2];
+            keyMap.put("citation", mdKeyValue);
+            System.out.println("Supplied citation metadata key: " + mdKeyValue );
+        }
+
         FieldList fieldList = new FieldList();
         fieldList.add(new PrimitiveSingleValueField("title", title));
-        DataverseResponse<DatasetVersion> r = client.dataset(persistentId).editMetadata(fieldList);
+        DataverseResponse<DatasetVersion> r = client.dataset(persistentId).editMetadata(fieldList, keyMap);
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         log.info("Version number: {}", r.getData().getVersionNumber());
     }

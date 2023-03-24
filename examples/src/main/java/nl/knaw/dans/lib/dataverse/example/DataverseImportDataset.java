@@ -18,24 +18,14 @@ package nl.knaw.dans.lib.dataverse.example;
 import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.dataset.ControlledMultiValueField;
-import nl.knaw.dans.lib.dataverse.model.dataset.Dataset;
-import nl.knaw.dans.lib.dataverse.model.dataset.DatasetCreationResult;
-import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
-import nl.knaw.dans.lib.dataverse.model.dataset.License;
-import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
-import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
-import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
+import nl.knaw.dans.lib.dataverse.model.dataset.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
-public class DataverseCreateDataset extends ExampleBase {
-    private static final Logger log = LoggerFactory.getLogger(DataverseCreateDataset.class);
+public class DataverseImportDataset extends ExampleBase {
+    private static final Logger log = LoggerFactory.getLogger(DataverseImportDataset.class);
 
     public static void main(String[] args) throws Exception {
         var keyMap = new HashMap<String, String>();
@@ -49,16 +39,16 @@ public class DataverseCreateDataset extends ExampleBase {
         citation.setName("citation");
         citation.setDisplayName("Citation Metadata");
 
-        MetadataField title = new PrimitiveSingleValueField("title", "Test dataset");
+        MetadataField title = new PrimitiveSingleValueField("title", "Test imported dataset");
         MetadataField description = new CompoundFieldBuilder("dsDescription", true)
-            .addSubfield("dsDescriptionValue", "Test description")
-            .addSubfield("dsDescriptionDate", "").build();
+                .addSubfield("dsDescriptionValue", "Test description")
+                .addSubfield("dsDescriptionDate", "").build();
         MetadataField author = new CompoundFieldBuilder("author", true)
-            .addSubfield("authorName", "A U Thor")
-            .addSubfield("authorAffiliation", "Walhalla").build();
+                .addSubfield("authorName", "P E Loki")
+                .addSubfield("authorAffiliation", "Walhalla").build();
         MetadataField contact = new CompoundFieldBuilder("datasetContact", true)
-            .addSubfield("datasetContactName", "Test Contact")
-            .addSubfield("datasetContactEmail", "test@example.com").build();
+                .addSubfield("datasetContactName", "Test Contact")
+                .addSubfield("datasetContactEmail", "test@example.com").build();
         MetadataField subjects = new ControlledMultiValueField("subject", Arrays.asList("Arts and Humanities", "Computer and Information Science"));
 
         citation.setFields(Arrays.asList(title, author, contact, description, subjects));
@@ -81,12 +71,11 @@ public class DataverseCreateDataset extends ExampleBase {
         log.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataset));
         log.info("--- END JSON OBJECT ---");
 
-        DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").createDataset(dataset, keyMap);
+        UUID uuid = UUID.randomUUID();
+        Optional<String> optDoi = Optional.of("doi:10.5072/EDDA-RAGNAROK/IMPORTTEST-" + uuid.toString());
+        DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").importDataset(dataset, 
+                optDoi, false, keyMap);
         log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
-        log.info("DOI: {}", r.getData().getPersistentId());
-
-        // termsOfAccess and fileAccessRequest are currently ignored by the create dataset API, as a work-around call updateMetadata
-        DataverseHttpResponse<DatasetVersion> r2 = client.dataset(r.getData().getPersistentId()).updateMetadata(version);
-        log.info("Status Line: {}", r2.getHttpResponse().getStatusLine());
     }
+
 }

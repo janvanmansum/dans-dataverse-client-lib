@@ -38,19 +38,28 @@ public class DatasetUpdateMetadataFromJsonLd extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
-        URI licenseUri = new URI(args[1]);
-
-        var licenseObject = Map.of("http://schema.org/license", licenseUri);
-        var jsonLd = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(licenseObject);
+        var fieldName = args[1];
+        var fieldValue = args[2];
+        // Maybe default fieldName to http://schema.org/license ?
+        var fieldObject = Map.of(fieldName, fieldValue);
+        var jsonLd = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(fieldObject);
 
         log.info("--- BEGIN JSON OBJECT ---");
         System.out.println(jsonLd);
         log.info("--- END JSON OBJECT ---");
 
+        var keyMap = new HashMap<String, String>();
+        if (args.length > 4) {
+            var mdBlockName = args[3];
+            var mdKeyValue = args[4];
+            keyMap.put(mdBlockName, mdKeyValue);
+            System.out.println("Supplied metadata key (name, value): (" + mdBlockName + ", " + mdKeyValue + ")" );
+        }
+
         try {
 
             DataverseResponse<Object> r = client.dataset(persistentId)
-                .updateMetadataFromJsonLd(jsonLd, true);
+                .updateMetadataFromJsonLd(jsonLd, true, keyMap);
             log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         }
         catch (DataverseException e) {

@@ -257,32 +257,108 @@ public class DataverseApi extends AbstractApi {
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(String dataset) throws IOException, DataverseException {
         log.trace("ENTER");
-        return httpClientWrapper.postJsonString(subPath.resolve("datasets"), dataset, Collections.emptyMap(), Collections.emptyMap(), DatasetCreationResult.class);
+        return createDataset(dataset, Collections.emptyMap());
     }
 
-    /* https://guides.dataverse.org/en/latest/api/native-api.html#create-a-dataset-in-a-dataverse-collection
+    /**
+     * @param dataset JSON string defining the dataset to create
+     * @param metadataKeys  the HashMap maps the names of the metadata blocks to their 'secret' key values
+     * @return a creation result message
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#create-a-dataset-in-a-dataverse-collection" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetCreationResult> createDataset(String dataset, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        log.trace("ENTER");
+        Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
+        return httpClientWrapper.postJsonString(subPath.resolve("datasets"), dataset, queryParams, Collections.emptyMap(), DatasetCreationResult.class);
+    }
+
+    /**
+     * @param dataset the dataset to create
+     * @return a creation result message
+     * @throws IOException
+     * @throws DataverseException
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#create-a-dataset-in-a-dataverse-collection">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(Dataset dataset) throws IOException, DataverseException {
         log.trace("ENTER");
-        return createDataset(httpClientWrapper.writeValueAsString(dataset));
+        return createDataset(httpClientWrapper.writeValueAsString(dataset), Collections.emptyMap());
     }
 
-    /* https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection
+    /**
+     * @param dataset the dataset to create
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
+     * @return a creation result message
+     * @throws IOException
+     * @throws DataverseException
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#create-a-dataset-in-a-dataverse-collection">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<DatasetCreationResult> importDataset() throws IOException, DataverseException {
+    public DataverseHttpResponse<DatasetCreationResult> createDataset(Dataset dataset, Map<String, String> metadataKeys) throws IOException, DataverseException {
         log.trace("ENTER");
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return createDataset(httpClientWrapper.writeValueAsString(dataset), metadataKeys);
     }
 
+    /**
+     * @param dataset the dataset to import
+     * @param optPersistentId existing persistent identifier (PID)
+     * @param autoPublish immediately publish the dataset
+     * @return an import result message
+     * @throws IOException
+     * @throws DataverseException
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
+     */
     public DataverseHttpResponse<DatasetCreationResult> importDataset(Dataset dataset, Optional<String> optPersistentId, boolean autoPublish) throws IOException, DataverseException {
-        return importDataset(httpClientWrapper.writeValueAsString(dataset), optPersistentId, autoPublish);
+        log.trace("ENTER");
+        return importDataset(httpClientWrapper.writeValueAsString(dataset), optPersistentId, autoPublish, emptyMap());
     }
 
+    /**
+     * @param dataset the dataset to import
+     * @param optPersistentId existing persistent identifier (PID)
+     * @param autoPublish immediately publish the dataset
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
+     * @return an import result message
+     * @throws IOException
+     * @throws DataverseException
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetCreationResult> importDataset(Dataset dataset, Optional<String> optPersistentId, boolean autoPublish, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        log.trace("ENTER");
+        return importDataset(httpClientWrapper.writeValueAsString(dataset), optPersistentId, autoPublish, metadataKeys);
+    }
+
+    /**
+     * @param dataset JSON string defining the dataset to import
+     * @param optPersistentId existing persistent identifier (PID)
+     * @param autoPublish immediately publish the dataset
+     * @return an import result message
+     * @throws IOException
+     * @throws DataverseException
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
+     */
     public DataverseHttpResponse<DatasetCreationResult> importDataset(String dataset, Optional<String> optPersistentId, boolean autoPublish)
         throws IOException, DataverseException {
         log.trace("ENTER");
-        Map<String, List<String>> parameters = new HashMap<>();
+
+        return importDataset( dataset, optPersistentId, autoPublish, emptyMap());
+    }
+
+    /**
+     * @param dataset JSON string defining the dataset to import
+     * @param optPersistentId existing persistent identifier (PID)
+     * @param autoPublish immediately publish the dataset
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
+     * @return an import result message
+     * @throws IOException
+     * @throws DataverseException
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DatasetCreationResult> importDataset(String dataset, Optional<String> optPersistentId, boolean autoPublish, Map<String, String> metadataKeys) 
+            throws IOException, DataverseException {
+        log.trace("ENTER");
+        Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
+        Map<String, List<String>> parameters = new HashMap<>(queryParams);
         optPersistentId.ifPresent(pid -> parameters.put("release", singletonList("" + autoPublish)));
         optPersistentId.ifPresent(pid -> parameters.put("pid", singletonList(pid)));
         return httpClientWrapper.postJsonString(subPath.resolve("datasets/:import"), dataset, parameters, emptyMap(), DatasetCreationResult.class);
