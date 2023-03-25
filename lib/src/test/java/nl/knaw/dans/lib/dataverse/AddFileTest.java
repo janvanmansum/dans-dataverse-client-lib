@@ -18,7 +18,6 @@ package nl.knaw.dans.lib.dataverse;
 import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope;
 import nl.knaw.dans.lib.dataverse.model.ModelFixture;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
-import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
