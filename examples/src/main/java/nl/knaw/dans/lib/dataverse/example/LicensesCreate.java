@@ -17,10 +17,7 @@ package nl.knaw.dans.lib.dataverse.example;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.license.CreateLicense;
 import nl.knaw.dans.lib.dataverse.model.license.License;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.UUID;
 
@@ -29,11 +26,10 @@ public class LicensesCreate extends ExampleBase {
     public static void main(String[] args) throws Exception {
         log.info("--- BEGIN JSON OBJECT ---");
         var id = UUID.randomUUID().toString();
-        var license = CreateLicense.builder()
-            .name("some name - " + id)
-            .uri("https://dans.knaw.nl/license/" + id)
-            .shortDescription("Dans license")
-            .build();
+        var license = new License();
+        license.setName("some name - " + id);
+        license.setUri("https://dans.knaw.nl/license/" + id);
+        license.setShortDescription("Dans license");
 
         var response = client.license().addLicense(license);
         log.info("--- END JSON OBJECT ---");

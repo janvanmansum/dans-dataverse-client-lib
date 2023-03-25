@@ -43,8 +43,8 @@ public class AdminApi extends AbstractApi {
     /**
      * @param id username
      * @return the user
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-single-user" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<AuthenticatedUser> listSingleUser(String id) throws IOException, DataverseException {
@@ -56,8 +56,8 @@ public class AdminApi extends AbstractApi {
      * @param key   the settings key
      * @param value the new value
      * @return the result
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/installation/config.html#database-settings" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<Map<String, String>> putDatabaseSetting(String key, String value) throws IOException, DataverseException {
@@ -68,8 +68,8 @@ public class AdminApi extends AbstractApi {
     /**
      * @param key the settings key
      * @return the result
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/installation/config.html#database-settings" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DataMessage> getDatabaseSetting(String key) throws IOException, DataverseException {

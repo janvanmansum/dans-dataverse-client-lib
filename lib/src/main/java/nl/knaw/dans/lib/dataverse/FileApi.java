@@ -48,6 +48,14 @@ public class FileApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#getting-file-metadata
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#adding-file-metadata
 
+    /**
+     * @param dataFile the data file
+     * @param fileMeta json containing file metadata
+     * @return a file list
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#replacing-files" target="_blank">Dataverse documentation</a>
+     */
     public DataverseHttpResponse<FileList> replaceFile(Path dataFile, FileMeta fileMeta) throws IOException, DataverseException {
         return replaceFile(dataFile, httpClientWrapper.writeValueAsString(fileMeta));
     }
