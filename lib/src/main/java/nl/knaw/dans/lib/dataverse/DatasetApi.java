@@ -424,24 +424,6 @@ public class DatasetApi extends AbstractTargetedApi {
         return addFile(file, httpClientWrapper.writeValueAsString(fileMeta));
     }
 
-    /**
-     * @param optDataFile     content of the file
-     * @param optFileMetadata metadata of the file
-     * @return a file list
-     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-     * @throws DataverseException when Dataverse fails to perform the request
-     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset" target="_blank">Dataverse documentation</a>
-     *
-     * At least one of the parameters should be provided.
-     */
-    public DataverseHttpResponse<FileList> addFileItem(Optional<File> optDataFile, Optional<String> optFileMetadata) throws IOException, DataverseException {
-        if (!optDataFile.isPresent() && !optFileMetadata.isPresent())
-            throw new IllegalArgumentException("At least one of file data and file metadata must be provided.");
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        optDataFile.ifPresent(f -> builder.addPart("file", new FileBody(f, ContentType.APPLICATION_OCTET_STREAM, f.getName())));
-        optFileMetadata.ifPresent(m -> builder.addPart("jsonData", new StringBody(m, ContentType.APPLICATION_JSON)));
-        return httpClientWrapper.post(subPath("add"), builder.build(), params(emptyMap()), new HashMap<>(), FileList.class);
-    }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#report-the-data-file-size-of-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-size-of-downloading-all-the-files-of-a-dataset-version

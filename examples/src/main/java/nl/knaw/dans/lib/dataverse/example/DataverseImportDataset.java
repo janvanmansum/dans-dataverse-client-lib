@@ -19,11 +19,18 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.dataset.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.knaw.dans.lib.dataverse.model.dataset.ControlledMultiValueField;
+import nl.knaw.dans.lib.dataverse.model.dataset.Dataset;
+import nl.knaw.dans.lib.dataverse.model.dataset.DatasetCreationResult;
+import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
+import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
+import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
+import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.UUID;
 
 @Slf4j
 public class DataverseImportDataset extends ExampleBase {
@@ -72,9 +79,9 @@ public class DataverseImportDataset extends ExampleBase {
         log.info("--- END JSON OBJECT ---");
 
         UUID uuid = UUID.randomUUID();
-        Optional<String> optDoi = Optional.of("doi:10.5072/EDDA-RAGNAROK/IMPORTTEST-" + uuid.toString());
+        var doi = String.format("doi:10.5072/EDDA-RAGNAROK/IMPORTTEST-%s", uuid);
         DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").importDataset(dataset,
-            optDoi, false, keyMap);
+            doi, false, keyMap);
         log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
     }
 

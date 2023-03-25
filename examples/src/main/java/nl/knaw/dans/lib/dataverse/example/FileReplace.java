@@ -20,13 +20,9 @@ import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import javax.swing.text.html.Option;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 @Slf4j
 public class FileReplace extends ExampleBase {
@@ -37,9 +33,8 @@ public class FileReplace extends ExampleBase {
 
         var meta = new FileMeta();
         meta.setLabel("New_label");
-        var metaStr = mapper.writeValueAsString(meta);
 
-        DataverseResponse<FileList> r = client.file(databaseId).replaceFileItem(Optional.of(newFile.toFile()), Optional.of(metaStr));
+        DataverseResponse<FileList> r = client.file(databaseId).replaceFile(newFile, meta);
         log.info("Response message: {}", r.getEnvelopeAsString());
     }
 }
