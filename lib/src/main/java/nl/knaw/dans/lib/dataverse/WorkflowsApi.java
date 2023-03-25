@@ -15,12 +15,14 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.workflow.ResumeMessage;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class WorkflowsApi extends AbstractApi {
 
     private static final Path subPath = Paths.get("api/workflows/");

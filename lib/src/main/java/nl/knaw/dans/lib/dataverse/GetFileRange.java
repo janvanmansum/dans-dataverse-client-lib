@@ -15,22 +15,17 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.Getter;
+
+@Getter
 public class GetFileRange {
-    private long start;
-    private long end;
+    private final long start;
+    private final long end;
 
     public GetFileRange(long start, long end) {
         if (start >= end)
             throw new IllegalArgumentException("Start must be greater than end");
         this.start = start;
         this.end = end;
-    }
-
-    public long getStart() {
-        return start;
-    }
-
-    public long getEnd() {
-        return end;
     }
 }

@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.SearchResult;
 
@@ -29,6 +30,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class SearchApi extends AbstractApi {
     private final Path subPath = Paths.get("api", "search");
 

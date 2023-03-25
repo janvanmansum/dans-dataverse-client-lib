@@ -17,9 +17,15 @@ package nl.knaw.dans.lib.dataverse.example;
 
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
+import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.swing.text.html.Option;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Optional;
 
 public class FileReplace extends ExampleBase {
 
@@ -27,13 +33,13 @@ public class FileReplace extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         int databaseId = Integer.parseInt(args[0]);
-        String newName = args[1];
-        String newDir = args[2];
-        FileMeta meta = new FileMeta();
-        meta.setLabel(newName);
-        meta.setDirectoryLabel(newDir);
+        Path newFile = Paths.get(args[1]);
 
-        DataverseResponse<String> r = client.file(databaseId).updateMetadata(mapper.writeValueAsString(meta));
+        var meta = new FileMeta();
+        meta.setLabel("New_label");
+        var metaStr = mapper.writeValueAsString(meta);
+
+        DataverseResponse<FileList> r = client.file(databaseId).replaceFileItem(Optional.of(newFile.toFile()), Optional.of(metaStr));
         log.info("Response message: {}", r.getEnvelopeAsString());
     }
 }

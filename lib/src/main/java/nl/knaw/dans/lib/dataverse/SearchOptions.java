@@ -15,16 +15,18 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.search.SearchItemType;
 
 import java.util.List;
 
 /**
- * Options for searching, such as further narrowing down the result, what to include in the result items and which part of the result to return, and in what order. See [Dataverse API Guide] for
- * details.
+ * Options for searching, such as further narrowing down the result, what to include in the result items and which part of the result to return, and in what order.
  *
- * [Dataverse API Guide]: https://guides.dataverse.org/en/latest/api/search.html#parameters
+ * @see <a href="https://guides.dataverse.org/en/latest/api/search.html#parameters" target="_blank">Dataverse documentation</a>
  */
+@Data
 public class SearchOptions {
     public enum Order {
         asc,
@@ -57,83 +59,4 @@ public class SearchOptions {
         return copy;
     }
 
-    public List<SearchItemType> getTypes() {
-        return types;
-    }
-
-    public void setTypes(List<SearchItemType> types) {
-        this.types = types;
-    }
-
-    public List<String> getFilterQueries() {
-        return filterQueries;
-    }
-
-    public void setFilterQueries(List<String> filterQueries) {
-        this.filterQueries = filterQueries;
-    }
-
-    public List<String> getSubTrees() {
-        return subTrees;
-    }
-
-    public void setSubTrees(List<String> subTrees) {
-        this.subTrees = subTrees;
-    }
-
-    public String getSortField() {
-        return sortField;
-    }
-
-    public void setSortField(String sortField) {
-        this.sortField = sortField;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public int getPerPage() {
-        return perPage;
-    }
-
-    public void setPerPage(int perPage) {
-        this.perPage = perPage;
-    }
-
-    public int getStart() {
-        return start;
-    }
-
-    public void setStart(int start) {
-        this.start = start;
-    }
-
-    public boolean isShowRelevance() {
-        return showRelevance;
-    }
-
-    public void setShowRelevance(boolean showRelevance) {
-        this.showRelevance = showRelevance;
-    }
-
-    public boolean isShowFacets() {
-        return showFacets;
-    }
-
-    public void setShowFacets(boolean showFacets) {
-        this.showFacets = showFacets;
-    }
-
-    public boolean isShowEntityIds() {
-        return showEntityIds;
-    }
-
-    public void setShowEntityIds(boolean showEntityIds) {
-        this.showEntityIds = showEntityIds;
-    }
 }

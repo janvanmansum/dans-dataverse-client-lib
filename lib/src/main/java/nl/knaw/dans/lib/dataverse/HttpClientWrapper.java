@@ -17,6 +17,7 @@ package nl.knaw.dans.lib.dataverse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -50,13 +51,11 @@ import static org.apache.commons.codec.binary.Base64.encodeBase64String;
 import static org.apache.http.HttpHeaders.AUTHORIZATION;
 
 /**
- * Helper class that wraps an HttpClient, the configuration data and a Jackson object mapper. It implements generic methods for sending HTTP requests to the server and
- * deserializing the responses
+ * Helper class that wraps an HttpClient, the configuration data and a Jackson object mapper. It implements generic methods for sending HTTP requests to the server and deserializing the responses
  * received.
  */
+@Slf4j
 class HttpClientWrapper implements MediaTypes {
-    private static final Logger log = LoggerFactory.getLogger(HttpClientWrapper.class);
-
     private static final String HEADER_X_DATAVERSE_KEY = "X-Dataverse-key";
     private static final String UNBLOCK_KEY = "unblock-key";
 

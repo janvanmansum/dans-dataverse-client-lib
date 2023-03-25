@@ -15,6 +15,8 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.http.entity.ContentType;
@@ -35,9 +37,8 @@ import java.util.Optional;
 
 import static java.util.Collections.emptyMap;
 
+@Slf4j
 public class FileApi extends AbstractTargetedApi {
-
-    private static final Logger logger = LoggerFactory.getLogger(DatasetApi.class);
 
     protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/v1/files/"));
@@ -64,7 +65,7 @@ public class FileApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#replacing-files" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<FileList> replaceFileItem(Optional<File> optDataFile, Optional<String> optFileMetadata) throws IOException, DataverseException {
-        logger.trace("{} {}", optDataFile, optFileMetadata);
+        log.trace("{} {}", optDataFile, optFileMetadata);
         if (!optDataFile.isPresent() && !optFileMetadata.isPresent())
             throw new IllegalArgumentException("At least one of file data and file metadata must be provided.");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();

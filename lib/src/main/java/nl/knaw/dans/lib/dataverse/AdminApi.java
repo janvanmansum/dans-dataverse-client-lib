@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
 import org.slf4j.Logger;
@@ -31,9 +32,9 @@ import java.util.Map;
  *
  * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#admin" target="_blank">Dataverse documentation</a>
  */
+@Slf4j
 public class AdminApi extends AbstractApi {
 
-    private static final Logger log = LoggerFactory.getLogger(AdminApi.class);
     private final Path targetBase;
 
     protected AdminApi(HttpClientWrapper httpClientWrapper) {

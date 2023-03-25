@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.file.Checksum;
 import nl.knaw.dans.lib.dataverse.model.search.Contact;
 import nl.knaw.dans.lib.dataverse.model.search.DatasetResultItem;
@@ -34,6 +35,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class ResultItemDeserializer extends StdDeserializer {
     private ObjectMapper mapper;
 

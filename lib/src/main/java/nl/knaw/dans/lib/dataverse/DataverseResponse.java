@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +31,9 @@ import java.io.IOException;
  *
  * @param <D> the type of the data of the response message envelope, one of the classes in {@link nl.knaw.dans.lib.dataverse.model}
  */
+
+@Slf4j
 public class DataverseResponse<D> {
-    private static final Logger log = LoggerFactory.getLogger(DataverseResponse.class);
     private final ObjectMapper mapper;
 
     private final String bodyText;

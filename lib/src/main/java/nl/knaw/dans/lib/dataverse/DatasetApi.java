@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.Lock;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
@@ -25,7 +26,6 @@ import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.Embargo;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
-import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.dataset.UpdateType;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
@@ -40,8 +40,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
@@ -52,10 +54,9 @@ import static java.util.Collections.singletonMap;
  *
  * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#datasets" target="_blank">Dataverse documentation</a>
  */
+@Slf4j
 public class DatasetApi extends AbstractTargetedApi {
 
-    private static final Logger log = LoggerFactory.getLogger(DatasetApi.class);
-    
     protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         this(httpClientWrapper, id, isPersistentId, null);
     }
@@ -167,7 +168,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      *
      * @param s            JSON document containing the edits to perform
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -193,13 +194,12 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
-     * multiple values. 
-     * Whenever there are metadata field from a block that is protected by a 'key', the corresponding keys must be provided. 
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     * Whenever there are metadata field from a block that is protected by a 'key', the corresponding keys must be provided.
      *
-     * @param s       JSON document containing the edits to perform
-     * @param replace whether to replace existing values
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param s            JSON document containing the edits to perform
+     * @param replace      whether to replace existing values
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -236,7 +236,7 @@ public class DatasetApi extends AbstractTargetedApi {
      *
      * @param fields       list of fields to edit
      * @param replace      whether to replace existing values
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -263,7 +263,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * Edits the current draft's metadata, adding the fields that do not exist yet.
      *
      * @param fields       list of fields to edit
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -318,7 +318,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * @param s JSON document containing the new metadata
+     * @param s            JSON document containing the new metadata
      * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
@@ -332,9 +332,9 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Note that not all the attributes of the DatasetVersion object are writable. Dataverse may ignore some (e.g., license) or return an error if some are filled in (e.g., files).
-     * However, for a few attributes, such as fileAccessRequest and termsOfAccess, it is necessary to pass the whole version object instead of only
-     * the metadata blocks (as is done in the example of the API documentation).
+     * Note that not all the attributes of the DatasetVersion object are writable. Dataverse may ignore some (e.g., license) or return an error if some are filled in (e.g., files). However, for a few
+     * attributes, such as fileAccessRequest and termsOfAccess, it is necessary to pass the whole version object instead of only the metadata blocks (as is done in the example of the API
+     * documentation).
      *
      * @param version a version object containing the new metadata
      * @return DatasetVersion
@@ -347,7 +347,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * @param version a version object containing the new metadata
+     * @param version      a version object containing the new metadata
      * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return DatasetVersion
      * @throws IOException
@@ -652,5 +652,5 @@ public class DatasetApi extends AbstractTargetedApi {
         if (!lockState.get(locks, lockType))
             throw new RuntimeException(String.format("%s. Number of tries = %d, wait time between tries = %d ms.", errorMessage, maxNumberOfRetries, waitTimeInMilliseconds));
     }
-    
+
 }
