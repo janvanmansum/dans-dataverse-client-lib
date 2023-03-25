@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
 import nl.knaw.dans.lib.dataverse.DataverseException;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
@@ -31,9 +32,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
+@Slf4j
 public class DatasetUpdateMetadata extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(DatasetUpdateMetadata.class);
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
@@ -41,7 +41,7 @@ public class DatasetUpdateMetadata extends ExampleBase {
         if (args.length > 1) {
             var mdKeyValue = args[1];
             keyMap.put("citation", mdKeyValue);
-            System.out.println("Supplied citation metadata key: " + mdKeyValue );
+            System.out.println("Supplied citation metadata key: " + mdKeyValue);
         }
 
         MetadataBlock citation = new MetadataBlock();
@@ -76,7 +76,8 @@ public class DatasetUpdateMetadata extends ExampleBase {
             var r2 = client.dataset(persistentId).updateMetadata(latest, keyMap);
             log.info("Response message: {}", r2.getEnvelopeAsJson().toPrettyString());
             log.info("Version number: {}", r2.getData().getVersionNumber());
-        } catch (DataverseException e) {
+        }
+        catch (DataverseException e) {
             System.out.println(e.getMessage());
         }
     }

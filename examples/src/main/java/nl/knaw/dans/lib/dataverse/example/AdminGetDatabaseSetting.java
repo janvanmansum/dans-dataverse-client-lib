@@ -15,15 +15,15 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class AdminGetDatabaseSetting extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(AdminGetDatabaseSetting.class);
 
     public static void main(String[] args) throws Exception {
         String key = args[0];

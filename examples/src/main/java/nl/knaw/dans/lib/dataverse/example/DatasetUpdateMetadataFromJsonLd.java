@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
 import nl.knaw.dans.lib.dataverse.DataverseException;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
@@ -32,9 +33,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class DatasetUpdateMetadataFromJsonLd extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(DatasetUpdateMetadataFromJsonLd.class);
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];

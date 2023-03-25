@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
@@ -24,15 +25,14 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+@Slf4j
 public class DataverseImportDataset extends ExampleBase {
-    private static final Logger log = LoggerFactory.getLogger(DataverseImportDataset.class);
-
     public static void main(String[] args) throws Exception {
         var keyMap = new HashMap<String, String>();
         if (args.length > 0) {
             var mdKeyValue = args[0];
             keyMap.put("citation", mdKeyValue);
-            System.out.println("Supplied citation metadata key: " + mdKeyValue );
+            System.out.println("Supplied citation metadata key: " + mdKeyValue);
         }
 
         MetadataBlock citation = new MetadataBlock();
@@ -41,14 +41,14 @@ public class DataverseImportDataset extends ExampleBase {
 
         MetadataField title = new PrimitiveSingleValueField("title", "Test imported dataset");
         MetadataField description = new CompoundFieldBuilder("dsDescription", true)
-                .addSubfield("dsDescriptionValue", "Test description")
-                .addSubfield("dsDescriptionDate", "").build();
+            .addSubfield("dsDescriptionValue", "Test description")
+            .addSubfield("dsDescriptionDate", "").build();
         MetadataField author = new CompoundFieldBuilder("author", true)
-                .addSubfield("authorName", "P E Loki")
-                .addSubfield("authorAffiliation", "Walhalla").build();
+            .addSubfield("authorName", "P E Loki")
+            .addSubfield("authorAffiliation", "Walhalla").build();
         MetadataField contact = new CompoundFieldBuilder("datasetContact", true)
-                .addSubfield("datasetContactName", "Test Contact")
-                .addSubfield("datasetContactEmail", "test@example.com").build();
+            .addSubfield("datasetContactName", "Test Contact")
+            .addSubfield("datasetContactEmail", "test@example.com").build();
         MetadataField subjects = new ControlledMultiValueField("subject", Arrays.asList("Arts and Humanities", "Computer and Information Science"));
 
         citation.setFields(Arrays.asList(title, author, contact, description, subjects));
@@ -73,8 +73,8 @@ public class DataverseImportDataset extends ExampleBase {
 
         UUID uuid = UUID.randomUUID();
         Optional<String> optDoi = Optional.of("doi:10.5072/EDDA-RAGNAROK/IMPORTTEST-" + uuid.toString());
-        DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").importDataset(dataset, 
-                optDoi, false, keyMap);
+        DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").importDataset(dataset,
+            optDoi, false, keyMap);
         log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
     }
 

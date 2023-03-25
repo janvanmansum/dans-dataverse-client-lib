@@ -15,15 +15,15 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Slf4j
 public class DatasetAwaitLock extends ExampleBase {
 
-    private static final Logger log = LoggerFactory.getLogger(DatasetAwaitLock.class);
-
-    /**
+    /*
      * The easiest way to test this manually is to create an InReview lock. Other locks will be released too quickly.
      *
      * 1. Create a dataset.

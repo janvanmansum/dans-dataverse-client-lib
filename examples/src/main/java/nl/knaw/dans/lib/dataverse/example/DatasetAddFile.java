@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
@@ -25,10 +26,8 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class DatasetAddFile extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(DatasetAddFile.class);
-
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
         Path file = Paths.get(args[1]);

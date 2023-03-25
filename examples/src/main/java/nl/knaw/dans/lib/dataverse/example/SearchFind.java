@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.SearchOptions;
@@ -31,9 +32,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class SearchFind extends ExampleBase {
-    private static final Logger log = LoggerFactory.getLogger(SearchFind.class);
-
     public static void main(String[] args) throws Exception {
         // Read command line
         String query = args[0];

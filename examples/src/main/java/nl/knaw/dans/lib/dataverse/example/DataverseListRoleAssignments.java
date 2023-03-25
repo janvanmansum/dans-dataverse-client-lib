@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignmentReadOnly;
@@ -23,9 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@Slf4j
 public class DataverseListRoleAssignments extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(DataverseListRoleAssignments.class);
 
     public static void main(String[] args) throws Exception {
         DataverseHttpResponse<List<RoleAssignmentReadOnly>> r = client.dataverse("root").listRoleAssignments();

@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.GetFileRange;
 import org.apache.commons.io.FileUtils;
@@ -25,9 +26,8 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class BasicFileAccessGetFile extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(BasicFileAccessGetFile.class);
 
     public static void main(String[] args) throws Exception {
         int id = Integer.parseInt(args[0]);

@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
@@ -27,9 +28,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+@Slf4j
 public class FileReplace extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(FileReplace.class);
 
     public static void main(String[] args) throws Exception {
         int databaseId = Integer.parseInt(args[0]);
