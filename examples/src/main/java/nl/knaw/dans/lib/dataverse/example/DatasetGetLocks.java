@@ -38,7 +38,7 @@ public class DatasetGetLocks extends ExampleBase {
         for (int i = 0; i < 300; i += 1) {
             DataverseResponse<List<Lock>> response = client.dataset(persistentId).getLocks();
             List<Lock> locks = response.getData();
-            log.trace(String.format("Locks: %s", locks));
+            log.debug(String.format("Locks: %s", locks));
             if (!locks.isEmpty())
                 log.info(String.format("Dataset is currently locked by: %s", locks));
             Thread.sleep(500);

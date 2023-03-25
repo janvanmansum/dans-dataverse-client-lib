@@ -16,7 +16,6 @@
 package nl.knaw.dans.lib.dataverse;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.search.SearchItemType;
 
 import java.util.List;

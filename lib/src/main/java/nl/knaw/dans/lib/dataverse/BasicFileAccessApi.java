@@ -40,7 +40,6 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/datafile"));
     }
 
-
     /**
      * @return a HttpResponse object
      * @throws IOException        when I/O problems occur during the interaction with Dataverse

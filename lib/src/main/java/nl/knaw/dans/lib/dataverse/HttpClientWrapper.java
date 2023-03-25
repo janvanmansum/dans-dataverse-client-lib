@@ -32,8 +32,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -67,14 +65,12 @@ class HttpClientWrapper implements MediaTypes {
     private boolean sendApiTokenViaBasicAuth = false;
 
     HttpClientWrapper(DataverseClientConfig config, HttpClient httpClient, ObjectMapper mapper) {
-        log.trace("ENTER");
         this.config = config;
         this.httpClient = httpClient;
         this.mapper = mapper;
     }
 
     public HttpClientWrapper sendApiTokenViaBasicAuth() {
-        log.trace("ENTER");
         HttpClientWrapper wrapper = new HttpClientWrapper(getConfig(), httpClient, mapper);
         wrapper.sendApiTokenViaBasicAuth = true;
         return wrapper;

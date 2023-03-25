@@ -17,8 +17,6 @@ package nl.knaw.dans.lib.dataverse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;

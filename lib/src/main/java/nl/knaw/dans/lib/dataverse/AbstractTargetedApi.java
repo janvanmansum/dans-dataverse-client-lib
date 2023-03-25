@@ -36,7 +36,6 @@ abstract class AbstractTargetedApi extends AbstractApi {
 
     protected final Map<String, String> extraHeaders = new HashMap<>();
 
-
     protected AbstractTargetedApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId, Path targetBase) {
         super(httpClientWrapper);
         this.id = id;

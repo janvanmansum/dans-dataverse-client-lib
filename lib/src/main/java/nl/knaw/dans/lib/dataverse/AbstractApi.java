@@ -47,9 +47,9 @@ abstract class AbstractApi {
 
     protected Map<String, List<String>> getQueryParamsFromMetadataKeys(Map<String, String> metadataKeys) {
         return metadataKeys.entrySet().stream()
-                .collect(Collectors.toMap(
-                        e -> MDKEY_PARAM_NAME_PREFIX + e.getKey(),
-                        e -> Collections.singletonList(e.getValue())
-                ));
+            .collect(Collectors.toMap(
+                e -> MDKEY_PARAM_NAME_PREFIX + e.getKey(),
+                e -> Collections.singletonList(e.getValue())
+            ));
     }
 }

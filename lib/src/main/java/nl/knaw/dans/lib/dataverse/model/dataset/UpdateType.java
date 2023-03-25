@@ -15,4 +15,4 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
-public enum UpdateType { major, minor}
+public enum UpdateType {major, minor}

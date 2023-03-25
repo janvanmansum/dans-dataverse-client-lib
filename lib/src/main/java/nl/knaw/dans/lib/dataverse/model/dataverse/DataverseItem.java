@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 public abstract class DataverseItem {
     private DataverseItemType type;
     private int id;
+
     public DataverseItem(DataverseItemType type) {
         this.type = type;
     }

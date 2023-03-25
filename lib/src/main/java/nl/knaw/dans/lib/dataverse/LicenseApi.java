@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.license.CreateLicense;
 import nl.knaw.dans.lib.dataverse.model.license.License;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -39,7 +37,6 @@ public class LicenseApi extends AbstractApi {
 
     protected LicenseApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
-        log.trace("ENTER");
         this.targetBase = Paths.get("api/licenses/");
     }
 

@@ -93,8 +93,7 @@ public class SearchApi extends AbstractApi {
     }
 
     /**
-     * Returns an iterator to all the results for the specified query and default options. The caller is responsible for calling the {@link ResultItem}s to the appropriate
-     * subclass.
+     * Returns an iterator to all the results for the specified query and default options. The caller is responsible for calling the {@link ResultItem}s to the appropriate subclass.
      *
      * @param query the query to execute
      * @return an iterator over the results

@@ -21,8 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -40,8 +38,6 @@ public class DataverseResponse<D> {
     private final JavaType dataType;
 
     protected DataverseResponse(String bodyText, ObjectMapper mapper, Class<?>... dataClass) {
-        log.trace("ENTER");
-        log.trace(bodyText);
         this.bodyText = bodyText;
         this.mapper = mapper;
         TypeFactory typeFactory = mapper.getTypeFactory();

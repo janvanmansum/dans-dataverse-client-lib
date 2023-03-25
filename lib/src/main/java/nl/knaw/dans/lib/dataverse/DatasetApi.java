@@ -33,8 +33,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -120,7 +118,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<FileMeta>> getFiles(String version) throws IOException, DataverseException {
-        log.trace("ENTER");
         return getVersionedFromTarget("files", version, List.class, FileMeta.class);
     }
 
@@ -139,7 +136,6 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     public DataverseHttpResponse<DataMessage> publish(UpdateType updateType, boolean assureIsIndexed) throws IOException, DataverseException {
-        log.trace("ENTER");
         HashMap<String, List<String>> parameters = new HashMap<>();
         parameters.put("assureIsIndexed", singletonList(String.valueOf(assureIsIndexed)));
         parameters.put("type", singletonList(updateType.toString()));
@@ -189,7 +185,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(String s, Boolean replace) throws IOException, DataverseException {
-        log.trace("ENTER");
         return editMetadata(s, replace, emptyMap());
     }
 
@@ -206,7 +201,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(String s, Boolean replace, Map<String, String> metadataKeys) throws IOException, DataverseException {
-        log.trace("ENTER");
         Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
         if (replace)
             /*
@@ -367,7 +361,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-draft" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DataMessage> deleteDraft() throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.delete(subPath("versions/:draft"), params(emptyMap()), DataMessage.class);
     }
 
@@ -381,7 +374,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-role-assignments-on-a-dataverse-api" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<RoleAssignmentReadOnly>> listRoleAssignments() throws IOException, DataverseException {
-        log.trace("ENTER");
         return getUnversionedFromTarget("assignments", List.class, RoleAssignmentReadOnly.class);
     }
 
@@ -443,7 +435,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * At least one of the parameters should be provided.
      */
     public DataverseHttpResponse<FileList> addFileItem(Optional<File> optDataFile, Optional<String> optFileMetadata) throws IOException, DataverseException {
-        log.trace("{} {}", optDataFile, optFileMetadata);
         if (!optDataFile.isPresent() && !optFileMetadata.isPresent())
             throw new IllegalArgumentException("At least one of file data and file metadata must be provided.");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -504,13 +495,11 @@ public class DatasetApi extends AbstractTargetedApi {
      * Helper methods
      */
     private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Class<?>... outputClass) throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.get(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass)
         throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.get(subPath(endPoint), params(queryParams), extraHeaders, outputClass);
     }
 
@@ -520,7 +509,6 @@ public class DatasetApi extends AbstractTargetedApi {
 
     private <D> DataverseHttpResponse<D> putToTarget(String endPoint, String body, Map<String, List<String>> queryParams, Class<?>... outputClass)
         throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.putJsonString(subPath(endPoint), body, params(queryParams), extraHeaders, outputClass);
     }
 
@@ -532,7 +520,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java">Code example</a>
      */
     public DataverseHttpResponse<List<Lock>> getLocks() throws IOException, DataverseException {
-        log.trace("getting locks from Dataverse");
         return getUnversionedFromTarget("locks", List.class, Lock.class);
     }
 
@@ -547,7 +534,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitUnlock(int maxNumberOfRetries, int waitTimeInMilliseconds) throws IOException, DataverseException {
-        log.trace(String.format("awaitUnlock: maxNumberOfRetries %d, waitTimeInMilliseconds %d", maxNumberOfRetries, waitTimeInMilliseconds));
         awaitLockState(this::notLocked, "", "Wait for unlock expired", maxNumberOfRetries, waitTimeInMilliseconds);
     }
 
@@ -573,7 +559,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitLock(String lockType, int maxNumberOfRetries, int waitTimeInMilliseconds) throws IOException, DataverseException {
-        log.trace(String.format("awaitLock: lockType %s, maxNumberOfRetries %d, waitTimeInMilliseconds %d", lockType, maxNumberOfRetries, waitTimeInMilliseconds));
         awaitLockState(this::isLocked, lockType, String.format("Wait for lock of type %s expired", lockType), maxNumberOfRetries, waitTimeInMilliseconds);
     }
 
