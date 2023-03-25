@@ -15,8 +15,9 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ControlledSingleValueFieldTest extends ModelDatasetMapperFixture {
     private static final Class<?> classUnderTest = ControlledSingleValueField.class;

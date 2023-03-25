@@ -15,41 +15,12 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.Data;
+
+@Data
 public class GetFileOptions {
     private String format;
     private boolean noVarHeader;
     private boolean imageThumb;
     private int imageThumbPixels = 64;
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public boolean isNoVarHeader() {
-        return noVarHeader;
-    }
-
-    public void setNoVarHeader(boolean noVarHeader) {
-        this.noVarHeader = noVarHeader;
-    }
-
-    public boolean isImageThumb() {
-        return imageThumb;
-    }
-
-    public void setImageThumb(boolean imageThumb) {
-        this.imageThumb = imageThumb;
-    }
-
-    public int getImageThumbPixels() {
-        return imageThumbPixels;
-    }
-
-    public void setImageThumbPixels(int imageThumbPixels) {
-        this.imageThumbPixels = imageThumbPixels;
-    }
 }

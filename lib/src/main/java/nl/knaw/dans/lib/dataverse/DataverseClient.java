@@ -17,22 +17,20 @@ package nl.knaw.dans.lib.dataverse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItem;
 import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 /**
  * Object that lets your code talk to a Dataverse server.
  */
+@Slf4j
 public class DataverseClient {
-    private static final Logger logger = LoggerFactory.getLogger(DataverseClient.class);
-
     private final HttpClientWrapper httpClientWrapper;
     private SearchApi searchApi;
 
@@ -66,9 +64,9 @@ public class DataverseClient {
     }
 
     public void checkConnection() throws IOException, DataverseException {
-        logger.debug("Checking if root dataverse can be reached...");
+        log.debug("Checking if root dataverse can be reached...");
         dataverse("root").view().getData();
-        logger.debug("OK: root dataverse is reachable.");
+        log.debug("OK: root dataverse is reachable.");
     }
 
     public WorkflowsApi workflows() {

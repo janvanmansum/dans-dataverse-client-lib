@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.SearchOptions;
 import nl.knaw.dans.lib.dataverse.model.search.DatasetResultItem;
@@ -30,9 +31,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 public class SearchIterator extends ExampleBase {
-    private static final Logger log = LoggerFactory.getLogger(SearchIterator.class);
-
     public static void main(String[] args) throws Exception {
         // Read command line
         String query = args[0];

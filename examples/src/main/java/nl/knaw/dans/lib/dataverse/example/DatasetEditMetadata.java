@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
@@ -25,9 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
+@Slf4j
 public class DatasetEditMetadata extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(DatasetEditMetadata.class);
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
@@ -37,7 +37,7 @@ public class DatasetEditMetadata extends ExampleBase {
         if (args.length > 2) {
             var mdKeyValue = args[2];
             keyMap.put("citation", mdKeyValue);
-            System.out.println("Supplied citation metadata key: " + mdKeyValue );
+            System.out.println("Supplied citation metadata key: " + mdKeyValue);
         }
 
         FieldList fieldList = new FieldList();

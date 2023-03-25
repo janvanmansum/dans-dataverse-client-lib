@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseDatasetItem;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItemType;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseSubverseItem;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
 
+@Slf4j
 public class DataverseItemDeserializer extends StdDeserializer {
 
     public DataverseItemDeserializer() {

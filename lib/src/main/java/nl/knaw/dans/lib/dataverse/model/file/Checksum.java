@@ -24,6 +24,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Checksum {
 
-  private String type;
-  private String Value;
+    private String type;
+    private String Value;
 }

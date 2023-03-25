@@ -20,7 +20,6 @@ import nl.knaw.dans.lib.dataverse.model.file.prestaged.Checksum;
 import nl.knaw.dans.lib.dataverse.model.file.prestaged.PrestagedFile;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Data

@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
@@ -24,9 +25,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@Slf4j
 public class DatasetGetAllVersions extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(DatasetGetAllVersions.class);
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
@@ -37,7 +37,7 @@ public class DatasetGetAllVersions extends ExampleBase {
             DatasetVersion firstVersion = r.getData().get(0);
             log.info("First Version Create Time: {}", firstVersion.getCreateTime());
             log.info("First Version State: {}", firstVersion.getVersionState());
-            for (FileMeta fm: firstVersion.getFiles()) {
+            for (FileMeta fm : firstVersion.getFiles()) {
                 log.info("File Label: {}", fm.getLabel());
                 log.info("File UNF (if present): {}", fm.getDataFile().getUnf());
             }

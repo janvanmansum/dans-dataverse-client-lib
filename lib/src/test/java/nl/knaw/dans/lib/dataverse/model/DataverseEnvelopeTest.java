@@ -15,8 +15,9 @@
  */
 package nl.knaw.dans.lib.dataverse.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DataverseEnvelopeTest extends ModelFixture {
     private static final Class<?> classUnderTest = DataverseEnvelope.class;

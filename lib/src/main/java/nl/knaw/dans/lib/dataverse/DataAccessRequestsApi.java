@@ -15,9 +15,8 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,34 +25,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class DataAccessRequestsApi extends AbstractTargetedApi {
-
-    private static final Logger log = LoggerFactory.getLogger(DataAccessRequestsApi.class);
     private final Path subPath = subPath("allowAccessRequest/");
     private final Map<String, List<String>> params = params(new HashMap<>());
     private final HashMap<String, String> headers = new HashMap<>();
 
     protected DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/access/"));
-        log.trace("ENTER");
     }
 
     protected DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/"));
-        log.trace("ENTER");
     }
 
-
     public DataverseHttpResponse<DataMessage> enable() throws IOException, DataverseException {
-        log.trace("ENTER");
         return toggle("true");
     }
 
     public DataverseHttpResponse<DataMessage> disable() throws IOException, DataverseException {
-        log.trace("ENTER");
         return toggle("false");
     }
-
 
     private DataverseHttpResponse<DataMessage> toggle(String bool) throws IOException, DataverseException {
         headers.putAll(extraHeaders);

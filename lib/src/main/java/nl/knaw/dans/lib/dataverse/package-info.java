@@ -16,9 +16,8 @@
 /**
  * <h1>Main package for the DANS Dataverse Client Library</h1>
  * <p>
- * The starting point to work with the libary is the class {@link nl.knaw.dans.lib.dataverse.DataverseClient}. It is instantiated with a
- * {@link nl.knaw.dans.lib.dataverse.DataverseClientConfig} to point it to a particular Dataverse server and provide it with the necessary credentials,
- * e.g. an API token.
+ * The starting point to work with the libary is the class {@link nl.knaw.dans.lib.dataverse.DataverseClient}. It is instantiated with a {@link nl.knaw.dans.lib.dataverse.DataverseClientConfig} to
+ * point it to a particular Dataverse server and provide it with the necessary credentials, e.g. an API token.
  * </p>
  */
 package nl.knaw.dans.lib.dataverse;

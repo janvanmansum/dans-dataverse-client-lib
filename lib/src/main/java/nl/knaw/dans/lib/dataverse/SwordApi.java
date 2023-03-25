@@ -15,35 +15,30 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Slf4j
 public class SwordApi extends AbstractApi {
-
-    private static final Logger log = LoggerFactory.getLogger(SwordApi.class);
 
     protected SwordApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper.sendApiTokenViaBasicAuth());
-        log.trace("ENTER");
     }
 
     /**
      * Deletes a file from the current draft of the dataset.
      *
-     * @param databaseId the database ID of the file to delete.
-     *                   To look up use @{link DatasetApi#listFiles}.
+     * @param databaseId the database ID of the file to delete. To look up use @{link DatasetApi#listFiles}.
      * @return a generic http response
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/sword.html#delete-a-file-by-database-id" target="_blank">Dataverse documentation</a>
      */
     public HttpResponse deleteFile(int databaseId) throws IOException, DataverseException {
-        log.trace("ENTER");
         Path path = Paths.get("/dvn/api/data-deposit/v1.1/swordv2/edit-media/file/" + databaseId);
         return httpClientWrapper.delete(path);
     }

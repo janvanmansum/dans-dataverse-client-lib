@@ -15,11 +15,10 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.license.CreateLicense;
 import nl.knaw.dans.lib.dataverse.model.license.License;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -32,14 +31,12 @@ import java.util.Map;
  *
  * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#id188" target="_blank">Dataverse documentation</a>
  */
+@Slf4j
 public class LicenseApi extends AbstractApi {
-
-    private static final Logger log = LoggerFactory.getLogger(LicenseApi.class);
     private final Path targetBase;
 
     protected LicenseApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
-        log.trace("ENTER");
         this.targetBase = Paths.get("api/licenses/");
     }
 

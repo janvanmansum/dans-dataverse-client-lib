@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;
@@ -29,6 +30,7 @@ import java.util.Optional;
  *
  * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
  */
+@Slf4j
 public class BasicFileAccessApi extends AbstractTargetedApi {
     protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/access/datafile"));
@@ -37,7 +39,6 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
     protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/datafile"));
     }
-
 
     /**
      * @return a HttpResponse object

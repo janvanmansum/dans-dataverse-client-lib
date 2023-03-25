@@ -15,6 +15,8 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.Map;
 
 import static java.util.Collections.singletonList;
 
+@Slf4j
 abstract class AbstractTargetedApi extends AbstractApi {
 
     protected static final String persistendId = ":persistentId/";
@@ -32,7 +35,6 @@ abstract class AbstractTargetedApi extends AbstractApi {
     protected final boolean isPersistentId;
 
     protected final Map<String, String> extraHeaders = new HashMap<>();
-
 
     protected AbstractTargetedApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId, Path targetBase) {
         super(httpClientWrapper);

@@ -15,29 +15,23 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.InputStreamBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.http.entity.mime.content.StringBody;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.Optional;
 
 import static java.util.Collections.emptyMap;
 
+@Slf4j
 public class FileApi extends AbstractTargetedApi {
-
-    private static final Logger logger = LoggerFactory.getLogger(DatasetApi.class);
 
     protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/v1/files/"));
@@ -51,39 +45,55 @@ public class FileApi extends AbstractTargetedApi {
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#uningest-a-file
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#reingest-a-file
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#redetect-file-type
-    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#replacing-files
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#getting-file-metadata
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#adding-file-metadata
 
+    public DataverseHttpResponse<FileList> replaceFile(Path dataFile, FileMeta fileMeta) throws IOException, DataverseException {
+        return replaceFile(dataFile, httpClientWrapper.writeValueAsString(fileMeta));
+    }
+
     /**
-     * @param optDataFile     the data file
-     * @param optFileMetadata json containing file metadata
+     * @param dataFile the data file
+     * @param fileMeta json containing file metadata
      * @return a file list
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#replacing-files" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<FileList> replaceFileItem(Optional<File> optDataFile, Optional<String> optFileMetadata) throws IOException, DataverseException {
-        logger.trace("{} {}", optDataFile, optFileMetadata);
-        if (!optDataFile.isPresent() && !optFileMetadata.isPresent())
+    public DataverseHttpResponse<FileList> replaceFile(Path dataFile, String fileMeta) throws IOException, DataverseException {
+        if (dataFile == null && fileMeta == null)
             throw new IllegalArgumentException("At least one of file data and file metadata must be provided.");
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        optDataFile.ifPresent(f -> builder.addPart("file", new FileBody(f, ContentType.APPLICATION_OCTET_STREAM, f.getName())));
-        optFileMetadata.ifPresent(m -> builder.addPart("jsonData", new InputStreamBody(new ByteArrayInputStream(m.getBytes()), ContentType.APPLICATION_JSON, "jsonData")));
+        if (dataFile != null) {
+            builder.addPart("file", new FileBody(dataFile.toFile(), ContentType.APPLICATION_OCTET_STREAM, dataFile.getFileName().toString()));
+        }
+        if (fileMeta != null) {
+            builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
+        }
         return httpClientWrapper.post(subPath("replace"), builder.build(), (emptyMap()), new HashMap<>(), FileList.class);
     }
 
     /**
-     * @param json the file metadata
+     * @param fileMeta the file metadata
      * @return hash map
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#updating-file-metadata" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<String> updateMetadata(String json) throws IOException, DataverseException {
+    public DataverseHttpResponse<String> updateMetadata(FileMeta fileMeta) throws IOException, DataverseException {
+        return updateMetadata(httpClientWrapper.writeValueAsString(fileMeta));
+    }
+
+    /**
+     * @param fileMeta the file metadata
+     * @return hash map
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#updating-file-metadata" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<String> updateMetadata(String fileMeta) throws IOException, DataverseException {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        builder.addBinaryBody("jsonData", json.getBytes(StandardCharsets.UTF_8), ContentType.APPLICATION_JSON, "jsonData");
+        builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
         return httpClientWrapper.post(subPath("metadata"), builder.build(), params(emptyMap()), new HashMap<>(), HashMap.class);
     }
 

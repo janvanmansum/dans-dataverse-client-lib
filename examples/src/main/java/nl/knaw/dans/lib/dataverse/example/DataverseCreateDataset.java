@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
@@ -34,15 +35,14 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
+@Slf4j
 public class DataverseCreateDataset extends ExampleBase {
-    private static final Logger log = LoggerFactory.getLogger(DataverseCreateDataset.class);
-
     public static void main(String[] args) throws Exception {
         var keyMap = new HashMap<String, String>();
         if (args.length > 0) {
             var mdKeyValue = args[0];
             keyMap.put("citation", mdKeyValue);
-            System.out.println("Supplied citation metadata key: " + mdKeyValue );
+            System.out.println("Supplied citation metadata key: " + mdKeyValue);
         }
 
         MetadataBlock citation = new MetadataBlock();

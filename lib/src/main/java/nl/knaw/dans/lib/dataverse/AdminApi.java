@@ -15,10 +15,9 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -31,14 +30,13 @@ import java.util.Map;
  *
  * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#admin" target="_blank">Dataverse documentation</a>
  */
+@Slf4j
 public class AdminApi extends AbstractApi {
 
-    private static final Logger log = LoggerFactory.getLogger(AdminApi.class);
     private final Path targetBase;
 
     protected AdminApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
-        log.trace("ENTER");
         this.targetBase = Paths.get("api/admin/");
     }
 
@@ -68,7 +66,7 @@ public class AdminApi extends AbstractApi {
     }
 
     /**
-     * @param key   the settings key
+     * @param key the settings key
      * @return the result
      * @throws IOException        if an I/O exception occurs
      * @throws DataverseException if Dataverse could not handle the request
@@ -78,7 +76,5 @@ public class AdminApi extends AbstractApi {
         Path path = buildPath(targetBase, "settings", key);
         return httpClientWrapper.get(path, DataMessage.class);
     }
-
-
 
 }

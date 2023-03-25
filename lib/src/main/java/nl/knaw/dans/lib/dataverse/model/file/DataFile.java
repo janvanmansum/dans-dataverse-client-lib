@@ -22,23 +22,23 @@ import lombok.Data;
 @Data
 @JsonIgnoreProperties({ "md5" }) // The optional "md5" property is redundant and only there for backward compatibility. 
 public class DataFile {
-  private int   id;
-  private String persistentId;
-  private String pidURL;
-  private String filename;
-  private String contentType;
-  private long filesize;
-  private String description;
-  private Embargo embargo;
-  private String storageIdentifier;
-  private String originalFileFormat;
-  private String originalFormatLabel;
-  private Long originalFileSize;
-  private String originalFileName;
-  @JsonProperty("UNF")
-  private String unf;
-  private int rootDataFileId;
-  private Checksum checksum;
-  private String creationDate;
-  private int previousDataFileId;
+    private int id;
+    private String persistentId;
+    private String pidURL;
+    private String filename;
+    private String contentType;
+    private long filesize;
+    private String description;
+    private Embargo embargo;
+    private String storageIdentifier;
+    private String originalFileFormat;
+    private String originalFormatLabel;
+    private Long originalFileSize;
+    private String originalFileName;
+    @JsonProperty("UNF")
+    private String unf;
+    private int rootDataFileId;
+    private Checksum checksum;
+    private String creationDate;
+    private int previousDataFileId;
 }

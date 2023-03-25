@@ -15,19 +15,13 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-
+@Slf4j
 public class FileUpdateMetadata extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(FileUpdateMetadata.class);
 
     public static void main(String[] args) throws Exception {
         int databaseId = Integer.parseInt(args[0]);
@@ -37,7 +31,7 @@ public class FileUpdateMetadata extends ExampleBase {
         meta.setLabel(newName);
         meta.setDirectoryLabel(newDir);
 
-        DataverseResponse<String> r = client.file(databaseId).updateMetadata(mapper.writeValueAsString(meta));
+        DataverseResponse<String> r = client.file(databaseId).updateMetadata(meta);
         log.info("Response message: {}", r.getEnvelopeAsString());
     }
 }

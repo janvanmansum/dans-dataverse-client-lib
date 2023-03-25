@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.Lock;
@@ -23,9 +24,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
+@Slf4j
 public class DatasetGetLocks extends ExampleBase {
-
-    private static final Logger log = LoggerFactory.getLogger(DatasetGetLocks.class);
 
     public static void main(String[] args) throws Exception {
         /*
@@ -38,7 +38,7 @@ public class DatasetGetLocks extends ExampleBase {
         for (int i = 0; i < 300; i += 1) {
             DataverseResponse<List<Lock>> response = client.dataset(persistentId).getLocks();
             List<Lock> locks = response.getData();
-            log.trace(String.format("Locks: %s", locks));
+            log.debug(String.format("Locks: %s", locks));
             if (!locks.isEmpty())
                 log.info(String.format("Dataset is currently locked by: %s", locks));
             Thread.sleep(500);

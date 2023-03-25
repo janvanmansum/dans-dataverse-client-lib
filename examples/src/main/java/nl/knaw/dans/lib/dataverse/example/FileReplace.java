@@ -16,28 +16,25 @@
 package nl.knaw.dans.lib.dataverse.example;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.knaw.dans.lib.dataverse.DatasetApi;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
+import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Slf4j
-public class DatasetGetVersion extends ExampleBase {
+public class FileReplace extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
-        String persistentId = args[0];
-        String version = null;
-        if (args.length > 1) {
-            version = args[1];
-        }
+        int databaseId = Integer.parseInt(args[0]);
+        Path newFile = Paths.get(args[1]);
 
-        DatasetApi dataset = client.dataset(persistentId);
-        DataverseResponse<DatasetVersion> r = version == null ? dataset.getVersion() : dataset.getVersion(version);
-        log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
-        log.info("Create Time: {}", r.getData().getCreateTime());
-        log.info("Version State: {}", r.getData().getVersionState());
-        log.info("Version UNF: {}", r.getData().getUnf());
+        var meta = new FileMeta();
+        meta.setLabel("New_label");
+
+        DataverseResponse<FileList> r = client.file(databaseId).replaceFile(newFile, meta);
+        log.info("Response message: {}", r.getEnvelopeAsString());
     }
 }

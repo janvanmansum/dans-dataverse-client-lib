@@ -15,6 +15,9 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class BuiltinUserApi extends AbstractApi {
 
     protected BuiltinUserApi(HttpClientWrapper httpClientWrapper) {

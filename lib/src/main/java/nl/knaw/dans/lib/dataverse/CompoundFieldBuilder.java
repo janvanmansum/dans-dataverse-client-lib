@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.CompoundMultiValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.CompoundSingleValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.ControlledSingleValueField;
@@ -27,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class CompoundFieldBuilder {
     private final String typeName;
     private final boolean multiple;

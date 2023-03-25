@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.Lock;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
@@ -25,7 +26,6 @@ import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.Embargo;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
-import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.dataset.UpdateType;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
@@ -33,15 +33,14 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
@@ -52,10 +51,9 @@ import static java.util.Collections.singletonMap;
  *
  * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#datasets" target="_blank">Dataverse documentation</a>
  */
+@Slf4j
 public class DatasetApi extends AbstractTargetedApi {
 
-    private static final Logger log = LoggerFactory.getLogger(DatasetApi.class);
-    
     protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         this(httpClientWrapper, id, isPersistentId, null);
     }
@@ -119,7 +117,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<FileMeta>> getFiles(String version) throws IOException, DataverseException {
-        log.trace("ENTER");
         return getVersionedFromTarget("files", version, List.class, FileMeta.class);
     }
 
@@ -138,7 +135,6 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     public DataverseHttpResponse<DataMessage> publish(UpdateType updateType, boolean assureIsIndexed) throws IOException, DataverseException {
-        log.trace("ENTER");
         HashMap<String, List<String>> parameters = new HashMap<>();
         parameters.put("assureIsIndexed", singletonList(String.valueOf(assureIsIndexed)));
         parameters.put("type", singletonList(updateType.toString()));
@@ -167,7 +163,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
      *
      * @param s            JSON document containing the edits to perform
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -188,25 +184,22 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(String s, Boolean replace) throws IOException, DataverseException {
-        log.trace("ENTER");
         return editMetadata(s, replace, emptyMap());
     }
 
     /**
-     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow
-     * multiple values. 
-     * Whenever there are metadata field from a block that is protected by a 'key', the corresponding keys must be provided. 
+     * Edits the current draft's metadata, adding the fields that do not exist yet. If `replace` is set to `false`, all specified fields must be either currently empty or allow multiple values.
+     * Whenever there are metadata field from a block that is protected by a 'key', the corresponding keys must be provided.
      *
-     * @param s       JSON document containing the edits to perform
-     * @param replace whether to replace existing values
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param s            JSON document containing the edits to perform
+     * @param replace      whether to replace existing values
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#edit-dataset-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> editMetadata(String s, Boolean replace, Map<String, String> metadataKeys) throws IOException, DataverseException {
-        log.trace("ENTER");
         Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
         if (replace)
             /*
@@ -236,7 +229,7 @@ public class DatasetApi extends AbstractTargetedApi {
      *
      * @param fields       list of fields to edit
      * @param replace      whether to replace existing values
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -263,7 +256,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * Edits the current draft's metadata, adding the fields that do not exist yet.
      *
      * @param fields       list of fields to edit
-     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.  
+     * @param metadataKeys the HashMap maps the names of the metadata blocks to their 'secret' key values.
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -318,7 +311,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * @param s JSON document containing the new metadata
+     * @param s            JSON document containing the new metadata
      * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return DatasetVersion
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
@@ -332,9 +325,9 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * Note that not all the attributes of the DatasetVersion object are writable. Dataverse may ignore some (e.g., license) or return an error if some are filled in (e.g., files).
-     * However, for a few attributes, such as fileAccessRequest and termsOfAccess, it is necessary to pass the whole version object instead of only
-     * the metadata blocks (as is done in the example of the API documentation).
+     * Note that not all the attributes of the DatasetVersion object are writable. Dataverse may ignore some (e.g., license) or return an error if some are filled in (e.g., files). However, for a few
+     * attributes, such as fileAccessRequest and termsOfAccess, it is necessary to pass the whole version object instead of only the metadata blocks (as is done in the example of the API
+     * documentation).
      *
      * @param version a version object containing the new metadata
      * @return DatasetVersion
@@ -347,7 +340,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
-     * @param version a version object containing the new metadata
+     * @param version      a version object containing the new metadata
      * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return DatasetVersion
      * @throws IOException
@@ -367,7 +360,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#delete-dataset-draft" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DataMessage> deleteDraft() throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.delete(subPath("versions/:draft"), params(emptyMap()), DataMessage.class);
     }
 
@@ -381,7 +373,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-role-assignments-on-a-dataverse-api" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<RoleAssignmentReadOnly>> listRoleAssignments() throws IOException, DataverseException {
-        log.trace("ENTER");
         return getUnversionedFromTarget("assignments", List.class, RoleAssignmentReadOnly.class);
     }
 
@@ -432,25 +423,6 @@ public class DatasetApi extends AbstractTargetedApi {
         return addFile(file, httpClientWrapper.writeValueAsString(fileMeta));
     }
 
-    /**
-     * @param optDataFile     content of the file
-     * @param optFileMetadata metadata of the file
-     * @return a file list
-     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-     * @throws DataverseException when Dataverse fails to perform the request
-     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset" target="_blank">Dataverse documentation</a>
-     *
-     * At least one of the parameters should be provided.
-     */
-    public DataverseHttpResponse<FileList> addFileItem(Optional<File> optDataFile, Optional<String> optFileMetadata) throws IOException, DataverseException {
-        log.trace("{} {}", optDataFile, optFileMetadata);
-        if (!optDataFile.isPresent() && !optFileMetadata.isPresent())
-            throw new IllegalArgumentException("At least one of file data and file metadata must be provided.");
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        optDataFile.ifPresent(f -> builder.addPart("file", new FileBody(f, ContentType.APPLICATION_OCTET_STREAM, f.getName())));
-        optFileMetadata.ifPresent(m -> builder.addPart("jsonData", new StringBody(m, ContentType.APPLICATION_JSON)));
-        return httpClientWrapper.post(subPath("add"), builder.build(), params(emptyMap()), new HashMap<>(), FileList.class);
-    }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#report-the-data-file-size-of-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-size-of-downloading-all-the-files-of-a-dataset-version
@@ -504,13 +476,11 @@ public class DatasetApi extends AbstractTargetedApi {
      * Helper methods
      */
     private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Class<?>... outputClass) throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.get(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass)
         throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.get(subPath(endPoint), params(queryParams), extraHeaders, outputClass);
     }
 
@@ -520,7 +490,6 @@ public class DatasetApi extends AbstractTargetedApi {
 
     private <D> DataverseHttpResponse<D> putToTarget(String endPoint, String body, Map<String, List<String>> queryParams, Class<?>... outputClass)
         throws IOException, DataverseException {
-        log.trace("ENTER");
         return httpClientWrapper.putJsonString(subPath(endPoint), body, params(queryParams), extraHeaders, outputClass);
     }
 
@@ -532,7 +501,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://github.com/DANS-KNAW/dans-dataverse-client-lib/blob/master/examples/src/main/java/nl/knaw/dans/lib/dataverse/example/DatasetGetLocks.java">Code example</a>
      */
     public DataverseHttpResponse<List<Lock>> getLocks() throws IOException, DataverseException {
-        log.trace("getting locks from Dataverse");
         return getUnversionedFromTarget("locks", List.class, Lock.class);
     }
 
@@ -547,7 +515,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitUnlock(int maxNumberOfRetries, int waitTimeInMilliseconds) throws IOException, DataverseException {
-        log.trace(String.format("awaitUnlock: maxNumberOfRetries %d, waitTimeInMilliseconds %d", maxNumberOfRetries, waitTimeInMilliseconds));
         awaitLockState(this::notLocked, "", "Wait for unlock expired", maxNumberOfRetries, waitTimeInMilliseconds);
     }
 
@@ -573,7 +540,6 @@ public class DatasetApi extends AbstractTargetedApi {
      * @throws DataverseException when Dataverse fails to perform the request
      */
     public void awaitLock(String lockType, int maxNumberOfRetries, int waitTimeInMilliseconds) throws IOException, DataverseException {
-        log.trace(String.format("awaitLock: lockType %s, maxNumberOfRetries %d, waitTimeInMilliseconds %d", lockType, maxNumberOfRetries, waitTimeInMilliseconds));
         awaitLockState(this::isLocked, lockType, String.format("Wait for lock of type %s expired", lockType), maxNumberOfRetries, waitTimeInMilliseconds);
     }
 
@@ -652,5 +618,5 @@ public class DatasetApi extends AbstractTargetedApi {
         if (!lockState.get(locks, lockType))
             throw new RuntimeException(String.format("%s. Number of tries = %d, wait time between tries = %d ms.", errorMessage, maxNumberOfRetries, waitTimeInMilliseconds));
     }
-    
+
 }

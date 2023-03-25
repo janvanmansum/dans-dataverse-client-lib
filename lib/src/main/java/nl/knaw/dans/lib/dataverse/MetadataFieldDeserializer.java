@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.CompoundMultiValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.CompoundSingleValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.ControlledMultiValueField;
@@ -35,6 +36,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 public class MetadataFieldDeserializer extends StdDeserializer {
 
     public MetadataFieldDeserializer() {
@@ -58,7 +60,8 @@ public class MetadataFieldDeserializer extends StdDeserializer {
 
         if ("primitive".equals(typeClass)) {
             if (multiple) {
-                if (subField) throw new IllegalArgumentException("Compound fields cannot contain multi-value subfields");
+                if (subField)
+                    throw new IllegalArgumentException("Compound fields cannot contain multi-value subfields");
                 Iterable<JsonNode> jsonNodeIterable = valueNode::elements;
                 return new PrimitiveMultiValueField(
                     typeName,
@@ -73,7 +76,8 @@ public class MetadataFieldDeserializer extends StdDeserializer {
         }
         else if ("controlledVocabulary".equals(typeClass)) {
             if (multiple) {
-                if (subField) throw new IllegalArgumentException("Compound fields cannot contain multi-value subfields");
+                if (subField)
+                    throw new IllegalArgumentException("Compound fields cannot contain multi-value subfields");
                 Iterable<JsonNode> jsonNodeIterable = valueNode::elements;
                 return new ControlledMultiValueField(
                     typeName,
@@ -87,14 +91,16 @@ public class MetadataFieldDeserializer extends StdDeserializer {
             }
         }
         else if ("compound".equals(typeClass)) {
-            if (subField) throw new IllegalArgumentException("Compound fields cannot contain compound fields as subfields");
+            if (subField)
+                throw new IllegalArgumentException("Compound fields cannot contain compound fields as subfields");
             if (multiple) {
                 Iterable<JsonNode> jsonNodeIterable = valueNode::elements;
                 return new CompoundMultiValueField(
                     typeName,
                     StreamSupport.stream(jsonNodeIterable.spliterator(), false)
                         .map(this::deserializeCompoundFieldValue).collect(Collectors.toList()));
-            } else {
+            }
+            else {
                 return new CompoundSingleValueField(
                     typeName,
                     deserializeCompoundFieldValue(valueNode));
@@ -112,5 +118,4 @@ public class MetadataFieldDeserializer extends StdDeserializer {
         }
         return subFields;
     }
-
 }

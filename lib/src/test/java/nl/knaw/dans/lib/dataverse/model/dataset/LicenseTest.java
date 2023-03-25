@@ -15,10 +15,11 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import java.net.URI;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LicenseTest extends ModelDatasetMapperFixture {
     private static final Class<License> classUnderTest = License.class;
