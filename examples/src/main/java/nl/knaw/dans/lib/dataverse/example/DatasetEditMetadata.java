@@ -21,8 +21,6 @@ import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 
@@ -37,7 +35,7 @@ public class DatasetEditMetadata extends ExampleBase {
         if (args.length > 2) {
             var mdKeyValue = args[2];
             keyMap.put("citation", mdKeyValue);
-            System.out.println("Supplied citation metadata key: " + mdKeyValue);
+            log.info("Supplied citation metadata key: {}", mdKeyValue);
         }
 
         FieldList fieldList = new FieldList();

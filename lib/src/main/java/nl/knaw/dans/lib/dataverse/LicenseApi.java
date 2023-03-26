@@ -17,7 +17,6 @@ package nl.knaw.dans.lib.dataverse;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
-import nl.knaw.dans.lib.dataverse.model.license.CreateLicense;
 import nl.knaw.dans.lib.dataverse.model.license.License;
 
 import java.io.IOException;
@@ -49,7 +48,7 @@ public class LicenseApi extends AbstractApi {
         return httpClientWrapper.get(path, License.class);
     }
 
-    public DataverseHttpResponse<DataMessage> addLicense(CreateLicense license) throws IOException, DataverseException {
+    public DataverseHttpResponse<DataMessage> addLicense(License license) throws IOException, DataverseException {
         return httpClientWrapper.postModelObjectAsJson(targetBase, license, DataMessage.class);
     }
 

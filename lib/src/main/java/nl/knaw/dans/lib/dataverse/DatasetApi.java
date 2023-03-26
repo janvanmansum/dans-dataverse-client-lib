@@ -76,8 +76,8 @@ public class DatasetApi extends AbstractTargetedApi {
      * Retrieves that latest version of a dataset. The difference with {@link #getLatestVersion()} is that the latter returns a different type of object. It is not clear why these variants exist.
      *
      * @return object containing the dataset version metadata
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> getVersion() throws IOException, DataverseException {
@@ -88,8 +88,8 @@ public class DatasetApi extends AbstractTargetedApi {
     /**
      * @param version version to retrieve
      * @return object containing the dataset version metadata
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> getVersion(String version) throws IOException, DataverseException {
@@ -100,8 +100,8 @@ public class DatasetApi extends AbstractTargetedApi {
 
     /**
      * @return list of objects containing dataset version metadata
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-versions-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<DatasetVersion>> getAllVersions() throws IOException, DataverseException {
@@ -112,8 +112,8 @@ public class DatasetApi extends AbstractTargetedApi {
     /**
      * @param version version to get file metadata from
      * @return a list of file metas
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#list-files-in-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<List<FileMeta>> getFiles(String version) throws IOException, DataverseException {
@@ -122,8 +122,8 @@ public class DatasetApi extends AbstractTargetedApi {
 
     /**
      * @return dataset publication result
-     * @throws IOException        if an I/O exception occurs
-     * @throws DataverseException if Dataverse could not handle the request
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#publish-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetPublicationResult> publish() throws IOException, DataverseException {
@@ -343,8 +343,8 @@ public class DatasetApi extends AbstractTargetedApi {
      * @param version      a version object containing the new metadata
      * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return DatasetVersion
-     * @throws IOException
-     * @throws DataverseException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#update-metadata-for-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> updateMetadata(DatasetVersion version, Map<String, String> metadataKeys) throws IOException, DataverseException {

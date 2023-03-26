@@ -74,9 +74,7 @@ public class DataverseImportDataset extends ExampleBase {
         Dataset dataset = new Dataset();
         dataset.setDatasetVersion(version);
 
-        log.info("--- BEGIN JSON OBJECT ---");
-        log.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataset));
-        log.info("--- END JSON OBJECT ---");
+        log.info(toPrettyJson(dataset));
 
         UUID uuid = UUID.randomUUID();
         var doi = String.format("doi:10.5072/EDDA-RAGNAROK/IMPORTTEST-%s", uuid);

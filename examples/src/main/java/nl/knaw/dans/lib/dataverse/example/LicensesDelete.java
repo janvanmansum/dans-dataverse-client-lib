@@ -17,19 +17,12 @@ package nl.knaw.dans.lib.dataverse.example;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.license.CreateLicense;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.UUID;
 
 @Slf4j
 public class LicensesDelete extends ExampleBase {
     public static void main(String[] args) throws Exception {
-        log.info("--- BEGIN JSON OBJECT ---");
         var id = args.length > 0 ? Long.parseLong(args[0]) : 26;
         var response = client.license().deleteLicense(id);
-        log.info("--- END JSON OBJECT ---");
-        log.info("License: {}", response.getData());
+        log.info("License: {}", toPrettyJson(response.getData()));
     }
 }

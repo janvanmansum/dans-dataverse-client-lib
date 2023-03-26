@@ -23,8 +23,9 @@ repo_url: https://github.com/DANS-KNAW/dans-dataverse-client-lib
 
 nav:
   - Manual: index.md
+  - Getting started: getting-started.md
   - JavaDocs: api.md
-  - Examples: examples.md
+  - Development: dev.md
 
 plugins:
   - markdownextradata

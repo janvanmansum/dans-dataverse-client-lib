@@ -257,8 +257,8 @@ public class DataverseApi extends AbstractApi {
     /**
      * @param dataset the dataset to create
      * @return a creation result message
-     * @throws IOException
-     * @throws DataverseException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#create-a-dataset-in-a-dataverse-collection">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(Dataset dataset) throws IOException, DataverseException {
@@ -269,8 +269,8 @@ public class DataverseApi extends AbstractApi {
      * @param dataset      the dataset to create
      * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return a creation result message
-     * @throws IOException
-     * @throws DataverseException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#create-a-dataset-in-a-dataverse-collection">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(Dataset dataset, Map<String, String> metadataKeys) throws IOException, DataverseException {
@@ -282,8 +282,8 @@ public class DataverseApi extends AbstractApi {
      * @param persistentId existing persistent identifier (PID)
      * @param autoPublish     immediately publish the dataset
      * @return an import result message
-     * @throws IOException
-     * @throws DataverseException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetCreationResult> importDataset(Dataset dataset, String persistentId, boolean autoPublish) throws IOException, DataverseException {
@@ -296,8 +296,8 @@ public class DataverseApi extends AbstractApi {
      * @param autoPublish     immediately publish the dataset
      * @param metadataKeys    maps the names of the metadata blocks to their 'secret' key values
      * @return an import result message
-     * @throws IOException
-     * @throws DataverseException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetCreationResult> importDataset(Dataset dataset, String persistentId, boolean autoPublish, Map<String, String> metadataKeys)
@@ -310,8 +310,8 @@ public class DataverseApi extends AbstractApi {
      * @param persistentId existing persistent identifier (PID)
      * @param autoPublish     immediately publish the dataset
      * @return an import result message
-     * @throws IOException
-     * @throws DataverseException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetCreationResult> importDataset(String dataset, String persistentId, boolean autoPublish)
@@ -325,8 +325,8 @@ public class DataverseApi extends AbstractApi {
      * @param autoPublish     immediately publish the dataset
      * @param metadataKeys    maps the names of the metadata blocks to their 'secret' key values
      * @return an import result message
-     * @throws IOException
-     * @throws DataverseException
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-collection">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetCreationResult> importDataset(String dataset, String persistentId, boolean autoPublish, Map<String, String> metadataKeys)

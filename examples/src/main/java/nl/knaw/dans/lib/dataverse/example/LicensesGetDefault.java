@@ -23,10 +23,7 @@ import org.slf4j.LoggerFactory;
 @Slf4j
 public class LicensesGetDefault extends ExampleBase {
     public static void main(String[] args) throws Exception {
-        log.info("--- BEGIN JSON OBJECT ---");
-        var id = args.length > 1 ? Long.parseLong(args[1]) : 1;
         var response = client.license().getDefaultLicense();
-        log.info("--- END JSON OBJECT ---");
-        log.info("License: {}", response.getData());
+        log.info("License: {}", toPrettyJson(response.getData()));
     }
 }

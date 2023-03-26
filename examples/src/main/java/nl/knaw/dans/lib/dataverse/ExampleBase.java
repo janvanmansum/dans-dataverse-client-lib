@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -38,4 +39,7 @@ public abstract class ExampleBase {
         }
     }
 
+    protected static String toPrettyJson(Object value) throws JsonProcessingException {
+        return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
+    }
 }
