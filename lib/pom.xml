@@ -16,13 +16,14 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>nl.knaw.dans</groupId>
         <artifactId>dd-parent</artifactId>
         <version>0.17.0</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     <artifactId>dans-dataverse-client-lib</artifactId>
     <version>0.19.1-SNAPSHOT</version>
@@ -103,12 +104,6 @@
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration combine.children="override">
-                    <sourcepath>target/delombok</sourcepath>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
                 <configuration>
@@ -121,6 +116,30 @@
                         <suppressWarnings>skip</suppressWarnings>
                     </formatPreferences>
                 </configuration>
+                <executions>
+                    <execution>
+                        <!-- Performing a delombok so that javadoc can run subsequently and we can see if javadocs are
+                        generated successfully -->
+                        <phase>test</phase>
+                        <goals>
+                            <goal>delombok</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration combine.children="override">
+                    <sourcepath>target/delombok</sourcepath>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
