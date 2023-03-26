@@ -21,10 +21,8 @@ import nl.knaw.dans.lib.dataverse.ExampleBase;
 @Slf4j
 public class LicensesDelete extends ExampleBase {
     public static void main(String[] args) throws Exception {
-        log.info("--- BEGIN JSON OBJECT ---");
         var id = args.length > 0 ? Long.parseLong(args[0]) : 26;
         var response = client.license().deleteLicense(id);
-        log.info("--- END JSON OBJECT ---");
-        log.info("License: {}", response.getData());
+        log.info("License: {}", toPrettyJson(response.getData()));
     }
 }

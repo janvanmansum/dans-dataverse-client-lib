@@ -24,15 +24,14 @@ import java.util.UUID;
 @Slf4j
 public class LicensesCreate extends ExampleBase {
     public static void main(String[] args) throws Exception {
-        log.info("--- BEGIN JSON OBJECT ---");
         var id = UUID.randomUUID().toString();
         var license = new License();
         license.setName("some name - " + id);
         license.setUri("https://dans.knaw.nl/license/" + id);
         license.setShortDescription("Dans license");
+        log.info("License sent to Dataverse: {}", toPrettyJson(license));
 
         var response = client.license().addLicense(license);
-        log.info("--- END JSON OBJECT ---");
-        log.info("License: {}", response.getData());
+        log.info("Response: {}", toPrettyJson(response.getData()));
     }
 }

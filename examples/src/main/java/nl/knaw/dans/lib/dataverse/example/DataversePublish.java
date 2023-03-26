@@ -26,10 +26,8 @@ import org.slf4j.LoggerFactory;
 public class DataversePublish extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
-        // Notice: the test dataverse instance has to exist before calling this method
-        log.info("--- BEGIN JSON OBJECT ---");
-        DataverseHttpResponse<DataMessage> r = client.dataverse("test").publish();
-        log.info("--- END JSON OBJECT ---");
+        String alias = args[0];
+        DataverseHttpResponse<DataMessage> r = client.dataverse(alias).publish();
         log.info("Status Line of DATAVERSE PUBLICATION: {}", r.getHttpResponse().getStatusLine());
     }
 }

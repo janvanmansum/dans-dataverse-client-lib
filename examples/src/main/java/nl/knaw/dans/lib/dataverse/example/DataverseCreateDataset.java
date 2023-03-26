@@ -77,9 +77,7 @@ public class DataverseCreateDataset extends ExampleBase {
         Dataset dataset = new Dataset();
         dataset.setDatasetVersion(version);
 
-        log.info("--- BEGIN JSON OBJECT ---");
-        log.info(mapper.writerWithDefaultPrettyPrinter().writeValueAsString(dataset));
-        log.info("--- END JSON OBJECT ---");
+        log.info(toPrettyJson(dataset));
 
         DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").createDataset(dataset, keyMap);
         log.info("Status Line: {}", r.getHttpResponse().getStatusLine());

@@ -27,9 +27,7 @@ public class DatasetPublish extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
-        log.info("--- BEGIN JSON OBJECT ---");
         DataverseResponse<DatasetPublicationResult> r = client.dataset(persistentId).publish();
-        log.info("--- END JSON OBJECT ---");
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
         log.info("Persistent Url: {}", r.getData().getPersistentUrl());
     }

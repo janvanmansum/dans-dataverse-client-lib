@@ -16,20 +16,9 @@
 package nl.knaw.dans.lib.dataverse.example;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.knaw.dans.lib.dataverse.CompoundFieldBuilder;
-import nl.knaw.dans.lib.dataverse.DataverseException;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.dataset.ControlledMultiValueField;
-import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
-import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
-import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,28 +31,20 @@ public class DatasetUpdateMetadataFromJsonLd extends ExampleBase {
         var fieldValue = args[2];
         // Maybe default fieldName to http://schema.org/license ?
         var fieldObject = Map.of(fieldName, fieldValue);
-        var jsonLd = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(fieldObject);
+        var jsonLd = toPrettyJson(fieldObject);
 
-        log.info("--- BEGIN JSON OBJECT ---");
-        System.out.println(jsonLd);
-        log.info("--- END JSON OBJECT ---");
+        log.info(jsonLd);
 
         var keyMap = new HashMap<String, String>();
         if (args.length > 4) {
             var mdBlockName = args[3];
             var mdKeyValue = args[4];
             keyMap.put(mdBlockName, mdKeyValue);
-            System.out.println("Supplied metadata key (name, value): (" + mdBlockName + ", " + mdKeyValue + ")" );
+            log.info("Supplied metadata key (name, value): ({}< {}})", mdBlockName, mdKeyValue);
         }
 
-        try {
-
-            DataverseResponse<Object> r = client.dataset(persistentId)
-                .updateMetadataFromJsonLd(jsonLd, true, keyMap);
-            log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
-        }
-        catch (DataverseException e) {
-            System.out.println(e.getMessage());
-        }
+        DataverseResponse<Object> r = client.dataset(persistentId)
+            .updateMetadataFromJsonLd(jsonLd, true, keyMap);
+        log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
     }
 }

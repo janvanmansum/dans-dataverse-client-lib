@@ -23,12 +23,10 @@ import org.slf4j.LoggerFactory;
 @Slf4j
 public class LicensesList extends ExampleBase {
     public static void main(String[] args) throws Exception {
-        log.info("--- BEGIN JSON OBJECT ---");
         var response = client.license().getLicenses();
-        log.info("--- END JSON OBJECT ---");
 
         for (var r : response.getData()) {
-            log.info("License: {}", r);
+            log.info("License: {}", toPrettyJson(r));
         }
     }
 }

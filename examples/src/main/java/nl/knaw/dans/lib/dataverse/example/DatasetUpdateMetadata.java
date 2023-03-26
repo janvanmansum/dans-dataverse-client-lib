@@ -25,8 +25,6 @@ import nl.knaw.dans.lib.dataverse.model.dataset.DatasetLatestVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,7 +39,7 @@ public class DatasetUpdateMetadata extends ExampleBase {
         if (args.length > 1) {
             var mdKeyValue = args[1];
             keyMap.put("citation", mdKeyValue);
-            System.out.println("Supplied citation metadata key: " + mdKeyValue);
+            log.info("Supplied citation metadata key: {}", mdKeyValue);
         }
 
         MetadataBlock citation = new MetadataBlock();

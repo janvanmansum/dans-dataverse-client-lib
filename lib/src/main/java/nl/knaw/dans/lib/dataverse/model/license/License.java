@@ -15,11 +15,13 @@
  */
 package nl.knaw.dans.lib.dataverse.model.license;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class License {
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     private int id;
     private String name;
     private String shortDescription;
