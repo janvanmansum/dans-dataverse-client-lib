@@ -31,6 +31,10 @@ to a specific dataset and try several things without modifying the code. However
 and as such as intended to be modified for ad hoc testing. Do not add too many parameters or complex logic
 to them.
 
+    !!! alert Connecting to Dataverse on a vagrant box
+
+
+
 Lombok
 ------
 Use the [Lombok](https://projectlombok.org/){:target=_blank} annotations to:
