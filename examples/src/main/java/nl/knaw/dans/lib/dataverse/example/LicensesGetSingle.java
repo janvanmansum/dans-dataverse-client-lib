@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 @Slf4j
 public class LicensesGetSingle extends ExampleBase {
     public static void main(String[] args) throws Exception {
-        var id = args.length > 1 ? Long.parseLong(args[1]) : 1;
+        var id = args.length > 0 ? Long.parseLong(args[0]) : 1;
         var response = client.license().getLicenseById(id);
         log.info("License: {}", toPrettyJson(response.getData()));
     }

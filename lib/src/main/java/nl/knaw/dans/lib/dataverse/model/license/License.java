@@ -30,4 +30,5 @@ public class License {
     private boolean active;
     @JsonProperty("isDefault")
     private boolean defaultLicense;
+    private int sortOrder;
 }
