@@ -19,6 +19,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @JsonIgnoreProperties({ "md5" }) // The optional "md5" property is redundant and only there for backward compatibility. 
 public class DataFile {
@@ -41,4 +44,5 @@ public class DataFile {
     private Checksum checksum;
     private String creationDate;
     private int previousDataFileId;
+    private List<String> categories = new ArrayList<>();
 }

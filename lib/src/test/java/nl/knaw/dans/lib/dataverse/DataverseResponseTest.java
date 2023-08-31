@@ -21,6 +21,7 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
 public class DataverseResponseTest extends MapperFixture {
@@ -40,7 +41,7 @@ public class DataverseResponseTest extends MapperFixture {
     }
 
     @Test
-    public void DatasetVersionWithMD5InFilesResponseCanBeDeserialized() throws Exception {
+    public void datasetVersionWithMD5InFilesResponseCanBeDeserialized() throws Exception {
         DataverseResponse<DatasetVersion> r =
                 new DataverseResponse<>(FileUtils.readFileToString(getTestJsonFileFor(classUnderTest, 
                         "DatasetVersionWithMD5InFiles"), StandardCharsets.UTF_8),
@@ -53,12 +54,22 @@ public class DataverseResponseTest extends MapperFixture {
         Assertions.assertEquals(5, r.getData().getFiles().size());
     }
 
-//    @Test
-//    public void nestedTypeParametersCanBeDeserialized() throws Exception {
-//        DataverseResponse<List<DatasetVersion>> r = new DataverseResponse<>(FileUtils.readFileToString(new File("src/test/resources/dataverse-response/test2.json"), StandardCharsets.UTF_8),
-//            mapper, List.class, DatasetVersion.class);
-//        // TODO: REPLACE WITH ASSERTION
-//        System.out.println(r.getData().get(0).getCreateTime());
-//    }
+    @Test
+    public void datasetVersionWithAddedPropsUpTov5_14ResponseCanBeDeserialized() throws Exception {
+        DataverseResponse<DatasetVersion> r =
+            new DataverseResponse<>(FileUtils.readFileToString(getTestJsonFileFor(classUnderTest,
+                "DatasetVersionWithAddedPropsUpTov5_14"), StandardCharsets.UTF_8),
+                mapper, DatasetVersion.class);
+        // check some standard properties
+        Assertions.assertEquals(2, r.getData().getDatasetId());
+        Assertions.assertEquals(3, r.getData().getVersionNumber());
+        Assertions.assertEquals(5, r.getData().getFiles().size());
+        // check added properties
+        Assertions.assertEquals(new URI("https://licensebuttons.net/l/zero/1.0/88x31.png"), r.getData().getLicense().getIconUri());
+        Assertions.assertEquals("2023-01-10", r.getData().getPublicationDate());
+        Assertions.assertEquals("2023-01-10", r.getData().getCitationDate());
+        Assertions.assertEquals("hdl:10695/test-12345", r.getData().getAlternativePersistentId());
+        Assertions.assertEquals("Documentation", r.getData().getFiles().get(4).getDataFile().getCategories().get(0));
+    }
 
 }

@@ -27,4 +27,5 @@ import java.net.URI;
 public class License {
     private String name;
     private URI uri;
+    private URI iconUri;
 }

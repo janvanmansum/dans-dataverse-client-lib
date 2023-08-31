@@ -56,4 +56,7 @@ public class DatasetVersion {
     private Map<String, MetadataBlock> metadataBlocks;
     private List<FileMeta> files;
     private String citation;
+    private String publicationDate;
+    private String citationDate;
+    private String alternativePersistentId;
 }
