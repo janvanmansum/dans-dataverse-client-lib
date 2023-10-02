@@ -15,6 +15,8 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import nl.knaw.dans.lib.dataverse.model.dataset.UpdateType;
+
 import java.net.URI;
 
 public class DataverseClientConfig {
@@ -22,22 +24,37 @@ public class DataverseClientConfig {
     private final String apiToken;
     private final int awaitLockStateMaxNumberOfRetries;
     private final int awaitLockStateMillisecondsBetweenRetries;
+    private final int awaitIndexingMaxNumberOfRetries;
+    private final int awaitIndexingMillisecondsBetweenRetries;
+
     private final String unblockKey;
+
+    public static final int DEFAULT_AWAIT_LOCK_STATE_MAX_NUMBER_OF_RETRIES = 30;
+    public static final int DEFAULT_AWAIT_LOCK_STATE_MILLISECONDS_BETWEEN_RETRIES = 500;
+    public static final int DEFAULT_AWAIT_INDEXING_MAX_NUMBER_OF_RETRIES = 15;
+    public static final int DEFAULT_AWAIT_INDEXING_MILLISECONDS_BETWEEN_RETRIES = 1000;
 
     /**
      * Configuration settings for the {@link DataverseClient}.
      *
      * @param baseUrl                                  the base URL of the Dataverse server to communicate with
      * @param apiToken                                 the API token used for authorization
-     * @param awaitLockStateMaxNumberOfRetries         the maximum number of tries for {@link DatasetApi#awaitLock(String)} API (default 30)
-     * @param awaitLockStateMillisecondsBetweenRetries the number or milliseconds to wait between tries for {@link DatasetApi#awaitLock(String)} API (default 500)
+     * @param awaitLockStateMaxNumberOfRetries         the maximum number of tries for {@link DatasetApi#awaitLock(String)} API (default {@value #DEFAULT_AWAIT_LOCK_STATE_MAX_NUMBER_OF_RETRIES})
+     * @param awaitLockStateMillisecondsBetweenRetries the number of milliseconds to wait between tries for {@link DatasetApi#awaitLock(String)} API (default {@value #DEFAULT_AWAIT_LOCK_STATE_MILLISECONDS_BETWEEN_RETRIES})
+     * @param awaitIndexingMaxNumberOfRetries          the maximum number of tries for {@link DatasetApi#publish(UpdateType, boolean)} API (default {@value #DEFAULT_AWAIT_INDEXING_MAX_NUMBER_OF_RETRIES})
+     * @param awaitIndexingMillisecondsBetweenRetries  the number of milliseconds to wait between tries for {@link DatasetApi#publish(UpdateType, boolean)} API (default {@value #DEFAULT_AWAIT_INDEXING_MILLISECONDS_BETWEEN_RETRIES})
      * @param unblockKey                               a key required for admin tasks when not running on localhost
      */
-    public DataverseClientConfig(URI baseUrl, String apiToken, int awaitLockStateMaxNumberOfRetries, int awaitLockStateMillisecondsBetweenRetries, String unblockKey) {
+    public DataverseClientConfig(URI baseUrl, String apiToken,
+            int awaitLockStateMaxNumberOfRetries, int awaitLockStateMillisecondsBetweenRetries,
+            int awaitIndexingMaxNumberOfRetries, int awaitIndexingMillisecondsBetweenRetries,
+            String unblockKey) {
         this.baseUrl = baseUrl;
         this.apiToken = apiToken;
         this.awaitLockStateMaxNumberOfRetries = awaitLockStateMaxNumberOfRetries;
         this.awaitLockStateMillisecondsBetweenRetries = awaitLockStateMillisecondsBetweenRetries;
+        this.awaitIndexingMaxNumberOfRetries = awaitIndexingMaxNumberOfRetries;
+        this.awaitIndexingMillisecondsBetweenRetries = awaitIndexingMillisecondsBetweenRetries;
         this.unblockKey = unblockKey;
     }
 
@@ -49,7 +66,10 @@ public class DataverseClientConfig {
      * @param unblockKey a key required for admin tasks when not running on localhost
      */
     public DataverseClientConfig(URI baseUrl, String apiToken, String unblockKey) {
-        this(baseUrl, apiToken, 30, 500, unblockKey);
+        this(baseUrl, apiToken,
+            DEFAULT_AWAIT_LOCK_STATE_MAX_NUMBER_OF_RETRIES, DEFAULT_AWAIT_LOCK_STATE_MILLISECONDS_BETWEEN_RETRIES,
+            DEFAULT_AWAIT_INDEXING_MAX_NUMBER_OF_RETRIES, DEFAULT_AWAIT_INDEXING_MILLISECONDS_BETWEEN_RETRIES,
+            unblockKey);
     }
 
     /**
@@ -59,7 +79,10 @@ public class DataverseClientConfig {
      * @param apiToken the API token used for authorization
      */
     public DataverseClientConfig(URI baseUrl, String apiToken) {
-        this(baseUrl, apiToken, 30, 500, null);
+        this(baseUrl, apiToken,
+            DEFAULT_AWAIT_LOCK_STATE_MAX_NUMBER_OF_RETRIES, DEFAULT_AWAIT_LOCK_STATE_MILLISECONDS_BETWEEN_RETRIES,
+            DEFAULT_AWAIT_INDEXING_MAX_NUMBER_OF_RETRIES, DEFAULT_AWAIT_INDEXING_MILLISECONDS_BETWEEN_RETRIES,
+            null);
     }
 
     /**
@@ -85,6 +108,14 @@ public class DataverseClientConfig {
 
     int getAwaitLockStateMillisecondsBetweenRetries() {
         return awaitLockStateMillisecondsBetweenRetries;
+    }
+
+    int getAwaitIndexingMaxNumberOfRetries() {
+        return awaitIndexingMaxNumberOfRetries;
+    }
+
+    int getAwaitIndexingMillisecondsBetweenRetries() {
+        return awaitIndexingMillisecondsBetweenRetries;
     }
 
     public String getUnblockKey() {
