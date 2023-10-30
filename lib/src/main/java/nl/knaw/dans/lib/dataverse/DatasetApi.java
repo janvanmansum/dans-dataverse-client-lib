@@ -31,6 +31,7 @@ import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
 import org.apache.http.entity.mime.content.StringBody;
@@ -477,7 +478,21 @@ public class DatasetApi extends AbstractTargetedApi {
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#report-the-data-file-size-of-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-size-of-downloading-all-the-files-of-a-dataset-version
+
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#submit-a-dataset-for-review
+
+    /**
+     * @return todo
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#submit-a-dataset-for-review">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<Object> submitForReview() throws IOException, DataverseException {
+        return httpClientWrapper.post(subPath("submitForReview"), new StringEntity(""), params(emptyMap()), extraHeaders, Object.class);
+    }
+
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#return-a-dataset-to-author
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#link-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#dataset-locks
