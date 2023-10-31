@@ -19,14 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetPublicationResult;
+import nl.knaw.dans.lib.dataverse.model.dataset.SubmitForReviewResult;
 
 @Slf4j
 public class DatasetSubmitForReview extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
-        DataverseResponse<Object> r = client.dataset(persistentId).submitForReview();
+        DataverseResponse<SubmitForReviewResult> r = client.dataset(persistentId).submitForReview();
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
-//        log.info("Persistent Url: {}", r.getData().getPersistentUrl());
+        log.info("In Review?: {}", r.getData().getInReview());
+        log.info("Message: {}", r.getData().getMessage());
     }
 }
