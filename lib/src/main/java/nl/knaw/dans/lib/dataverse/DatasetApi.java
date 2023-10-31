@@ -487,7 +487,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#submit-a-dataset-for-review">Dataverse documentation</a>
      */
     public DataverseHttpResponse<SubmitForReviewResult> submitForReview() throws IOException, DataverseException {
-        return httpClientWrapper.post(subPath("submitForReview"), new StringEntity(""), params(emptyMap()), extraHeaders, Object.class);
+        return httpClientWrapper.post(subPath("submitForReview"), new StringEntity(""), params(emptyMap()), extraHeaders, SubmitForReviewResult.class);
     }
 
 
