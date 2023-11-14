@@ -42,6 +42,13 @@ public class DatasetVersion {
     private String productionDate;
     private Boolean fileAccessRequest;
     private String termsOfUse;
+    private String confidentialityDeclaration;
+    private String specialPermissions;
+    private String restrictions;
+    private String citationRequirements;
+    private String depositorRequirements;
+    private String conditions;
+    private String disclaimer;
     private String termsOfAccess;
     private String dataAccessPlace;
     private String originalArchive;
