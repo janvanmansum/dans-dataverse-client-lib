@@ -33,7 +33,7 @@ public class DatasetGetAllVersions extends ExampleBase {
         DataverseResponse<List<DatasetVersion>> r = client.dataset(persistentId).getAllVersions();
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
 
-        if (r.getData().size() > 0) {
+        if (!r.getData().isEmpty()) {
             DatasetVersion firstVersion = r.getData().get(0);
             log.info("First Version Create Time: {}", firstVersion.getCreateTime());
             log.info("First Version State: {}", firstVersion.getVersionState());
