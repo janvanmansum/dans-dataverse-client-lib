@@ -78,7 +78,7 @@ public class FileApi extends AbstractTargetedApi {
         if (fileMeta != null) {
             builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
         }
-        return httpClientWrapper.post2(subPath("replace"), builder.build(), (emptyMap()), new HashMap<>(), FileList.class);
+        return httpClientWrapper.post(subPath("replace"), builder.build(), (emptyMap()), new HashMap<>(), FileList.class);
     }
 
     /**
@@ -102,7 +102,7 @@ public class FileApi extends AbstractTargetedApi {
     public DataverseHttpResponse<String> updateMetadata(String fileMeta) throws IOException, DataverseException {
         MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
-        return httpClientWrapper.post2(subPath("metadata"), builder.build(), params(emptyMap()), new HashMap<>(), HashMap.class);
+        return httpClientWrapper.post(subPath("metadata"), builder.build(), params(emptyMap()), new HashMap<>(), HashMap.class);
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#editing-variable-level-metadata

@@ -49,7 +49,7 @@ public class AdminApi extends AbstractApi {
      */
     public DataverseHttpResponse<AuthenticatedUser> listSingleUser(String id) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "authenticatedUsers", id);
-        return httpClientWrapper.get2(path, new HashMap<>(), new HashMap<>(), AuthenticatedUser.class);
+        return httpClientWrapper.get(path, new HashMap<>(), new HashMap<>(), AuthenticatedUser.class);
     }
 
     /**
