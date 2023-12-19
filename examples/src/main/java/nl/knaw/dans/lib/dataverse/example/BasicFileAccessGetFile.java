@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.GetFileRange;
@@ -25,6 +26,8 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
 @Slf4j
 public class BasicFileAccessGetFile extends ExampleBase {
@@ -37,7 +40,15 @@ public class BasicFileAccessGetFile extends ExampleBase {
             range = new GetFileRange(Integer.parseInt(args[2]), Integer.parseInt(args[3]));
         }
         // TODO: test GetFileOptions
-        HttpResponse r = client.basicFileAccess(id).getFile(range);
-        FileUtils.copyInputStreamToFile(r.getEntity().getContent(), dest.toFile());
+        client.basicFileAccess(id).getFile(range, r -> {
+            if (List.of(200, 206).contains(r.getCode())) {
+                FileUtils.copyInputStreamToFile(r.getEntity().getContent(), dest.toFile());
+            }
+            else {
+                throw new RuntimeException("Failed to get file: " + r.getCode() + " " + r.getReasonPhrase());
+            }
+            return r.getCode();
+        });
     }
 }
+

@@ -16,6 +16,7 @@
 package nl.knaw.dans.lib.dataverse;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.http.HttpResponse;
 
 import java.io.IOException;
@@ -47,7 +48,7 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
      */
     public HttpResponse getFile() throws DataverseException, IOException {
-        return getFile(null, null);
+        return getFile(null, (GetFileRange) null);
     }
 
     /**
@@ -69,7 +70,7 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
      */
     public HttpResponse getFile(GetFileOptions options) throws DataverseException, IOException {
-        return getFile(options, null);
+        return getFile(options, (GetFileRange) null);
     }
 
     /**
@@ -96,4 +97,30 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
         headers.putAll(extraHeaders);
         return httpClientWrapper.get(subPath(""), params, headers);
     }
+
+    public <T> void getFile(GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        getFile(null, range, handler);
+    }
+
+    public <T> void getFile(GetFileOptions options, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        getFile(options, null, handler);
+    }
+
+    public <T> void getFile(GetFileOptions options, GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        HashMap<String, List<String>> params = new HashMap<>();
+        if (options != null) {
+            Optional.ofNullable(options.getFormat()).ifPresent(f -> params.put("format", Collections.singletonList(f)));
+            if (options.isImageThumb())
+                params.put("imageThumb", Collections.singletonList(Integer.toString(options.getImageThumbPixels())));
+            if (options.isNoVarHeader())
+                params.put("noVarHeader", Collections.singletonList("true"));
+        }
+        HashMap<String, String> headers = new HashMap<>();
+        if (range != null) {
+            headers.put("Range", "bytes=" + range.getStart() + "-" + range.getEnd());
+        }
+        headers.putAll(extraHeaders);
+        httpClientWrapper.get(subPath(""), params, headers, handler);
+    }
+
 }

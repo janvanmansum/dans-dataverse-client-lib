@@ -18,6 +18,8 @@ package nl.knaw.dans.lib.dataverse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
@@ -59,19 +61,22 @@ class HttpClientWrapper implements MediaTypes {
 
     private final DataverseClientConfig config;
     private final HttpClient httpClient;
+
+    private org.apache.hc.client5.http.classic.HttpClient httpClient5;
     private final ObjectMapper mapper;
 
     // If false, it is sent through the X-Dataverse-key header
     private boolean sendApiTokenViaBasicAuth = false;
 
-    HttpClientWrapper(DataverseClientConfig config, HttpClient httpClient, ObjectMapper mapper) {
+    HttpClientWrapper(DataverseClientConfig config, HttpClient httpClient, org.apache.hc.client5.http.classic.HttpClient httpClient5, ObjectMapper mapper) {
         this.config = config;
         this.httpClient = httpClient;
+        this.httpClient5 = httpClient5;
         this.mapper = mapper;
     }
 
     public HttpClientWrapper sendApiTokenViaBasicAuth() {
-        HttpClientWrapper wrapper = new HttpClientWrapper(getConfig(), httpClient, mapper);
+        HttpClientWrapper wrapper = new HttpClientWrapper(getConfig(), httpClient, httpClient5, mapper);
         wrapper.sendApiTokenViaBasicAuth = true;
         return wrapper;
     }
@@ -183,6 +188,13 @@ class HttpClientWrapper implements MediaTypes {
         return dispatch(get);
     }
 
+    public <T> void get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
+        var get = new org.apache.hc.client5.http.classic.methods.HttpGet(buildURi(subPath, parameters));
+        headers.forEach(get::setHeader);
+        dispatch(get, handler);
+    }
+
+
     /*
      * DELETE methods
      */
@@ -232,6 +244,21 @@ class HttpClientWrapper implements MediaTypes {
         else
             throw new DataverseException(r.getStatusLine().getStatusCode(), EntityUtils.toString(r.getEntity()), r);
     }
+
+    private <T> void dispatch(org.apache.hc.core5.http.HttpRequest request, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
+        Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
+        httpClient5.execute((ClassicHttpRequest) request, handler);
+    }
+
+    private void setApiTokenHeader(org.apache.hc.core5.http.HttpRequest request, String apiToken) {
+        if (sendApiTokenViaBasicAuth) {
+            byte[] apiTokenBytes = (apiToken + ":").getBytes(StandardCharsets.UTF_8);
+            request.setHeader(AUTHORIZATION, "Basic " + encodeBase64String(apiTokenBytes));
+        }
+        else
+            request.setHeader(HEADER_X_DATAVERSE_KEY, apiToken);
+    }
+
 
     private void setApiTokenHeader(HttpUriRequest request, String apiToken) {
         if (sendApiTokenViaBasicAuth) {

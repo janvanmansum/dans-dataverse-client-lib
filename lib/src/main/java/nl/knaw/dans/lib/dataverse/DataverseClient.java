@@ -40,7 +40,7 @@ public class DataverseClient {
      * @param config configuration for this DataverseClient
      */
     public DataverseClient(DataverseClientConfig config) {
-        this(config, null, null);
+        this(config, null, null, null);
     }
 
     /**
@@ -50,7 +50,7 @@ public class DataverseClient {
      * @param httpClient   the `org.apache.http.client.HttpClient` to use when interacting with Dataverse, or null to use a default HttpClient
      * @param objectMapper the Jackson object mapper to use, or null to use a default mapper
      */
-    public DataverseClient(DataverseClientConfig config, HttpClient httpClient, ObjectMapper objectMapper) {
+    public DataverseClient(DataverseClientConfig config, HttpClient httpClient, org.apache.hc.client5.http.classic.HttpClient httpClient5, ObjectMapper objectMapper) {
         ObjectMapper mapper = objectMapper == null ? new ObjectMapper() : objectMapper;
         SimpleModule module = new SimpleModule();
         // TODO: How to get rid of type warnings?
@@ -60,7 +60,8 @@ public class DataverseClient {
         module.addDeserializer(DataverseItem.class, new DataverseItemDeserializer());
         module.addDeserializer(ResultItem.class, new ResultItemDeserializer(mapper));
         mapper.registerModule(module);
-        this.httpClientWrapper = new HttpClientWrapper(config, httpClient == null ? HttpClients.createDefault() : httpClient, mapper);
+        this.httpClientWrapper = new HttpClientWrapper(config, httpClient == null ? HttpClients.createDefault() : httpClient, httpClient5 == null ? org.apache.hc.client5.http.impl.classic.HttpClients.createDefault() : httpClient5
+            , mapper);
     }
 
     public void checkConnection() throws IOException, DataverseException {
