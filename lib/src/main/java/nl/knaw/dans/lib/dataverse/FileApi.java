@@ -18,10 +18,10 @@ package nl.knaw.dans.lib.dataverse;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.entity.mime.StringBody;
+import org.apache.hc.core5.http.ContentType;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -71,14 +71,14 @@ public class FileApi extends AbstractTargetedApi {
     public DataverseHttpResponse<FileList> replaceFile(Path dataFile, String fileMeta) throws IOException, DataverseException {
         if (dataFile == null && fileMeta == null)
             throw new IllegalArgumentException("At least one of file data and file metadata must be provided.");
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder builder = org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder.create();
         if (dataFile != null) {
-            builder.addPart("file", new FileBody(dataFile.toFile(), ContentType.APPLICATION_OCTET_STREAM, dataFile.getFileName().toString()));
+            builder.addPart("file", new FileBody(dataFile.toFile(), org.apache.hc.core5.http.ContentType.APPLICATION_OCTET_STREAM, dataFile.getFileName().toString()));
         }
         if (fileMeta != null) {
-            builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
+            builder.addPart("jsonData", new org.apache.hc.client5.http.entity.mime.StringBody(fileMeta, org.apache.hc.core5.http.ContentType.APPLICATION_JSON));
         }
-        return httpClientWrapper.post(subPath("replace"), builder.build(), (emptyMap()), new HashMap<>(), FileList.class);
+        return httpClientWrapper.post2(subPath("replace"), builder.build(), (emptyMap()), new HashMap<>(), FileList.class);
     }
 
     /**
@@ -100,9 +100,9 @@ public class FileApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#updating-file-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<String> updateMetadata(String fileMeta) throws IOException, DataverseException {
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
-        return httpClientWrapper.post(subPath("metadata"), builder.build(), params(emptyMap()), new HashMap<>(), HashMap.class);
+        return httpClientWrapper.post2(subPath("metadata"), builder.build(), params(emptyMap()), new HashMap<>(), HashMap.class);
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#editing-variable-level-metadata

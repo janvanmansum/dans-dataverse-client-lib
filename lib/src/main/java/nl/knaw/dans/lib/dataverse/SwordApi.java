@@ -38,7 +38,7 @@ public class SwordApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/sword.html#delete-a-file-by-database-id" target="_blank">Dataverse documentation</a>
      */
-    public HttpResponse deleteFile(int databaseId) throws IOException, DataverseException {
+    public DataverseHttpResponse<Object> deleteFile(int databaseId) throws IOException, DataverseException {
         Path path = Paths.get("/dvn/api/data-deposit/v1.1/swordv2/edit-media/file/" + databaseId);
         return httpClientWrapper.delete(path);
     }

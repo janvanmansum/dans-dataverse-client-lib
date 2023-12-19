@@ -62,7 +62,7 @@ public class DataverseApi extends AbstractApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#create-a-dataverse-collection" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<Dataverse> create(String dataverse) throws IOException, DataverseException {
-        return httpClientWrapper.postJsonString(subPath, dataverse, new HashMap<>(), new HashMap<>(), Dataverse.class);
+        return httpClientWrapper.postJsonString2(subPath, dataverse, new HashMap<>(), new HashMap<>(), Dataverse.class);
     }
 
     /**
@@ -251,7 +251,7 @@ public class DataverseApi extends AbstractApi {
      */
     public DataverseHttpResponse<DatasetCreationResult> createDataset(String dataset, Map<String, String> metadataKeys) throws IOException, DataverseException {
         Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
-        return httpClientWrapper.postJsonString(subPath.resolve("datasets"), dataset, queryParams, Collections.emptyMap(), DatasetCreationResult.class);
+        return httpClientWrapper.postJsonString2(subPath.resolve("datasets"), dataset, queryParams, Collections.emptyMap(), DatasetCreationResult.class);
     }
 
     /**
@@ -337,7 +337,7 @@ public class DataverseApi extends AbstractApi {
             parameters.put("release", singletonList("" + autoPublish));
             parameters.put("pid", singletonList(persistentId));
         }
-        return httpClientWrapper.postJsonString(subPath.resolve("datasets/:import"), dataset, parameters, emptyMap(), DatasetCreationResult.class);
+        return httpClientWrapper.postJsonString2(subPath.resolve("datasets/:import"), dataset, parameters, emptyMap(), DatasetCreationResult.class);
     }
 
     /* https://guides.dataverse.org/en/latest/api/native-api.html#import-a-dataset-into-a-dataverse-installation-with-a-ddi-file
@@ -354,7 +354,7 @@ public class DataverseApi extends AbstractApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#publish-a-dataverse-collection" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DataMessage> publish() throws IOException, DataverseException {
-        return httpClientWrapper.postJsonString(subPath.resolve(publish), "", new HashMap<>(), new HashMap<>(), DataMessage.class);
+        return httpClientWrapper.postJsonString2(subPath.resolve(publish), "", new HashMap<>(), new HashMap<>(), DataMessage.class);
     }
 
     /*https://guides.dataverse.org/en/latest/api/native-api.html#retrieve-guestbook-responses-for-a-dataverse-collection

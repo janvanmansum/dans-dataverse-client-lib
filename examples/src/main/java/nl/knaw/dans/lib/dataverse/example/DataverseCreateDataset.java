@@ -80,11 +80,11 @@ public class DataverseCreateDataset extends ExampleBase {
         log.info(toPrettyJson(dataset));
 
         DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").createDataset(dataset, keyMap);
-        log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
+        log.info("Status Line: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
         log.info("DOI: {}", r.getData().getPersistentId());
 
         // termsOfAccess and fileAccessRequest are currently ignored by the create dataset API, as a work-around call updateMetadata
         DataverseHttpResponse<DatasetVersion> r2 = client.dataset(r.getData().getPersistentId()).updateMetadata(version);
-        log.info("Status Line: {}", r2.getHttpResponse().getStatusLine());
+        log.info("Status Line: {} {}", r2.getHttpResponse5().getCode(), r2.getHttpResponse5().getReasonPhrase());
     }
 }

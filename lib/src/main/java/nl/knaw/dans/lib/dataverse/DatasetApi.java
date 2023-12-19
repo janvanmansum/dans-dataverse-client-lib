@@ -30,12 +30,12 @@ import nl.knaw.dans.lib.dataverse.model.dataset.SubmitForReviewResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.UpdateType;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.entity.mime.StringBody;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.http.HttpStatus;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -134,7 +134,7 @@ public class DatasetApi extends AbstractTargetedApi {
         HashMap<String, List<String>> parameters = new HashMap<>();
         parameters.put("persistentId", singletonList(id));
         parameters.put("type", singletonList("major"));
-        return httpClientWrapper.postJsonString(path, "", parameters, emptyMap(), DatasetPublicationResult.class);
+        return httpClientWrapper.postJsonString2(path, "", parameters, emptyMap(), DatasetPublicationResult.class);
     }
 
     /**
@@ -160,7 +160,7 @@ public class DatasetApi extends AbstractTargetedApi {
         HashMap<String, List<String>> parameters = new HashMap<>();
         parameters.put("assureIsIndexed", singletonList(String.valueOf(assureIsIndexed)));
         parameters.put("type", singletonList(updateType.toString()));
-        return httpClientWrapper.postJsonString(subPath(publish), "", params(parameters), new HashMap<>(), DataMessage.class);
+        return httpClientWrapper.postJsonString2(subPath(publish), "", params(parameters), new HashMap<>(), DataMessage.class);
     }
 
     private DataverseHttpResponse<DataMessage> publishWithRetriesForAwaitIndexing(UpdateType updateType,
@@ -437,7 +437,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#assign-a-new-role-on-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<RoleAssignmentReadOnly> assignRole(String roleAssignment) throws IOException, DataverseException {
-        return httpClientWrapper.postJsonString(subPath("assignments"), roleAssignment, params(emptyMap()), extraHeaders, RoleAssignmentReadOnly.class);
+        return httpClientWrapper.postJsonString2(subPath("assignments"), roleAssignment, params(emptyMap()), extraHeaders, RoleAssignmentReadOnly.class);
     }
 
     public DataverseHttpResponse<RoleAssignmentReadOnly> assignRole(RoleAssignment roleAssignment) throws IOException, DataverseException {
@@ -458,10 +458,10 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<FileList> addFile(Path file, String metadata) throws IOException, DataverseException {
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        Optional.ofNullable(file).ifPresent(f -> builder.addPart("file", new FileBody(f.toFile(), ContentType.APPLICATION_OCTET_STREAM, f.getFileName().toString())));
+        org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        Optional.ofNullable(file).ifPresent(f -> builder.addPart("file", new FileBody(f.toFile(), org.apache.hc.core5.http.ContentType.APPLICATION_OCTET_STREAM, f.getFileName().toString())));
         Optional.ofNullable(metadata).ifPresent(m -> builder.addPart("jsonData", new StringBody(m, ContentType.APPLICATION_JSON)));
-        return httpClientWrapper.post(subPath("add"), builder.build(), params(emptyMap()), extraHeaders, FileList.class);
+        return httpClientWrapper.post2(subPath("add"), builder.build(), params(emptyMap()), extraHeaders, FileList.class);
     }
 
     /**
@@ -487,7 +487,7 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#submit-a-dataset-for-review">Dataverse documentation</a>
      */
     public DataverseHttpResponse<SubmitForReviewResult> submitForReview() throws IOException, DataverseException {
-        return httpClientWrapper.post(subPath("submitForReview"), new StringEntity(""), params(emptyMap()), extraHeaders, SubmitForReviewResult.class);
+        return httpClientWrapper.post2(subPath("submitForReview"), new StringEntity(""), params(emptyMap()), extraHeaders, SubmitForReviewResult.class);
     }
 
 
@@ -531,7 +531,7 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     public DataverseHttpResponse<HashMap> setEmbargo(String json) throws IOException, DataverseException {
-        return httpClientWrapper.postJsonString(subPath("files/actions/:set-embargo"), json, params(emptyMap()), extraHeaders, HashMap.class);
+        return httpClientWrapper.postJsonString2(subPath("files/actions/:set-embargo"), json, params(emptyMap()), extraHeaders, HashMap.class);
     }
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#remove-an-embargo-on-files-in-a-dataset
@@ -540,12 +540,12 @@ public class DatasetApi extends AbstractTargetedApi {
      * Helper methods
      */
     private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Class<?>... outputClass) throws IOException, DataverseException {
-        return httpClientWrapper.get(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
+        return httpClientWrapper.get2(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass)
         throws IOException, DataverseException {
-        return httpClientWrapper.get(subPath(endPoint), params(queryParams), extraHeaders, outputClass);
+        return httpClientWrapper.get2(subPath(endPoint), params(queryParams), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Class<?>... outputClass) throws IOException, DataverseException {
