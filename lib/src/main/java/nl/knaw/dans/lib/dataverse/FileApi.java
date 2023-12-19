@@ -71,12 +71,12 @@ public class FileApi extends AbstractTargetedApi {
     public DataverseHttpResponse<FileList> replaceFile(Path dataFile, String fileMeta) throws IOException, DataverseException {
         if (dataFile == null && fileMeta == null)
             throw new IllegalArgumentException("At least one of file data and file metadata must be provided.");
-        org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder builder = org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder.create();
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         if (dataFile != null) {
-            builder.addPart("file", new FileBody(dataFile.toFile(), org.apache.hc.core5.http.ContentType.APPLICATION_OCTET_STREAM, dataFile.getFileName().toString()));
+            builder.addPart("file", new FileBody(dataFile.toFile(), ContentType.APPLICATION_OCTET_STREAM, dataFile.getFileName().toString()));
         }
         if (fileMeta != null) {
-            builder.addPart("jsonData", new org.apache.hc.client5.http.entity.mime.StringBody(fileMeta, org.apache.hc.core5.http.ContentType.APPLICATION_JSON));
+            builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
         }
         return httpClientWrapper.post2(subPath("replace"), builder.build(), (emptyMap()), new HashMap<>(), FileList.class);
     }
@@ -100,7 +100,7 @@ public class FileApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#updating-file-metadata" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<String> updateMetadata(String fileMeta) throws IOException, DataverseException {
-        org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
         builder.addPart("jsonData", new StringBody(fileMeta, ContentType.APPLICATION_JSON));
         return httpClientWrapper.post2(subPath("metadata"), builder.build(), params(emptyMap()), new HashMap<>(), HashMap.class);
     }

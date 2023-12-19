@@ -17,11 +17,12 @@ package nl.knaw.dans.lib.dataverse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.apache.hc.core5.http.HttpResponse;
 
 import java.io.IOException;
 
 public class DataverseHttpResponse<D> extends DataverseResponse<D> {
-    private final org.apache.hc.core5.http.HttpResponse httpResponse5;
+    private final HttpResponse httpResponse5;
 
     @SneakyThrows
     DataverseHttpResponse(DispatchResult dispatchResult, ObjectMapper customMapper, Class<?>... dataClass) throws IOException {
@@ -29,7 +30,7 @@ public class DataverseHttpResponse<D> extends DataverseResponse<D> {
         this.httpResponse5 = dispatchResult.getResponse();
     }
 
-    public org.apache.hc.core5.http.HttpResponse getHttpResponse5() {
+    public HttpResponse getHttpResponse5() {
         return httpResponse5;
     }
 }

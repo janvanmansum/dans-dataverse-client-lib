@@ -17,10 +17,11 @@ package nl.knaw.dans.lib.dataverse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.apache.hc.core5.http.HttpResponse;
 
 @Data
 @AllArgsConstructor
 class DispatchResult {
-    org.apache.hc.core5.http.HttpResponse response;
+    HttpResponse response;
     String body;
 }

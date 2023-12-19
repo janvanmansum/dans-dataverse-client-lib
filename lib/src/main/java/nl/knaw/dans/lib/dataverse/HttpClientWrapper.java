@@ -19,11 +19,19 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.classic.methods.HttpDelete;
+import org.apache.hc.client5.http.classic.methods.HttpGet;
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.classic.methods.HttpPut;
 import org.apache.hc.core5.http.ClassicHttpRequest;
+import org.apache.hc.core5.http.HttpEntity;
 import org.apache.hc.core5.http.HttpHeaders;
-import org.apache.hc.core5.http.HttpResponse;
+import org.apache.hc.core5.http.HttpRequest;
 import org.apache.hc.core5.http.NameValuePair;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.http.message.BasicNameValuePair;
 import org.apache.hc.core5.net.URIBuilder;
 
@@ -53,13 +61,13 @@ class HttpClientWrapper implements MediaTypes {
 
     @Getter
     private final DataverseClientConfig config;
-    private org.apache.hc.client5.http.classic.HttpClient httpClient5;
+    private HttpClient httpClient5;
     private final ObjectMapper mapper;
 
     // If false, it is sent through the X-Dataverse-key header
     private boolean sendApiTokenViaBasicAuth = false;
 
-    HttpClientWrapper(DataverseClientConfig config, org.apache.hc.client5.http.classic.HttpClient httpClient5, ObjectMapper mapper) {
+    HttpClientWrapper(DataverseClientConfig config, HttpClient httpClient5, ObjectMapper mapper) {
         this.config = config;
         this.httpClient5 = httpClient5;
         this.mapper = mapper;
@@ -78,9 +86,9 @@ class HttpClientWrapper implements MediaTypes {
     /*
      * POST methods
      */
-    public <D> DataverseHttpResponse<D> post2(Path subPath, org.apache.hc.core5.http.HttpEntity body, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
+    public <D> DataverseHttpResponse<D> post2(Path subPath, HttpEntity body, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... c)
         throws IOException, DataverseException {
-        var post = new org.apache.hc.client5.http.classic.methods.HttpPost(buildURi(subPath, parameters));
+        var post = new HttpPost(buildURi(subPath, parameters));
         headers.forEach(post::setHeader);
         post.setEntity(body);
         return wrap(dispatch(post), c);
@@ -107,10 +115,10 @@ class HttpClientWrapper implements MediaTypes {
 
     private DispatchResult postString2(Path subPath, String s, String mediaType, Map<String, List<String>> parameters, Map<String, String> headers)
         throws IOException, DataverseException {
-        var post = new org.apache.hc.client5.http.classic.methods.HttpPost(buildURi(subPath, parameters));
+        var post = new HttpPost(buildURi(subPath, parameters));
         post.setHeader(HttpHeaders.CONTENT_TYPE, mediaType);
         headers.forEach(post::setHeader);
-        post.setEntity(new org.apache.hc.core5.http.io.entity.StringEntity(s, StandardCharsets.UTF_8));
+        post.setEntity(new StringEntity(s, StandardCharsets.UTF_8));
         return dispatch(post);
     }
 
@@ -139,10 +147,10 @@ class HttpClientWrapper implements MediaTypes {
 
     private DispatchResult putString2(Path subPath, String s, String mediaType, Map<String, List<String>> parameters, Map<String, String> headers)
         throws IOException, DataverseException {
-        var put = new org.apache.hc.client5.http.classic.methods.HttpPut(buildURi(subPath, parameters));
+        var put = new HttpPut(buildURi(subPath, parameters));
         put.setHeader(HttpHeaders.CONTENT_TYPE, mediaType);
         headers.forEach(put::setHeader);
-        put.setEntity(new org.apache.hc.core5.http.io.entity.StringEntity(s, StandardCharsets.UTF_8));
+        put.setEntity(new StringEntity(s, StandardCharsets.UTF_8));
         return dispatch(put);
     }
 
@@ -159,13 +167,13 @@ class HttpClientWrapper implements MediaTypes {
 
     public <D> DataverseHttpResponse<D> get2(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... outputClass)
         throws IOException, DataverseException {
-        var get = new org.apache.hc.client5.http.classic.methods.HttpGet(buildURi(subPath, parameters));
+        var get = new HttpGet(buildURi(subPath, parameters));
         headers.forEach(get::setHeader);
         return wrap(dispatch(get), outputClass);
     }
 
     public <T> void get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
-        var get = new org.apache.hc.client5.http.classic.methods.HttpGet(buildURi(subPath, parameters));
+        var get = new HttpGet(buildURi(subPath, parameters));
         headers.forEach(get::setHeader);
         dispatch(get, handler);
     }
@@ -178,7 +186,7 @@ class HttpClientWrapper implements MediaTypes {
     }
 
     public <D> DataverseHttpResponse<D> delete(Path subPath, Map<String, List<String>> parameters, Class<?>... outputClass) throws IOException, DataverseException {
-        var delete = new org.apache.hc.client5.http.classic.methods.HttpDelete(buildURi(subPath, parameters));
+        var delete = new HttpDelete(buildURi(subPath, parameters));
         return wrap(dispatch(delete), outputClass);
     }
 
@@ -210,17 +218,17 @@ class HttpClientWrapper implements MediaTypes {
         return new DataverseHttpResponse<>(result, mapper, dataClass);
     }
 
-    private DispatchResult dispatch(org.apache.hc.core5.http.HttpRequest request) throws IOException, DataverseException {
+    private DispatchResult dispatch(HttpRequest request) throws IOException, DataverseException {
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
-        return httpClient5.execute((ClassicHttpRequest) request, response -> new DispatchResult(response, org.apache.hc.core5.http.io.entity.EntityUtils.toString(response.getEntity())));
+        return httpClient5.execute((ClassicHttpRequest) request, response -> new DispatchResult(response, EntityUtils.toString(response.getEntity())));
     }
 
-    private <T> void dispatch(org.apache.hc.core5.http.HttpRequest request, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
+    private <T> void dispatch(HttpRequest request, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
         httpClient5.execute((ClassicHttpRequest) request, handler);
     }
 
-    private void setApiTokenHeader(org.apache.hc.core5.http.HttpRequest request, String apiToken) {
+    private void setApiTokenHeader(HttpRequest request, String apiToken) {
         if (sendApiTokenViaBasicAuth) {
             byte[] apiTokenBytes = (apiToken + ":").getBytes(StandardCharsets.UTF_8);
             request.setHeader(AUTHORIZATION, "Basic " + encodeBase64String(apiTokenBytes));

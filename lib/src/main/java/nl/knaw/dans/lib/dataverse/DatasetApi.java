@@ -458,8 +458,8 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#add-a-file-to-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<FileList> addFile(Path file, String metadata) throws IOException, DataverseException {
-        org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        Optional.ofNullable(file).ifPresent(f -> builder.addPart("file", new FileBody(f.toFile(), org.apache.hc.core5.http.ContentType.APPLICATION_OCTET_STREAM, f.getFileName().toString())));
+        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+        Optional.ofNullable(file).ifPresent(f -> builder.addPart("file", new FileBody(f.toFile(), ContentType.APPLICATION_OCTET_STREAM, f.getFileName().toString())));
         Optional.ofNullable(metadata).ifPresent(m -> builder.addPart("jsonData", new StringBody(m, ContentType.APPLICATION_JSON)));
         return httpClientWrapper.post2(subPath("add"), builder.build(), params(emptyMap()), extraHeaders, FileList.class);
     }
