@@ -80,7 +80,7 @@ public class DataverseImportDataset extends ExampleBase {
         var doi = String.format("doi:10.5072/EDDA-RAGNAROK/IMPORTTEST-%s", uuid);
         DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").importDataset(dataset,
             doi, false, keyMap);
-        log.info("Status Line: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
     }
 
 }

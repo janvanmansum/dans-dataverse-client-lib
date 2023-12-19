@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class DataversePublish extends ExampleBase {
@@ -28,6 +26,6 @@ public class DataversePublish extends ExampleBase {
     public static void main(String[] args) throws Exception {
         String alias = args[0];
         DataverseHttpResponse<DataMessage> r = client.dataverse(alias).publish();
-        log.info("Status Line of DATAVERSE PUBLICATION: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
+        log.info("Status Line of DATAVERSE PUBLICATION: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
     }
 }

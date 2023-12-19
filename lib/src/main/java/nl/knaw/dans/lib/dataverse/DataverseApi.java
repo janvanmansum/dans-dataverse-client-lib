@@ -49,7 +49,7 @@ public class DataverseApi extends AbstractApi {
     private final Path subPath;
     private static final String publish = "actions/:publish";
 
-    protected DataverseApi(HttpClientWrapper httpClientWrapper, String alias) {
+    DataverseApi(HttpClientWrapper httpClientWrapper, String alias) {
         super(httpClientWrapper);
         this.subPath = Paths.get("api/dataverses/").resolve(alias + "/");
     }

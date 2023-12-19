@@ -40,8 +40,8 @@ public class DataverseCreate extends ExampleBase {
                 new DataverseContact(1, "dummier@email.com")));
         log.info(toPrettyJson(dataverse));
         DataverseHttpResponse<Dataverse> r = client.dataverse("root").create(dataverse);
-        log.info("Status Line: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
-        if (r.getHttpResponse5().getCode() < HttpStatus.SC_CLIENT_ERROR) {
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
+        if (r.getHttpResponse().getCode() < HttpStatus.SC_CLIENT_ERROR) {
             log.info("Created: {}", r.getData().getDescription());
             log.info("Creation Date: {}", r.getData().getCreationDate());
         }

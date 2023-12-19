@@ -27,7 +27,7 @@ public class WorkflowsApi extends AbstractApi {
 
     private static final Path subPath = Paths.get("api/workflows/");
 
-    public WorkflowsApi(HttpClientWrapper httpClientWrapper) {
+    WorkflowsApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
     }
 

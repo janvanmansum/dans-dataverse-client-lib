@@ -24,7 +24,7 @@ import java.nio.file.Paths;
 @Slf4j
 public class SwordApi extends AbstractApi {
 
-    protected SwordApi(HttpClientWrapper httpClientWrapper) {
+    SwordApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper.sendApiTokenViaBasicAuth());
     }
 

@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class TokenApi extends AbstractApi {
-    protected TokenApi(HttpClientWrapper httpClientWrapper) {
+    TokenApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
     }
 

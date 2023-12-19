@@ -20,16 +20,14 @@ import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import org.apache.hc.core5.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class DataverseDelete extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         DataverseHttpResponse<DataMessage> r = client.dataverse("test").delete();
-        log.info("Status Line: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
-        if (r.getHttpResponse5().getCode() < HttpStatus.SC_CLIENT_ERROR) {
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
+        if (r.getHttpResponse().getCode() < HttpStatus.SC_CLIENT_ERROR) {
             log.info("Message: {}", r.getData().getMessage());
         }
     }

@@ -23,14 +23,10 @@ import nl.knaw.dans.lib.dataverse.model.dataset.ControlledMultiValueField;
 import nl.knaw.dans.lib.dataverse.model.dataset.Dataset;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetCreationResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
-import nl.knaw.dans.lib.dataverse.model.dataset.License;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
 import nl.knaw.dans.lib.dataverse.model.dataset.PrimitiveSingleValueField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.net.URI;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -80,11 +76,11 @@ public class DataverseCreateDataset extends ExampleBase {
         log.info(toPrettyJson(dataset));
 
         DataverseHttpResponse<DatasetCreationResult> r = client.dataverse("root").createDataset(dataset, keyMap);
-        log.info("Status Line: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
         log.info("DOI: {}", r.getData().getPersistentId());
 
         // termsOfAccess and fileAccessRequest are currently ignored by the create dataset API, as a work-around call updateMetadata
         DataverseHttpResponse<DatasetVersion> r2 = client.dataset(r.getData().getPersistentId()).updateMetadata(version);
-        log.info("Status Line: {} {}", r2.getHttpResponse5().getCode(), r2.getHttpResponse5().getReasonPhrase());
+        log.info("Status Line: {} {}", r2.getHttpResponse().getCode(), r2.getHttpResponse().getReasonPhrase());
     }
 }

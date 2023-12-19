@@ -32,14 +32,13 @@ import java.util.Optional;
  */
 @Slf4j
 public class BasicFileAccessApi extends AbstractTargetedApi {
-    protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+    BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/access/datafile"));
     }
 
-    protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+    BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/datafile"));
     }
-
 
     public <T> void getFile(GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
         getFile(null, range, handler);

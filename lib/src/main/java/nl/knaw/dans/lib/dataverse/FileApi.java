@@ -33,11 +33,11 @@ import static java.util.Collections.emptyMap;
 @Slf4j
 public class FileApi extends AbstractTargetedApi {
 
-    protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+    FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/v1/files/"));
     }
 
-    protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+    FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/v1/files/"));
     }
 

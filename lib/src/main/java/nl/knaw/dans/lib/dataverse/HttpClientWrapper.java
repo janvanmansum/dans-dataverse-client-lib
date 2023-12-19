@@ -61,20 +61,20 @@ class HttpClientWrapper implements MediaTypes {
 
     @Getter
     private final DataverseClientConfig config;
-    private HttpClient httpClient5;
+    private HttpClient httpClient;
     private final ObjectMapper mapper;
 
     // If false, it is sent through the X-Dataverse-key header
     private boolean sendApiTokenViaBasicAuth = false;
 
-    HttpClientWrapper(DataverseClientConfig config, HttpClient httpClient5, ObjectMapper mapper) {
+    HttpClientWrapper(DataverseClientConfig config, HttpClient httpClient, ObjectMapper mapper) {
         this.config = config;
-        this.httpClient5 = httpClient5;
+        this.httpClient = httpClient;
         this.mapper = mapper;
     }
 
     public HttpClientWrapper sendApiTokenViaBasicAuth() {
-        HttpClientWrapper wrapper = new HttpClientWrapper(getConfig(), httpClient5, mapper);
+        HttpClientWrapper wrapper = new HttpClientWrapper(getConfig(), httpClient, mapper);
         wrapper.sendApiTokenViaBasicAuth = true;
         return wrapper;
     }
@@ -220,12 +220,12 @@ class HttpClientWrapper implements MediaTypes {
 
     private DispatchResult dispatch(HttpRequest request) throws IOException, DataverseException {
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
-        return httpClient5.execute((ClassicHttpRequest) request, response -> new DispatchResult(response, EntityUtils.toString(response.getEntity())));
+        return httpClient.execute((ClassicHttpRequest) request, response -> new DispatchResult(response, EntityUtils.toString(response.getEntity())));
     }
 
     private <T> void dispatch(HttpRequest request, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
-        httpClient5.execute((ClassicHttpRequest) request, handler);
+        httpClient.execute((ClassicHttpRequest) request, handler);
     }
 
     private void setApiTokenHeader(HttpRequest request, String apiToken) {

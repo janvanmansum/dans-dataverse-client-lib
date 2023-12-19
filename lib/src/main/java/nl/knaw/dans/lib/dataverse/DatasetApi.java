@@ -57,11 +57,11 @@ import static java.util.Collections.singletonMap;
 @Slf4j
 public class DatasetApi extends AbstractTargetedApi {
 
-    protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+    DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         this(httpClientWrapper, id, isPersistentId, null);
     }
 
-    protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+    DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/datasets/"));
     }
 

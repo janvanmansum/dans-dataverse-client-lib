@@ -30,19 +30,21 @@ abstract class AbstractTargetedApi extends AbstractApi {
     protected static final String persistendId = ":persistentId/";
     protected static final String publish = "actions/:publish";
 
+    protected static final String invocationIdHeaderName = "X-Dataverse-invocationID";
+
     protected final Path targetBase;
     protected final String id;
     protected final boolean isPersistentId;
 
     protected final Map<String, String> extraHeaders = new HashMap<>();
 
-    protected AbstractTargetedApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId, Path targetBase) {
+    AbstractTargetedApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId, Path targetBase) {
         super(httpClientWrapper);
         this.id = id;
         this.isPersistentId = isPersistentId;
         this.targetBase = targetBase;
         if (invocationId != null)
-            extraHeaders.put("X-Dataverse-invocationID", invocationId);
+            extraHeaders.put(invocationIdHeaderName, invocationId);
     }
 
     protected Map<String, List<String>> params(Map<String, List<String>> queryParams) {

@@ -31,11 +31,11 @@ public class DataAccessRequestsApi extends AbstractTargetedApi {
     private final Map<String, List<String>> params = params(new HashMap<>());
     private final HashMap<String, String> headers = new HashMap<>();
 
-    protected DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+    DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/access/"));
     }
 
-    protected DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+    DataAccessRequestsApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/"));
     }
 

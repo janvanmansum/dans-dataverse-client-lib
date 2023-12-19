@@ -22,15 +22,15 @@ import org.apache.hc.core5.http.HttpResponse;
 import java.io.IOException;
 
 public class DataverseHttpResponse<D> extends DataverseResponse<D> {
-    private final HttpResponse httpResponse5;
+    private final HttpResponse httpResponse;
 
     @SneakyThrows
     DataverseHttpResponse(DispatchResult dispatchResult, ObjectMapper customMapper, Class<?>... dataClass) throws IOException {
         super(dispatchResult.getBody(), customMapper, dataClass);
-        this.httpResponse5 = dispatchResult.getResponse();
+        this.httpResponse = dispatchResult.getResponse();
     }
 
-    public HttpResponse getHttpResponse5() {
-        return httpResponse5;
+    public HttpResponse getHttpResponse() {
+        return httpResponse;
     }
 }
