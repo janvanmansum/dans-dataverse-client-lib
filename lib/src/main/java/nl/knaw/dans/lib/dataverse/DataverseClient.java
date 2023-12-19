@@ -47,10 +47,10 @@ public class DataverseClient {
      * Creates a DataverseClient with a custom HttpClient.
      *
      * @param config       configuration for this DataverseClient
-     * @param httpClient5   the HttpClient to use, or null to use a default client
+     * @param httpClient   the HttpClient to use, or null to use a default client
      * @param objectMapper the Jackson object mapper to use, or null to use a default mapper
      */
-    public DataverseClient(DataverseClientConfig config, HttpClient httpClient5, ObjectMapper objectMapper) {
+    public DataverseClient(DataverseClientConfig config, HttpClient httpClient, ObjectMapper objectMapper) {
         ObjectMapper mapper = objectMapper == null ? new ObjectMapper() : objectMapper;
         SimpleModule module = new SimpleModule();
         // TODO: How to get rid of type warnings?
@@ -60,7 +60,7 @@ public class DataverseClient {
         module.addDeserializer(DataverseItem.class, new DataverseItemDeserializer());
         module.addDeserializer(ResultItem.class, new ResultItemDeserializer(mapper));
         mapper.registerModule(module);
-        this.httpClientWrapper = new HttpClientWrapper(config, httpClient5 == null ?  HttpClients.createDefault() : httpClient5
+        this.httpClientWrapper = new HttpClientWrapper(config, httpClient == null ? HttpClients.createDefault() : httpClient
             , mapper);
     }
 
