@@ -30,7 +30,7 @@ public class DataverseSetMetadataBlocksRoot extends ExampleBase {
         boolean isRoot = Boolean.parseBoolean(args[1]);
         log.info("Setting metadata blocks isRoot to: {} for dataverse with alias: {}", isRoot, alias);
         DataverseHttpResponse<DataMessage> r = client.dataverse(alias).setMetadataBlocksRoot(isRoot);
-        log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
+        log.info("Status Line: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
         log.info("Message: {}", r.getData().getMessage());
     }
 }

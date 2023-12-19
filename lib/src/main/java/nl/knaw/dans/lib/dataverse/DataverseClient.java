@@ -21,8 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItem;
 import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 
@@ -40,17 +38,17 @@ public class DataverseClient {
      * @param config configuration for this DataverseClient
      */
     public DataverseClient(DataverseClientConfig config) {
-        this(config, null, null, null);
+        this(config, null, null);
     }
 
     /**
      * Creates a DataverseClient with a custom HttpClient.
      *
      * @param config       configuration for this DataverseClient
-     * @param httpClient   the `org.apache.http.client.HttpClient` to use when interacting with Dataverse, or null to use a default HttpClient
+     * @param httpClient5   the HttpClient to use, or null to use a default client
      * @param objectMapper the Jackson object mapper to use, or null to use a default mapper
      */
-    public DataverseClient(DataverseClientConfig config, HttpClient httpClient, org.apache.hc.client5.http.classic.HttpClient httpClient5, ObjectMapper objectMapper) {
+    public DataverseClient(DataverseClientConfig config, org.apache.hc.client5.http.classic.HttpClient httpClient5, ObjectMapper objectMapper) {
         ObjectMapper mapper = objectMapper == null ? new ObjectMapper() : objectMapper;
         SimpleModule module = new SimpleModule();
         // TODO: How to get rid of type warnings?
@@ -60,7 +58,7 @@ public class DataverseClient {
         module.addDeserializer(DataverseItem.class, new DataverseItemDeserializer());
         module.addDeserializer(ResultItem.class, new ResultItemDeserializer(mapper));
         mapper.registerModule(module);
-        this.httpClientWrapper = new HttpClientWrapper(config, httpClient == null ? HttpClients.createDefault() : httpClient, httpClient5 == null ? org.apache.hc.client5.http.impl.classic.HttpClients.createDefault() : httpClient5
+        this.httpClientWrapper = new HttpClientWrapper(config, httpClient5 == null ? org.apache.hc.client5.http.impl.classic.HttpClients.createDefault() : httpClient5
             , mapper);
     }
 

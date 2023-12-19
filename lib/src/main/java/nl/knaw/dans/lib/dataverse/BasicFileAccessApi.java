@@ -17,7 +17,6 @@ package nl.knaw.dans.lib.dataverse;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.io.HttpClientResponseHandler;
-import org.apache.http.HttpResponse;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -41,62 +40,6 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/datafile"));
     }
 
-//    /**
-//     * @return a HttpResponse object
-//     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-//     * @throws DataverseException when Dataverse fails to perform the request
-//     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-//     */
-//    public HttpResponse getFile() throws DataverseException, IOException {
-//        return getFile(null, (GetFileRange) null);
-//    }
-//
-//    /**
-//     * @param range the range of the file to return, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#headers" target="_blank">Dataverse documentation</a>
-//     * @return a HttpResponse object
-//     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-//     * @throws DataverseException when Dataverse fails to perform the request
-//     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-//     */
-//    public HttpResponse getFile(GetFileRange range) throws DataverseException, IOException {
-//        return getFile(null, range);
-//    }
-//
-//    /**
-//     * @param options the request options, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#parameters" target="_blank">Dataverse documentation</a>
-//     * @return a HttpResponse object
-//     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-//     * @throws DataverseException when Dataverse fails to perform the request
-//     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-//     */
-//    public HttpResponse getFile(GetFileOptions options) throws DataverseException, IOException {
-//        return getFile(options, (GetFileRange) null);
-//    }
-//
-//    /**
-//     * @param options the request options, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#parameters" target="_blank">Dataverse documentation</a>
-//     * @param range   the range of the file to return, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#headers" target="_blank">Dataverse documentation</a>
-//     * @return a HttpResponse object
-//     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-//     * @throws DataverseException when Dataverse fails to perform the request
-//     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-//     */
-//    public HttpResponse getFile(GetFileOptions options, GetFileRange range) throws DataverseException, IOException {
-//        HashMap<String, List<String>> params = new HashMap<>();
-//        if (options != null) {
-//            Optional.ofNullable(options.getFormat()).ifPresent(f -> params.put("format", Collections.singletonList(f)));
-//            if (options.isImageThumb())
-//                params.put("imageThumb", Collections.singletonList(Integer.toString(options.getImageThumbPixels())));
-//            if (options.isNoVarHeader())
-//                params.put("noVarHeader", Collections.singletonList("true"));
-//        }
-//        HashMap<String, String> headers = new HashMap<>();
-//        if (range != null) {
-//            headers.put("Range", "bytes=" + range.getStart() + "-" + range.getEnd());
-//        }
-//        headers.putAll(extraHeaders);
-//        return httpClientWrapper.get(subPath(""), params, headers);
-//    }
 
     public <T> void getFile(GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
         getFile(null, range, handler);

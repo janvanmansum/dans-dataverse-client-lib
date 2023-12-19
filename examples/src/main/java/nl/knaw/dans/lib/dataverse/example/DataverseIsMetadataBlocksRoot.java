@@ -28,7 +28,7 @@ public class DataverseIsMetadataBlocksRoot extends ExampleBase {
         String alias = args[0];
         log.info("Getting metadata blocks isRoot for dataverse with alias: {}",  alias);
         DataverseHttpResponse<Boolean> r = client.dataverse(alias).isMetadataBlocksRoot();
-        log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
+        log.info("Status Line: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
         log.info("Is root: {}", r.getData());
     }
 }

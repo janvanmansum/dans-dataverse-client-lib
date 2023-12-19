@@ -15,19 +15,14 @@
  */
 package nl.knaw.dans.lib.dataverse.example;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.GetFileRange;
 import org.apache.commons.io.FileUtils;
 import org.apache.hc.core5.http.HttpStatus;
-import org.apache.http.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
 
 @Slf4j

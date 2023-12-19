@@ -28,6 +28,6 @@ public class DataversePublish extends ExampleBase {
     public static void main(String[] args) throws Exception {
         String alias = args[0];
         DataverseHttpResponse<DataMessage> r = client.dataverse(alias).publish();
-        log.info("Status Line of DATAVERSE PUBLICATION: {}", r.getHttpResponse().getStatusLine());
+        log.info("Status Line of DATAVERSE PUBLICATION: {} {}", r.getHttpResponse5().getCode(), r.getHttpResponse5().getReasonPhrase());
     }
 }
