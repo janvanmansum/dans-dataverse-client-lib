@@ -166,8 +166,8 @@ public class DatasetApi extends AbstractTargetedApi {
     private DataverseHttpResponse<DataMessage> publishWithRetriesForAwaitIndexing(UpdateType updateType,
         int awaitIndexingMaxNumberOfRetries, int awaitIndexingMillisecondsBetweenRetries) throws IOException, DataverseException {
 
-        int retry_count = 0;
-        while (retry_count < awaitIndexingMaxNumberOfRetries) {
+        int retryCount = 0;
+        while (retryCount < awaitIndexingMaxNumberOfRetries) {
             try {
                 return publishWithoutRetries(updateType, true);
             } catch (DataverseException e) {
@@ -176,9 +176,9 @@ public class DatasetApi extends AbstractTargetedApi {
                     throw e;
                 }
                 log.debug("Attempt to publish dataset failed because Dataset is awaiting indexing");
-                retry_count++;
-                log.debug("Retry count: {}", retry_count);
-                if(retry_count == awaitIndexingMaxNumberOfRetries) {
+                retryCount++;
+                log.debug("Retry count: {}", retryCount);
+                if(retryCount == awaitIndexingMaxNumberOfRetries) {
                     log.error("Max retries ({}) reached, stop trying to publish dataset", awaitIndexingMaxNumberOfRetries);
                     throw e;
                 }

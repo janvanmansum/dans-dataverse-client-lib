@@ -17,6 +17,7 @@ package nl.knaw.dans.lib.dataverse;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.classic.HttpClient;
@@ -220,12 +221,30 @@ class HttpClientWrapper implements MediaTypes {
 
     private DispatchResult dispatch(HttpRequest request) throws IOException, DataverseException {
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
-        return httpClient.execute((ClassicHttpRequest) request, response -> new DispatchResult(response, EntityUtils.toString(response.getEntity())));
+        return dispatch(request, response -> new DispatchResult(response, EntityUtils.toString(response.getEntity())));
     }
 
-    private <T> void dispatch(HttpRequest request, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
+    private <T> T dispatch(HttpRequest request, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
+        @Getter
+        @AllArgsConstructor
+        class UncheckedDataverseException extends RuntimeException {
+            private final DataverseException cause;
+        }
+
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
-        httpClient.execute((ClassicHttpRequest) request, handler);
+        try {
+            return httpClient.execute((ClassicHttpRequest) request, response -> {
+                if (response.getCode() >= 200 && response.getCode() < 300) {
+                    return handler.handleResponse(response);
+                }
+                else {
+                    throw new UncheckedDataverseException(new DataverseException(response.getCode(), EntityUtils.toString(response.getEntity())));
+                }
+            });
+        }
+        catch (UncheckedDataverseException e) {
+            throw e.getCause();
+        }
     }
 
     private void setApiTokenHeader(HttpRequest request, String apiToken) {
