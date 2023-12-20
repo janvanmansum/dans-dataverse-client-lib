@@ -48,7 +48,7 @@ public class DatasetUpdateMetadata extends ExampleBase {
         citation.setFields(Arrays.asList(
             new PrimitiveSingleValueField("title", "My New Title"),
             new CompoundFieldBuilder("author", true)
-                .addSubfield("authorName", "A. Thor2")
+                .addSubfield("authorName", "A. Thor")
                 .addSubfield("authorAffiliation", "Walhalla")
                 .addSubfield("authorEmail", "thor@asgard.no")
                 .build(),

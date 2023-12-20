@@ -18,7 +18,6 @@ package nl.knaw.dans.lib.dataverse.example;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import nl.knaw.dans.lib.dataverse.model.dataset.DatasetPublicationResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.SubmitForReviewResult;
 
 @Slf4j

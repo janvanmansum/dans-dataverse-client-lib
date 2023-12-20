@@ -23,8 +23,6 @@ import nl.knaw.dans.lib.dataverse.model.search.DataverseResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.FileResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.ResultItem;
 import nl.knaw.dans.lib.dataverse.model.search.SearchItemType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.Iterator;
