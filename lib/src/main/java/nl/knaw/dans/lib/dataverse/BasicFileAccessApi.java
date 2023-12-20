@@ -40,15 +40,19 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/datafile"));
     }
 
-    public <T> void getFile(GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
-        getFile(null, range, handler);
+    public <T> T getFile(GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        return getFile(null, range, handler);
     }
 
-    public <T> void getFile(GetFileOptions options, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
-        getFile(options, null, handler);
+    public <T> T getFile(GetFileOptions options, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        return getFile(options, null, handler);
     }
 
-    public <T> void getFile(GetFileOptions options, GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+    public <T> T getFile(HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        return getFile(null, null, handler);
+    }
+
+    public <T> T getFile(GetFileOptions options, GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
         HashMap<String, List<String>> params = new HashMap<>();
         if (options != null) {
             Optional.ofNullable(options.getFormat()).ifPresent(f -> params.put("format", Collections.singletonList(f)));
@@ -62,7 +66,7 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
             headers.put("Range", "bytes=" + range.getStart() + "-" + range.getEnd());
         }
         headers.putAll(extraHeaders);
-        httpClientWrapper.get(subPath(""), params, headers, handler);
+        return httpClientWrapper.get(subPath(""), params, headers, handler);
     }
 
 }

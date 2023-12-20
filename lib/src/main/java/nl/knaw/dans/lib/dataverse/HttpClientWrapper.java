@@ -173,10 +173,10 @@ class HttpClientWrapper implements MediaTypes {
         return wrap(dispatch(get), outputClass);
     }
 
-    public <T> void get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
+    public <T> T get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
         var get = new HttpGet(buildURi(subPath, parameters));
         headers.forEach(get::setHeader);
-        dispatch(get, handler);
+        return dispatch(get, handler);
     }
 
     /*
