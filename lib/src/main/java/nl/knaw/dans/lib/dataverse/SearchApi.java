@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public class SearchApi extends AbstractApi {
     private final Path subPath = Paths.get("api", "search");
 
-    protected SearchApi(HttpClientWrapper httpClientWrapper) {
+    SearchApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
     }
 

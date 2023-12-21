@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -32,9 +30,16 @@ public class DatasetGetFiles extends ExampleBase {
         String version = args[1];
         DataverseResponse<List<FileMeta>> r = client.dataset(persistentId).getFiles(version);
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
-        log.info("Label: {}", r.getData().get(0).getLabel());
-        log.info("DirectoryLabel: {}", r.getData().get(0).getDirectoryLabel());
-        log.info("DataFile StorageIdentifier: {}", r.getData().get(0).getDataFile().getStorageIdentifier());
-        log.info("DataFile Checksum Value: {}", r.getData().get(0).getDataFile().getChecksum().getValue());
+
+        if (r.getData().isEmpty()) {
+            log.info("No files found");
+        }
+        else {
+            FileMeta firstFile = r.getData().get(0);
+            log.info("First File Label: {}", firstFile.getLabel());
+            log.info("First File DirectoryLabel: {}", r.getData().get(0).getDirectoryLabel());
+            log.info("First File DataFile StorageIdentifier: {}", r.getData().get(0).getDataFile().getStorageIdentifier());
+            log.info("First File DataFile Checksum Value: {}", r.getData().get(0).getDataFile().getChecksum().getValue());
+        }
     }
 }

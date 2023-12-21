@@ -41,12 +41,19 @@ public class DataverseResponse<D> {
         this.bodyText = bodyText;
         this.mapper = mapper;
         TypeFactory typeFactory = mapper.getTypeFactory();
-        if (dataClass.length == 2) {
-            JavaType inner = typeFactory.constructParametricType(dataClass[0], dataClass[1]);
-            this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, inner);
-        }
-        else {
-            this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, dataClass[0]);
+
+        switch (dataClass.length) {
+            case 0:
+                throw new IllegalArgumentException("No parameter type given");
+            case 1:
+                this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, dataClass[0]);
+                break;
+            case 2:
+                JavaType inner = typeFactory.constructParametricType(dataClass[0], dataClass[1]);
+                this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, inner);
+                break;
+            default:
+                throw new IllegalArgumentException("Currently no more than one nested parameter type supported");
         }
     }
 

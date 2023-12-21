@@ -18,8 +18,6 @@ package nl.knaw.dans.lib.dataverse.example;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class DataverseIsMetadataBlocksRoot extends ExampleBase {
@@ -28,7 +26,7 @@ public class DataverseIsMetadataBlocksRoot extends ExampleBase {
         String alias = args[0];
         log.info("Getting metadata blocks isRoot for dataverse with alias: {}",  alias);
         DataverseHttpResponse<Boolean> r = client.dataverse(alias).isMetadataBlocksRoot();
-        log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
         log.info("Is root: {}", r.getData());
     }
 }

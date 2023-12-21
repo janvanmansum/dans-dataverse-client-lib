@@ -70,7 +70,14 @@ public class DatasetUpdateMetadata extends ExampleBase {
             DatasetVersion latest = r.getData().getLatestVersion();
             latest.setTermsOfAccess("Some new terms. Pray I don't alter them any further.");
             latest.setFiles(Collections.emptyList());
-            latest.setMetadataBlocks(Collections.singletonMap("citation", citation));
+            /*
+             * Replacing the Citation Metadata block and keeping all other blocks the same. Note that leaving out metadata fields
+             * means they will be removed from the dataset. In case those fields are protected by a system metadata key, you will
+             * get a 403 Forbidden error.
+             */
+            var metadataBlocks = latest.getMetadataBlocks();
+            metadataBlocks.put("citation", citation);
+            latest.setMetadataBlocks(metadataBlocks);
             var r2 = client.dataset(persistentId).updateMetadata(latest, keyMap);
             log.info("Response message: {}", r2.getEnvelopeAsJson().toPrettyString());
             log.info("Version number: {}", r2.getData().getVersionNumber());

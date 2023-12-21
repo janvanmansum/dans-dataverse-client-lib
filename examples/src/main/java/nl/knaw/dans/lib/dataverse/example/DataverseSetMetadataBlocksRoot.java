@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class DataverseSetMetadataBlocksRoot extends ExampleBase {
@@ -30,7 +28,7 @@ public class DataverseSetMetadataBlocksRoot extends ExampleBase {
         boolean isRoot = Boolean.parseBoolean(args[1]);
         log.info("Setting metadata blocks isRoot to: {} for dataverse with alias: {}", isRoot, alias);
         DataverseHttpResponse<DataMessage> r = client.dataverse(alias).setMetadataBlocksRoot(isRoot);
-        log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
         log.info("Message: {}", r.getData().getMessage());
     }
 }

@@ -34,7 +34,7 @@ import java.util.Map;
 public class LicenseApi extends AbstractApi {
     private final Path targetBase;
 
-    protected LicenseApi(HttpClientWrapper httpClientWrapper) {
+    LicenseApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
         this.targetBase = Paths.get("api/licenses/");
     }

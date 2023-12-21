@@ -16,19 +16,18 @@
 package nl.knaw.dans.lib.dataverse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
+import lombok.SneakyThrows;
+import org.apache.hc.core5.http.HttpResponse;
 
 import java.io.IOException;
 
 public class DataverseHttpResponse<D> extends DataverseResponse<D> {
     private final HttpResponse httpResponse;
 
-    protected DataverseHttpResponse(HttpResponse httpResponse, ObjectMapper customMapper, Class<?>... dataClass) throws IOException {
-        super(EntityUtils.toString(httpResponse.getEntity()), customMapper, dataClass);
-        if (dataClass.length > 2)
-            throw new IllegalArgumentException("Currently no more than one nested parameter type supported");
-        this.httpResponse = httpResponse;
+    @SneakyThrows
+    DataverseHttpResponse(DispatchResult dispatchResult, ObjectMapper customMapper, Class<?>... dataClass) throws IOException {
+        super(dispatchResult.getBody(), customMapper, dataClass);
+        this.httpResponse = dispatchResult.getResponse();
     }
 
     public HttpResponse getHttpResponse() {

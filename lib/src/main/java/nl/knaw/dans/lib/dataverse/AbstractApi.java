@@ -26,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 abstract class AbstractApi {
+    protected static final String MDKEY_PARAM_NAME_PREFIX = "mdkey.";
 
     protected final HttpClientWrapper httpClientWrapper;
 
@@ -42,8 +43,6 @@ abstract class AbstractApi {
         }
         return p;
     }
-
-    protected static final String MDKEY_PARAM_NAME_PREFIX = "mdkey.";
 
     protected Map<String, List<String>> getQueryParamsFromMetadataKeys(Map<String, String> metadataKeys) {
         return metadataKeys.entrySet().stream()

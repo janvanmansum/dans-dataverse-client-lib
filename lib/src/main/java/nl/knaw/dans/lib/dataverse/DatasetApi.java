@@ -30,12 +30,12 @@ import nl.knaw.dans.lib.dataverse.model.dataset.SubmitForReviewResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.UpdateType;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpStatus;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.entity.mime.StringBody;
+import org.apache.hc.core5.http.ContentType;
+import org.apache.hc.core5.http.HttpStatus;
+import org.apache.hc.core5.http.io.entity.StringEntity;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -57,11 +57,11 @@ import static java.util.Collections.singletonMap;
 @Slf4j
 public class DatasetApi extends AbstractTargetedApi {
 
-    protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+    DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         this(httpClientWrapper, id, isPersistentId, null);
     }
 
-    protected DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+    DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/datasets/"));
     }
 
@@ -166,8 +166,8 @@ public class DatasetApi extends AbstractTargetedApi {
     private DataverseHttpResponse<DataMessage> publishWithRetriesForAwaitIndexing(UpdateType updateType,
         int awaitIndexingMaxNumberOfRetries, int awaitIndexingMillisecondsBetweenRetries) throws IOException, DataverseException {
 
-        int retry_count = 0;
-        while (retry_count < awaitIndexingMaxNumberOfRetries) {
+        int retryCount = 0;
+        while (retryCount < awaitIndexingMaxNumberOfRetries) {
             try {
                 return publishWithoutRetries(updateType, true);
             } catch (DataverseException e) {
@@ -176,9 +176,9 @@ public class DatasetApi extends AbstractTargetedApi {
                     throw e;
                 }
                 log.debug("Attempt to publish dataset failed because Dataset is awaiting indexing");
-                retry_count++;
-                log.debug("Retry count: {}", retry_count);
-                if(retry_count == awaitIndexingMaxNumberOfRetries) {
+                retryCount++;
+                log.debug("Retry count: {}", retryCount);
+                if(retryCount == awaitIndexingMaxNumberOfRetries) {
                     log.error("Max retries ({}) reached, stop trying to publish dataset", awaitIndexingMaxNumberOfRetries);
                     throw e;
                 }

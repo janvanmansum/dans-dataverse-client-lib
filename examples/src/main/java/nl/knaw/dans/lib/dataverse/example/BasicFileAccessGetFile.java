@@ -19,12 +19,11 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.GetFileRange;
 import org.apache.commons.io.FileUtils;
-import org.apache.http.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.hc.core5.http.HttpStatus;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Slf4j
 public class BasicFileAccessGetFile extends ExampleBase {
@@ -37,7 +36,15 @@ public class BasicFileAccessGetFile extends ExampleBase {
             range = new GetFileRange(Integer.parseInt(args[2]), Integer.parseInt(args[3]));
         }
         // TODO: test GetFileOptions
-        HttpResponse r = client.basicFileAccess(id).getFile(range);
-        FileUtils.copyInputStreamToFile(r.getEntity().getContent(), dest.toFile());
+        client.basicFileAccess(id).getFile(range, r -> {
+            if (List.of(HttpStatus.SC_OK, HttpStatus.SC_PARTIAL_CONTENT).contains(r.getCode())) {
+                FileUtils.copyInputStreamToFile(r.getEntity().getContent(), dest.toFile());
+            }
+            else {
+                throw new RuntimeException("Failed to get file or file part: " + r.getCode() + " " + r.getReasonPhrase());
+            }
+            return r.getCode();
+        });
     }
 }
+

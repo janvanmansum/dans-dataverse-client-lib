@@ -22,8 +22,6 @@ import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseDatasetItem;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItem;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItemType;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseSubverseItem;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 

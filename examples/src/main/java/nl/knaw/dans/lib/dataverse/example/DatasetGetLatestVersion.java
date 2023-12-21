@@ -20,8 +20,6 @@ import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetLatestVersion;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class DatasetGetLatestVersion extends ExampleBase {
@@ -31,10 +29,16 @@ public class DatasetGetLatestVersion extends ExampleBase {
         DataverseResponse<DatasetLatestVersion> r = client.dataset(persistentId).getLatestVersion();
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
 
-        DatasetLatestVersion metadataExport = r.getData();
-        log.info("Publication Date: {}", metadataExport.getPublicationDate());
-        log.info("Publisher: {}", metadataExport.getPublisher());
-        for (FileMeta fm : metadataExport.getLatestVersion().getFiles()) {
+        DatasetLatestVersion datasetLatestVersion = r.getData();
+        log.info("Publication Date: {}", datasetLatestVersion.getPublicationDate());
+        log.info("Publisher: {}", datasetLatestVersion.getPublisher());
+        if (datasetLatestVersion.getLatestVersion().getVersionState().equals("RELEASED")) {
+            log.info("Version: {}.{}", datasetLatestVersion.getLatestVersion().getVersionNumber(), datasetLatestVersion.getLatestVersion().getVersionMinorNumber());
+        } else {
+            log.info("DRAFT version");
+        }
+
+        for (FileMeta fm : datasetLatestVersion.getLatestVersion().getFiles()) {
             log.info("File Label: {}", fm.getLabel());
             log.info("File UNF (if present): {}", fm.getDataFile().getUnf());
         }

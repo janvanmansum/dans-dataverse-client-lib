@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignmentReadOnly;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -31,12 +29,13 @@ public class DatasetListRoleAssignments extends ExampleBase {
         String persistentId = args[0];
         DataverseHttpResponse<List<RoleAssignmentReadOnly>> r = client.dataset(persistentId).listRoleAssignments();
         log.info(r.getEnvelopeAsJson().toPrettyString());
-        log.info("nr of rows: " + r.getData().size());
-        log.info("roleId: " + r.getData().get(0).getRoleId());
-        log.info("id: " + r.getData().get(0).getId());
-        log.info("assignee: " + r.getData().get(0).getAssignee());
-        log.info("one-liners showing differences");
-        log.info("model deserialized: " + mapper.writeValueAsString(r.getEnvelope()));// this adds "message" to the envelope and "privateUrlToken" to the role assignments
-        log.info("original response:  " + r.getEnvelopeAsString());
+        for (RoleAssignmentReadOnly ra : r.getData()) {
+            log.info("Role Assignment ID: {}", ra.getId());
+            log.info("Role ID: {}", ra.getRoleId());
+            log.info("Assignee: {}", ra.getAssignee());
+            log.info("Definition Point: {}", ra.getDefinitionPointId());
+            log.info("Role Assignment Private URL Token: {}", ra.getPrivateUrlToken());
+            log.info("---");
+        }
     }
 }

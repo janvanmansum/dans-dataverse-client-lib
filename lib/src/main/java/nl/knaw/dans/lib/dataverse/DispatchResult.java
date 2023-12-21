@@ -15,24 +15,13 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
-import lombok.extern.slf4j.Slf4j;
-import nl.knaw.dans.lib.dataverse.model.workflow.ResumeMessage;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import org.apache.hc.core5.http.HttpResponse;
 
-import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
-@Slf4j
-public class WorkflowsApi extends AbstractApi {
-
-    private static final Path subPath = Paths.get("api/workflows/");
-
-    WorkflowsApi(HttpClientWrapper httpClientWrapper) {
-        super(httpClientWrapper);
-    }
-
-    public DataverseHttpResponse<Object> resume(String invocationId, ResumeMessage resumeMessage) throws IOException, DataverseException {
-        return httpClientWrapper.postModelObjectAsJson(subPath.resolve(invocationId), resumeMessage, Object.class);
-    }
-
+@Data
+@AllArgsConstructor
+class DispatchResult {
+    HttpResponse response;
+    String body;
 }

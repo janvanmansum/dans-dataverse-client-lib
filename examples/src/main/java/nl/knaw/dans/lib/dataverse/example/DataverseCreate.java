@@ -21,8 +21,7 @@ import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataverse.Dataverse;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseContact;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.hc.core5.http.HttpStatus;
 
 import java.util.Arrays;
 
@@ -33,7 +32,7 @@ public class DataverseCreate extends ExampleBase {
         Dataverse dataverse = new Dataverse();
         dataverse.setDataverseType(DataverseType.JOURNALS);
         dataverse.setName("A Test Dataverse");
-        dataverse.setAlias("test");
+        dataverse.setAlias("test2");
         dataverse.setDescription("This is a longer description than 'name' and 'alias'");
         dataverse.setDataverseContacts(
             Arrays.asList(
@@ -41,8 +40,10 @@ public class DataverseCreate extends ExampleBase {
                 new DataverseContact(1, "dummier@email.com")));
         log.info(toPrettyJson(dataverse));
         DataverseHttpResponse<Dataverse> r = client.dataverse("root").create(dataverse);
-        log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
-        log.info("Created: {}", r.getData().getDescription());
-        log.info("Creation Date: {}", r.getData().getCreationDate());
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
+        if (r.getHttpResponse().getCode() < HttpStatus.SC_CLIENT_ERROR) {
+            log.info("Created: {}", r.getData().getDescription());
+            log.info("Creation Date: {}", r.getData().getCreationDate());
+        }
     }
 }

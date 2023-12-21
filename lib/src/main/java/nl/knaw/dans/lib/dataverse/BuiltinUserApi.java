@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BuiltinUserApi extends AbstractApi {
 
-    protected BuiltinUserApi(HttpClientWrapper httpClientWrapper) {
+    BuiltinUserApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
     }
 

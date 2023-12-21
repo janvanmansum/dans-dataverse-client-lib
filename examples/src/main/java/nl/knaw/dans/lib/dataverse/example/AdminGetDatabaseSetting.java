@@ -19,8 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class AdminGetDatabaseSetting extends ExampleBase {
@@ -28,6 +26,7 @@ public class AdminGetDatabaseSetting extends ExampleBase {
     public static void main(String[] args) throws Exception {
         String key = args[0];
         DataverseResponse<DataMessage> r = client.admin().getDatabaseSetting(key);
+        log.info(r.getEnvelopeAsString());
         log.info(r.getEnvelopeAsJson().toPrettyString());
         log.info("Message: " + r.getData().getMessage());
     }

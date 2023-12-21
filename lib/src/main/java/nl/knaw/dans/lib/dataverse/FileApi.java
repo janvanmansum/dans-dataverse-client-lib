@@ -18,10 +18,10 @@ package nl.knaw.dans.lib.dataverse;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.entity.mime.content.FileBody;
-import org.apache.http.entity.mime.content.StringBody;
+import org.apache.hc.client5.http.entity.mime.FileBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.entity.mime.StringBody;
+import org.apache.hc.core5.http.ContentType;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,11 +33,11 @@ import static java.util.Collections.emptyMap;
 @Slf4j
 public class FileApi extends AbstractTargetedApi {
 
-    protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+    FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/v1/files/"));
     }
 
-    protected FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+    FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/v1/files/"));
     }
 

@@ -16,7 +16,7 @@
 package nl.knaw.dans.lib.dataverse;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpResponse;
+import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -32,55 +32,27 @@ import java.util.Optional;
  */
 @Slf4j
 public class BasicFileAccessApi extends AbstractTargetedApi {
-    protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
+    BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         super(httpClientWrapper, id, isPersistentId, null, Paths.get("api/access/datafile"));
     }
 
-    protected BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
+    BasicFileAccessApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
         super(httpClientWrapper, id, isPersistentId, invocationId, Paths.get("api/access/datafile"));
     }
 
-    /**
-     * @return a HttpResponse object
-     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-     * @throws DataverseException when Dataverse fails to perform the request
-     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-     */
-    public HttpResponse getFile() throws DataverseException, IOException {
-        return getFile(null, null);
+    public <T> T getFile(GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        return getFile(null, range, handler);
     }
 
-    /**
-     * @param range the range of the file to return, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#headers" target="_blank">Dataverse documentation</a>
-     * @return a HttpResponse object
-     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-     * @throws DataverseException when Dataverse fails to perform the request
-     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-     */
-    public HttpResponse getFile(GetFileRange range) throws DataverseException, IOException {
-        return getFile(null, range);
+    public <T> T getFile(GetFileOptions options, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        return getFile(options, null, handler);
     }
 
-    /**
-     * @param options the request options, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#parameters" target="_blank">Dataverse documentation</a>
-     * @return a HttpResponse object
-     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-     * @throws DataverseException when Dataverse fails to perform the request
-     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-     */
-    public HttpResponse getFile(GetFileOptions options) throws DataverseException, IOException {
-        return getFile(options, null);
+    public <T> T getFile(HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
+        return getFile(null, null, handler);
     }
 
-    /**
-     * @param options the request options, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#parameters" target="_blank">Dataverse documentation</a>
-     * @param range   the range of the file to return, see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#headers" target="_blank">Dataverse documentation</a>
-     * @return a HttpResponse object
-     * @throws IOException        when I/O problems occur during the interaction with Dataverse
-     * @throws DataverseException when Dataverse fails to perform the request
-     * @see <a href="https://guides.dataverse.org/en/latest/api/dataaccess.html#basic-file-access" target="_blank">Dataverse documentation</a>
-     */
-    public HttpResponse getFile(GetFileOptions options, GetFileRange range) throws DataverseException, IOException {
+    public <T> T getFile(GetFileOptions options, GetFileRange range, HttpClientResponseHandler<T> handler) throws DataverseException, IOException {
         HashMap<String, List<String>> params = new HashMap<>();
         if (options != null) {
             Optional.ofNullable(options.getFormat()).ifPresent(f -> params.put("format", Collections.singletonList(f)));
@@ -94,6 +66,7 @@ public class BasicFileAccessApi extends AbstractTargetedApi {
             headers.put("Range", "bytes=" + range.getStart() + "-" + range.getEnd());
         }
         headers.putAll(extraHeaders);
-        return httpClientWrapper.get(subPath(""), params, headers);
+        return httpClientWrapper.get(subPath(""), params, headers, handler);
     }
+
 }

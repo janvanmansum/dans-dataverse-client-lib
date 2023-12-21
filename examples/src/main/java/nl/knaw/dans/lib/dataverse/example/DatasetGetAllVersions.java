@@ -20,8 +20,6 @@ import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -33,7 +31,7 @@ public class DatasetGetAllVersions extends ExampleBase {
         DataverseResponse<List<DatasetVersion>> r = client.dataset(persistentId).getAllVersions();
         log.info("Response message: {}", r.getEnvelopeAsJson().toPrettyString());
 
-        if (r.getData().size() > 0) {
+        if (!r.getData().isEmpty()) {
             DatasetVersion firstVersion = r.getData().get(0);
             log.info("First Version Create Time: {}", firstVersion.getCreateTime());
             log.info("First Version State: {}", firstVersion.getVersionState());

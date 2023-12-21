@@ -17,8 +17,6 @@ package nl.knaw.dans.lib.dataverse.example;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Slf4j
 public class DatasetAwaitUnlock extends ExampleBase {
@@ -33,8 +31,8 @@ public class DatasetAwaitUnlock extends ExampleBase {
      */
     public static void main(String[] args) throws Exception {
         String persistentId = args[0];
-        int awaitLockStateMaxNumberOfRetries = args.length > 2 ? Integer.parseInt(args[2]) : 10;
-        int awaitLockStateMillisecondsBetweenRetries = args.length > 3 ? Integer.parseInt(args[4]) : 2000;
+        int awaitLockStateMaxNumberOfRetries = args.length > 1 ? Integer.parseInt(args[1]) : 10;
+        int awaitLockStateMillisecondsBetweenRetries = args.length > 2 ? Integer.parseInt(args[2]) : 2000;
         client.dataset(persistentId).awaitUnlock(awaitLockStateMaxNumberOfRetries, awaitLockStateMillisecondsBetweenRetries);
         log.info("All locks on dataset {} were cleared", persistentId);
     }

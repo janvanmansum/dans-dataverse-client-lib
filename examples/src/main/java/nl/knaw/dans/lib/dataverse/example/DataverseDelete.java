@@ -19,15 +19,16 @@ import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.DataverseHttpResponse;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.hc.core5.http.HttpStatus;
 
 @Slf4j
 public class DataverseDelete extends ExampleBase {
 
     public static void main(String[] args) throws Exception {
         DataverseHttpResponse<DataMessage> r = client.dataverse("test").delete();
-        log.info("Status Line: {}", r.getHttpResponse().getStatusLine());
-        log.info("Message: {}", r.getData().getMessage());
+        log.info("Status Line: {} {}", r.getHttpResponse().getCode(), r.getHttpResponse().getReasonPhrase());
+        if (r.getHttpResponse().getCode() < HttpStatus.SC_CLIENT_ERROR) {
+            log.info("Message: {}", r.getData().getMessage());
+        }
     }
 }

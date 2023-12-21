@@ -35,7 +35,7 @@ public class AdminApi extends AbstractApi {
 
     private final Path targetBase;
 
-    protected AdminApi(HttpClientWrapper httpClientWrapper) {
+    AdminApi(HttpClientWrapper httpClientWrapper) {
         super(httpClientWrapper);
         this.targetBase = Paths.get("api/admin/");
     }
