@@ -221,7 +221,13 @@ class HttpClientWrapper implements MediaTypes {
 
     private DispatchResult dispatch(HttpRequest request) throws IOException, DataverseException {
         Optional.ofNullable(config.getApiToken()).ifPresent(token -> setApiTokenHeader(request, token));
-        return dispatch(request, response -> new DispatchResult(response, EntityUtils.toString(response.getEntity())));
+        return dispatch(request, response -> {
+            var entity = response.getEntity();
+            if (entity == null)
+                return new DispatchResult(response, "");
+            else
+                return new DispatchResult(response, (EntityUtils.toString(entity)));
+        });
     }
 
     private <T> T dispatch(HttpRequest request, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
