@@ -18,6 +18,7 @@ package nl.knaw.dans.lib.dataverse.model.file;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import nl.knaw.dans.lib.dataverse.model.dataset.RetentionPeriod;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,7 @@ public class DataFile {
     private long filesize;
     private String description;
     private Embargo embargo;
+    private RetentionPeriod retentionPeriod;
     private String storageIdentifier;
     private String originalFileFormat;
     private String originalFormatLabel;
