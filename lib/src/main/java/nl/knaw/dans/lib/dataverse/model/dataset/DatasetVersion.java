@@ -32,6 +32,7 @@ public class DatasetVersion {
     private Integer versionNumber;
     private Integer versionMinorNumber;
     private String versionState;
+    private String latestVersionPublishingState;
     private String versionNote;
     @JsonProperty("UNF")
     private String unf;
