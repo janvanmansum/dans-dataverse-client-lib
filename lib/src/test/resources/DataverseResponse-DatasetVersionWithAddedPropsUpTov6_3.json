@@ -182,6 +182,10 @@
           "filename": "1MB-1.bin",
           "contentType": "application/macbinary",
           "filesize": 1048576,
+          "retention": {
+            "dateUnavailable": "2034-05-07",
+            "reason": "testing"
+          },
           "storageIdentifier": "file://18040f50bcc-fe457992a1ed",
           "rootDataFileId": -1,
           "md5": "6f438741cf7e0c7917a92156efdbaea1",

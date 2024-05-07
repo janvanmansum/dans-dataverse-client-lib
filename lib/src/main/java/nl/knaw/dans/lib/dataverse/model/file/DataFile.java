@@ -34,7 +34,7 @@ public class DataFile {
     private long filesize;
     private String description;
     private Embargo embargo;
-    private RetentionPeriod retentionPeriod;
+    private RetentionPeriod retention;
     private String storageIdentifier;
     private String originalFileFormat;
     private String originalFormatLabel;
