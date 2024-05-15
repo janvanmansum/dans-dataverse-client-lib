@@ -25,4 +25,6 @@ public class DataverseTheme {
     private String tagline;
     private String linkColor;
     private String textColor;
+    private String linkUrl;
+    private String backgroundColor;
 }

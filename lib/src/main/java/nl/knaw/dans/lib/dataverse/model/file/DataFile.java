@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Ignoring dataTables and varGroups, those have to do with ingesting tabular data
-// Ignoring isPartOf, has to specified as option in the API call, which we don't do
+// Ignoring isPartOf, has to specified as option in the API call, which we don't do yet
 //
 // The optional "md5" property is redundant and only there for backward compatibility.
 @Data

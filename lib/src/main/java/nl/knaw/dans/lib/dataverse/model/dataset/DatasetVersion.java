@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
@@ -22,7 +23,9 @@ import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 import java.util.List;
 import java.util.Map;
 
+// Ignoring isPartOf, has to specified as option in the API call, which we don't do yet
 @Data
+@JsonIgnoreProperties({"isPartOf"})
 public class DatasetVersion {
 
     private Integer id;
@@ -67,4 +70,5 @@ public class DatasetVersion {
     private String publicationDate;
     private String citationDate;
     private String alternativePersistentId;
+    // isPartOf ignore!
 }

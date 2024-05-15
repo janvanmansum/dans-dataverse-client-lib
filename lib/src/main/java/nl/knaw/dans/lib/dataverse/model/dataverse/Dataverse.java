@@ -15,11 +15,14 @@
  */
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.util.List;
 
+// Ignoring isPartOf, has to specified as option in the API call, which we don't do yet
 @Data
+@JsonIgnoreProperties({"isPartOf"})
 public class Dataverse {
     private int id;
     private int ownerId;
@@ -33,4 +36,7 @@ public class Dataverse {
     private String creationDate;
     private DataverseTheme theme;
     private List<DataverseContact> dataverseContacts;
+    // isPartOf ignore!
+    private boolean filePIDsEnabled;
+    private boolean isReleased;
 }
