@@ -26,7 +26,7 @@
     </parent>
 
     <artifactId>dans-dataverse-client-lib-build</artifactId>
-    <version>0.29.1-SNAPSNOT-SNAPSHOT</version>
+    <version>0.29.1-SNAPSNOT</version>
     <inceptionYear>2021</inceptionYear>
     <name>DANS Dataverse Client Library Master Build</name>
     <packaging>pom</packaging>
