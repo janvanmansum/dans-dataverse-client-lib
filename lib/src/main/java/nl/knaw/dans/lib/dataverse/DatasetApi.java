@@ -26,6 +26,7 @@ import nl.knaw.dans.lib.dataverse.model.dataset.DatasetVersion;
 import nl.knaw.dans.lib.dataverse.model.dataset.Embargo;
 import nl.knaw.dans.lib.dataverse.model.dataset.FieldList;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
+import nl.knaw.dans.lib.dataverse.model.dataset.RetentionPeriod;
 import nl.knaw.dans.lib.dataverse.model.dataset.SubmitForReviewResult;
 import nl.knaw.dans.lib.dataverse.model.dataset.UpdateType;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
@@ -536,6 +537,20 @@ public class DatasetApi extends AbstractTargetedApi {
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#remove-an-embargo-on-files-in-a-dataset
 
+    /**
+     * @param retentionPeriod the retention period data
+     * @return a hash map
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseHttpResponse<HashMap> setRetentionPeriod(RetentionPeriod retentionPeriod) throws IOException, DataverseException {
+        return setRetentionPeriod(httpClientWrapper.writeValueAsString(retentionPeriod));
+    }
+
+    public DataverseHttpResponse<HashMap> setRetentionPeriod(String json) throws IOException, DataverseException {
+        return httpClientWrapper.postJsonString(subPath("files/actions/:set-retention"), json, params(emptyMap()), extraHeaders, HashMap.class);
+    }
+    
     /*
      * Helper methods
      */

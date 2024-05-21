@@ -55,10 +55,10 @@ public class DataverseResponseTest extends MapperFixture {
     }
 
     @Test
-    public void datasetVersionWithAddedPropsUpTov5_14ResponseCanBeDeserialized() throws Exception {
+    public void datasetVersionWithAddedPropsUpTov6_3ResponseCanBeDeserialized() throws Exception {
         DataverseResponse<DatasetVersion> r =
             new DataverseResponse<>(FileUtils.readFileToString(getTestJsonFileFor(classUnderTest,
-                "DatasetVersionWithAddedPropsUpTov5_14"), StandardCharsets.UTF_8),
+                "DatasetVersionWithAddedPropsUpTov6_3"), StandardCharsets.UTF_8),
                 mapper, DatasetVersion.class);
         // check some standard properties
         Assertions.assertEquals(2, r.getData().getDatasetId());
@@ -70,6 +70,7 @@ public class DataverseResponseTest extends MapperFixture {
         Assertions.assertEquals("2023-01-10", r.getData().getCitationDate());
         Assertions.assertEquals("hdl:10695/test-12345", r.getData().getAlternativePersistentId());
         Assertions.assertEquals("Documentation", r.getData().getFiles().get(4).getDataFile().getCategories().get(0));
+        Assertions.assertEquals("testing", r.getData().getFiles().get(1).getDataFile().getRetention().getReason());
     }
 
 }

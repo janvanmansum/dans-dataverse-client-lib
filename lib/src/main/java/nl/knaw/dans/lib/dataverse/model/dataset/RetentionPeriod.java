@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nl.knaw.dans.lib.dataverse.model.dataverse;
+package nl.knaw.dans.lib.dataverse.model.dataset;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-public class DataverseTheme {
-    private int id;
-    private String logo;
-    private String logoBackgroundColor;
-    private String tagline;
-    private String linkColor;
-    private String textColor;
-    private String linkUrl;
-    private String backgroundColor;
+@AllArgsConstructor
+@NoArgsConstructor
+public class RetentionPeriod {
+    private String dateUnavailable;
+    private String reason;
+    private int[] fileIds;
 }
