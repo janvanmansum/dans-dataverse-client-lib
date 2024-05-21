@@ -33,7 +33,7 @@
     <scm>
         <!-- Note: GitHub repo has a different name than the artifact -->
         <developerConnection>scm:git:ssh://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
-        <tag>v0.28.0</tag>
+        <tag>v0.29.0-SNAPSNOT</tag>
     </scm>
 
     <repositories>
