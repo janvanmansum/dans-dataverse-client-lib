@@ -26,5 +26,7 @@ public class DataverseView extends ExampleBase {
         DataverseResponse<Dataverse> r = client.dataverse("root").view();
         log.info("Response message = {}", r.getEnvelopeAsJson().toPrettyString());
         log.info("Description = {}", r.getData().getDescription());
+        log.info("Is release = {}", r.getData().isReleased());
+        log.info("Permission root = {}", r.getData().isPermissionRoot());
     }
 }

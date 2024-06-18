@@ -16,6 +16,7 @@
 package nl.knaw.dans.lib.dataverse.model.dataverse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -38,5 +39,6 @@ public class Dataverse {
     private List<DataverseContact> dataverseContacts;
     // isPartOf ignore!
     private boolean filePIDsEnabled;
+    @JsonProperty("isReleased")
     private boolean isReleased;
 }
