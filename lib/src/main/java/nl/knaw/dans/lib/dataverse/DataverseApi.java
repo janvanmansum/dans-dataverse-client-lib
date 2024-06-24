@@ -178,8 +178,7 @@ public class DataverseApi extends AbstractApi {
      * https://guides.dataverse.org/en/latest/api/native-api.html#assign-a-new-role-on-a-dataverse-collection
      */
     public DataverseHttpResponse<DataMessage> assignRole(RoleAssignment roleAssignment) throws IOException, DataverseException {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return httpClientWrapper.postModelObjectAsJson(subPath.resolve("assignments"), roleAssignment, new HashMap<>(), new HashMap<>(), DataMessage.class);
     }
 
     /* https://guides.dataverse.org/en/latest/api/native-api.html#delete-role-assignment-from-a-dataverse-collection
@@ -278,9 +277,9 @@ public class DataverseApi extends AbstractApi {
     }
 
     /**
-     * @param dataset         the dataset to import
+     * @param dataset      the dataset to import
      * @param persistentId existing persistent identifier (PID)
-     * @param autoPublish     immediately publish the dataset
+     * @param autoPublish  immediately publish the dataset
      * @return an import result message
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -291,10 +290,10 @@ public class DataverseApi extends AbstractApi {
     }
 
     /**
-     * @param dataset         the dataset to import
+     * @param dataset      the dataset to import
      * @param persistentId existing persistent identifier (PID)
-     * @param autoPublish     immediately publish the dataset
-     * @param metadataKeys    maps the names of the metadata blocks to their 'secret' key values
+     * @param autoPublish  immediately publish the dataset
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return an import result message
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -306,9 +305,9 @@ public class DataverseApi extends AbstractApi {
     }
 
     /**
-     * @param dataset         JSON string defining the dataset to import
+     * @param dataset      JSON string defining the dataset to import
      * @param persistentId existing persistent identifier (PID)
-     * @param autoPublish     immediately publish the dataset
+     * @param autoPublish  immediately publish the dataset
      * @return an import result message
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -320,10 +319,10 @@ public class DataverseApi extends AbstractApi {
     }
 
     /**
-     * @param dataset         JSON string defining the dataset to import
+     * @param dataset      JSON string defining the dataset to import
      * @param persistentId existing persistent identifier (PID)
-     * @param autoPublish     immediately publish the dataset
-     * @param metadataKeys    maps the names of the metadata blocks to their 'secret' key values
+     * @param autoPublish  immediately publish the dataset
+     * @param metadataKeys maps the names of the metadata blocks to their 'secret' key values
      * @return an import result message
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
