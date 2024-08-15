@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.ToString;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.Role;
 import nl.knaw.dans.lib.dataverse.model.RoleAssignment;
@@ -43,6 +44,7 @@ import static java.util.Collections.singletonList;
  *
  * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#dataverse-collections" target="_blank">Dataverse documentation</a>
  */
+@ToString
 public class DataverseApi extends AbstractApi {
 
     private static final Logger log = LoggerFactory.getLogger(DataverseApi.class);
