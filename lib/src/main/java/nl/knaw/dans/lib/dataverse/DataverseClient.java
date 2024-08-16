@@ -17,6 +17,7 @@ package nl.knaw.dans.lib.dataverse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.MetadataField;
 import nl.knaw.dans.lib.dataverse.model.dataverse.DataverseItem;
@@ -30,6 +31,7 @@ import java.io.IOException;
  * Object that lets your code talk to a Dataverse server.
  */
 @Slf4j
+@ToString
 public class DataverseClient {
     private final HttpClientWrapper httpClientWrapper;
     private SearchApi searchApi;

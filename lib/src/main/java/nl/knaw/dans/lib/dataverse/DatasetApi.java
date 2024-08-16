@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.text.MessageFormat.format;
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
@@ -60,6 +61,11 @@ public class DatasetApi extends AbstractTargetedApi {
 
     DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
         this(httpClientWrapper, id, isPersistentId, null);
+    }
+
+    @Override
+    public String toString() {
+        return format("DatasetApi(id=''{0}, isPersistentId={1})", id, isPersistentId);
     }
 
     DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId, String invocationId) {
@@ -550,7 +556,7 @@ public class DatasetApi extends AbstractTargetedApi {
     public DataverseHttpResponse<HashMap> setRetentionPeriod(String json) throws IOException, DataverseException {
         return httpClientWrapper.postJsonString(subPath("files/actions/:set-retention"), json, params(emptyMap()), extraHeaders, HashMap.class);
     }
-    
+
     /*
      * Helper methods
      */

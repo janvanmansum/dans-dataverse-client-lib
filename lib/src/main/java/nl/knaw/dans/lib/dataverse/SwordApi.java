@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 @Slf4j
+@ToString
 public class SwordApi extends AbstractApi {
 
     SwordApi(HttpClientWrapper httpClientWrapper) {

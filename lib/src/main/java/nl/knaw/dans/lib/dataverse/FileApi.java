@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.dataset.FileList;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import static java.util.Collections.emptyMap;
 
 @Slf4j
+@ToString
 public class FileApi extends AbstractTargetedApi {
 
     FileApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {

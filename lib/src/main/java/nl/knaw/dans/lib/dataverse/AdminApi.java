@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
@@ -31,6 +32,7 @@ import java.util.Map;
  * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#admin" target="_blank">Dataverse documentation</a>
  */
 @Slf4j
+@ToString
 public class AdminApi extends AbstractApi {
 
     private final Path targetBase;
