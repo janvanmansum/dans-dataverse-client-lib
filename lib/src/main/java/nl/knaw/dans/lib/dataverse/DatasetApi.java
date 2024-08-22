@@ -58,11 +58,6 @@ import static java.util.Collections.singletonMap;
  */
 @Slf4j
 public class DatasetApi extends AbstractTargetedApi {
-
-    DatasetApi(HttpClientWrapper httpClientWrapper, String id, boolean isPersistentId) {
-        this(httpClientWrapper, id, isPersistentId, null);
-    }
-
     @Override
     public String toString() {
         return format("DatasetApi(id=''{0}, isPersistentId={1})", id, isPersistentId);

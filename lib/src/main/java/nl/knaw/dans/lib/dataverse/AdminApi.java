@@ -18,12 +18,14 @@ package nl.knaw.dans.lib.dataverse;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
+import nl.knaw.dans.lib.dataverse.model.DatasetFileValidationResultList;
 import nl.knaw.dans.lib.dataverse.model.user.AuthenticatedUser;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -77,6 +79,26 @@ public class AdminApi extends AbstractApi {
     public DataverseHttpResponse<DataMessage> getDatabaseSetting(String key) throws IOException, DataverseException {
         Path path = buildPath(targetBase, "settings", key);
         return httpClientWrapper.get(path, DataMessage.class);
+    }
+
+    public DataverseHttpResponseWithoutEnvelope<DatasetFileValidationResultList> validateDatasetFiles(int dbId) throws IOException, DataverseException {
+        return validateDatasetFiles(Integer.toString(dbId), false);
+    }
+
+    public DataverseHttpResponseWithoutEnvelope<DatasetFileValidationResultList> validateDatasetFiles(String pid) throws IOException, DataverseException {
+        return validateDatasetFiles(pid, true);
+    }
+
+    public DataverseHttpResponseWithoutEnvelope<DatasetFileValidationResultList> validateDatasetFiles(String id, boolean isPersistentId) throws IOException, DataverseException {
+        Path path = buildPath(targetBase, "validate/dataset/files");
+        var queryParameters = new HashMap<String, List<String>>();
+        if (isPersistentId) {
+            path = path.resolve(":persistentId");
+            queryParameters.put("persistentId", List.of(id));
+        } else {
+            path = path.resolve(id);
+        }
+        return httpClientWrapper.getWithoutEnvelope(path, queryParameters, new HashMap<>(), DatasetFileValidationResultList.class);
     }
 
 }
