@@ -23,7 +23,7 @@ import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope;
 import java.io.IOException;
 
 /**
- * Response from Dataverse.
+ * Response from Dataverse, wrapped in a {@link nl.knaw.dans.lib.dataverse.model.DataverseEnvelope}.
  *
  * @param <D> the type of the data of the response message envelope, one of the classes in {@link nl.knaw.dans.lib.dataverse.model}
  */
@@ -31,10 +31,10 @@ import java.io.IOException;
 @Slf4j
 public class DataverseResponse<D> extends DataverseResponseWithoutEnvelope<DataverseEnvelope<D>> {
     protected DataverseResponse(String bodyText, ObjectMapper mapper, Class<?>... dataClass) {
-        super(bodyText, mapper, envelope(dataClass));
+        super(bodyText, mapper, wrapInEnvelope(dataClass));
     }
 
-    private static Class<?>[] envelope(Class<?>... otherClasses) {
+    private static Class<?>[] wrapInEnvelope(Class<?>... otherClasses) {
         Class<?>[] combined = new Class<?>[otherClasses.length + 1];
         combined[0] = DataverseEnvelope.class;
         System.arraycopy(otherClasses, 0, combined, 1, otherClasses.length);
@@ -62,13 +62,13 @@ public class DataverseResponse<D> extends DataverseResponseWithoutEnvelope<Datav
      * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
     public JsonNode getEnvelopeAsJson() throws IOException {
-        return super.getAsJson();
+        return super.getBodyAsJson();
     }
 
     /**
      * @return the body as a String
      */
     public String getEnvelopeAsString() {
-        return super.getAsString();
+        return super.getBodyAsString();
     }
 }

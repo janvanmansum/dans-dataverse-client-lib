@@ -24,13 +24,15 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 
 /**
- * Response from Dataverse.
+ * Response from Dataverse that is <em>not</em> wrapped in an envelope. Normally, Dataverse responses are wrapped in an
+ * envelope that contains metadata about the response, such as the status code and the message. In some cases, however,
+ * the response is not wrapped in an envelope. This class is used to handle such responses.
  *
- * @param <D> the type of the data of the response message envelope, one of the classes in {@link nl.knaw.dans.lib.dataverse.model}
+ * @param <B> the type of the data of the response body
  */
 
 @Slf4j
-public class DataverseResponseWithoutEnvelope<D> {
+public class DataverseResponseWithoutEnvelope<B> {
     private final ObjectMapper mapper;
 
     private final String bodyText;
@@ -49,8 +51,12 @@ public class DataverseResponseWithoutEnvelope<D> {
             case 2:
                 this.dataType = typeFactory.constructParametricType(dataClass[0], dataClass[1]);
                 break;
+            case 3:
+                JavaType nested = typeFactory.constructParametricType(dataClass[1], dataClass[2]);
+                this.dataType = typeFactory.constructParametricType(dataClass[0], nested);
+                break;
             default:
-                throw new IllegalArgumentException("Currently no more than one nested parameter type supported");
+                throw new IllegalArgumentException("Currently no more than two nested parameter types supported");
         }
     }
 
@@ -59,7 +65,7 @@ public class DataverseResponseWithoutEnvelope<D> {
      * @return the body as bean of type D
      * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
-    public D getBodyAsObject() throws IOException {
+    public B getBodyAsObject() throws IOException {
         return mapper.readValue(bodyText, dataType);
     }
 
@@ -67,14 +73,14 @@ public class DataverseResponseWithoutEnvelope<D> {
      * @return the body as a JsonNode
      * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
-    public JsonNode getAsJson() throws IOException {
+    public JsonNode getBodyAsJson() throws IOException {
         return mapper.readTree(bodyText);
     }
 
     /**
      * @return the body as a String
      */
-    public String getAsString() {
+    public String getBodyAsString() {
         return bodyText;
     }
 }

@@ -16,12 +16,9 @@
 package nl.knaw.dans.lib.dataverse.example;
 
 import lombok.extern.slf4j.Slf4j;
-import nl.knaw.dans.lib.dataverse.DataverseResponse;
 import nl.knaw.dans.lib.dataverse.DataverseResponseWithoutEnvelope;
 import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.DatasetFileValidationResultList;
-
-import java.util.Map;
 
 @Slf4j
 public class AdminValidateDatasetFiles extends ExampleBase {
@@ -35,7 +32,7 @@ public class AdminValidateDatasetFiles extends ExampleBase {
         } catch (NumberFormatException e) {
             r = client.admin().validateDatasetFiles(id);
         }
-        log.info(r.getAsJson().toPrettyString());
+        log.info(r.getBodyAsJson().toPrettyString());
         for (var result : r.getBodyAsObject().getDataFiles()) {
             log.info("File: {}", result.getDatafileId());
             log.info("  Storage Identifier: {}", result.getStorageIdentifier());

@@ -24,7 +24,6 @@ import java.io.IOException;
 public class DataverseHttpResponseWithoutEnvelope<D> extends DataverseResponseWithoutEnvelope<D> {
     private final HttpResponse httpResponse;
 
-    @SneakyThrows
     DataverseHttpResponseWithoutEnvelope(DispatchResult dispatchResult, ObjectMapper customMapper, Class<?>... dataClass) throws IOException {
         super(dispatchResult.getBody(), customMapper, dataClass);
         this.httpResponse = dispatchResult.getResponse();
