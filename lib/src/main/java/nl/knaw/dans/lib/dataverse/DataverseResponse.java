@@ -15,53 +15,30 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.type.TypeFactory;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataverseEnvelope;
 
 import java.io.IOException;
 
 /**
- * Response from Dataverse.
+ * Response from Dataverse, wrapped in a {@link nl.knaw.dans.lib.dataverse.model.DataverseEnvelope}.
  *
  * @param <D> the type of the data of the response message envelope, one of the classes in {@link nl.knaw.dans.lib.dataverse.model}
  */
 
 @Slf4j
-public class DataverseResponse<D> {
-    private final ObjectMapper mapper;
-
-    private final String bodyText;
-    private final JavaType dataType;
-
+public class DataverseResponse<D> extends DataverseResponseWithoutEnvelope<DataverseEnvelope<D>> {
     protected DataverseResponse(String bodyText, ObjectMapper mapper, Class<?>... dataClass) {
-        this.bodyText = bodyText;
-        this.mapper = mapper;
-        TypeFactory typeFactory = mapper.getTypeFactory();
-
-        switch (dataClass.length) {
-            case 0:
-                throw new IllegalArgumentException("No parameter type given");
-            case 1:
-                this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, dataClass[0]);
-                break;
-            case 2:
-                JavaType inner = typeFactory.constructParametricType(dataClass[0], dataClass[1]);
-                this.dataType = typeFactory.constructParametricType(DataverseEnvelope.class, inner);
-                break;
-            default:
-                throw new IllegalArgumentException("Currently no more than one nested parameter type supported");
-        }
+        super(bodyText, mapper, wrapInEnvelope(dataClass));
     }
 
-    // Must be static, otherwise compiler complains about passing result into 'this()' call
-    private static JavaType constuctJavaTypeForContainerClass(Class<?> containerClass, Class<?> elementClass, ObjectMapper mapper) {
-        TypeFactory typeFactory = mapper.getTypeFactory();
-        JavaType inner = typeFactory.constructParametricType(containerClass, elementClass);
-        return typeFactory.constructParametricType(DataverseEnvelope.class, inner);
+    private static Class<?>[] wrapInEnvelope(Class<?>... otherClasses) {
+        Class<?>[] combined = new Class<?>[otherClasses.length + 1];
+        combined[0] = DataverseEnvelope.class;
+        System.arraycopy(otherClasses, 0, combined, 1, otherClasses.length);
+        return combined;
     }
 
     /**
@@ -69,7 +46,7 @@ public class DataverseResponse<D> {
      * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
     public DataverseEnvelope<D> getEnvelope() throws IOException {
-        return mapper.readValue(bodyText, dataType);
+        return super.getBodyAsObject();
     }
 
     /**
@@ -85,13 +62,13 @@ public class DataverseResponse<D> {
      * @throws com.fasterxml.jackson.core.JsonParseException if body cannot be processed properly as JSON
      */
     public JsonNode getEnvelopeAsJson() throws IOException {
-        return mapper.readTree(bodyText);
+        return super.getBodyAsJson();
     }
 
     /**
      * @return the body as a String
      */
     public String getEnvelopeAsString() {
-        return bodyText;
+        return super.getBodyAsString();
     }
 }

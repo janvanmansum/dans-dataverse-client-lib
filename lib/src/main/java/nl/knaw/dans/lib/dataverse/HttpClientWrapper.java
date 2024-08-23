@@ -173,6 +173,13 @@ class HttpClientWrapper implements MediaTypes {
         return wrap(dispatch(get), outputClass);
     }
 
+    public <D> DataverseHttpResponseWithoutEnvelope<D> getWithoutEnvelope(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, Class<?>... outputClass)
+            throws IOException, DataverseException {
+        var get = new HttpGet(buildURi(subPath, parameters));
+        headers.forEach(get::setHeader);
+        return wrapWithoutEnvelope(dispatch(get), outputClass);
+    }
+
     public <T> T get(Path subPath, Map<String, List<String>> parameters, Map<String, String> headers, HttpClientResponseHandler<T> handler) throws IOException, DataverseException {
         var get = new HttpGet(buildURi(subPath, parameters));
         headers.forEach(get::setHeader);
@@ -217,6 +224,10 @@ class HttpClientWrapper implements MediaTypes {
 
     private <D> DataverseHttpResponse<D> wrap(DispatchResult result, Class<?>... dataClass) throws IOException {
         return new DataverseHttpResponse<>(result, mapper, dataClass);
+    }
+
+    private <D> DataverseHttpResponseWithoutEnvelope<D> wrapWithoutEnvelope(DispatchResult result, Class<?>... dataClass) throws IOException {
+        return new DataverseHttpResponseWithoutEnvelope<>(result, mapper, dataClass);
     }
 
     private DispatchResult dispatch(HttpRequest request) throws IOException, DataverseException {
