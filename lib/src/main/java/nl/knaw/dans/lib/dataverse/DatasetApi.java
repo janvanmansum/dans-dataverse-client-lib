@@ -141,9 +141,8 @@ public class DatasetApi extends AbstractTargetedApi {
 
     /**
      * @param updateType      major or minor version update
-     * @param assureIsIndexed To make sure that indexing has already happened the `assureIsIndexed`
-     *                        is set to `true`, it will then cause Dataverse to fail fast if indexing is still pending.
-     *                        In this case the publish request will be retried a number of times.
+     * @param assureIsIndexed To make sure that indexing has already happened the `assureIsIndexed` is set to `true`, it will then cause Dataverse to fail fast if indexing is still pending. In this
+     *                        case the publish request will be retried a number of times.
      * @return dataset publication result
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
@@ -155,7 +154,8 @@ public class DatasetApi extends AbstractTargetedApi {
                 httpClientWrapper.getConfig().getAwaitIndexingMaxNumberOfRetries(),
                 httpClientWrapper.getConfig().getAwaitIndexingMillisecondsBetweenRetries());
         }
-        else return publishWithoutRetries(updateType, false);
+        else
+            return publishWithoutRetries(updateType, false);
     }
 
     private DataverseHttpResponse<DataMessage> publishWithoutRetries(UpdateType updateType, boolean assureIsIndexed) throws IOException, DataverseException {
@@ -172,7 +172,8 @@ public class DatasetApi extends AbstractTargetedApi {
         while (retryCount < awaitIndexingMaxNumberOfRetries) {
             try {
                 return publishWithoutRetries(updateType, true);
-            } catch (DataverseException e) {
+            }
+            catch (DataverseException e) {
                 if (e.getStatus() != HttpStatus.SC_CONFLICT) {
                     log.error("Not an awaiting indexing status {}, rethrowing exception", e.getStatus());
                     throw e;
@@ -180,7 +181,7 @@ public class DatasetApi extends AbstractTargetedApi {
                 log.debug("Attempt to publish dataset failed because Dataset is awaiting indexing");
                 retryCount++;
                 log.debug("Retry count: {}", retryCount);
-                if(retryCount == awaitIndexingMaxNumberOfRetries) {
+                if (retryCount == awaitIndexingMaxNumberOfRetries) {
                     log.error("Max retries ({}) reached, stop trying to publish dataset", awaitIndexingMaxNumberOfRetries);
                     throw e;
                 }
@@ -446,7 +447,17 @@ public class DatasetApi extends AbstractTargetedApi {
         return assignRole(httpClientWrapper.writeValueAsString(roleAssignment));
     }
 
-    // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-role-assignment-from-a-dataset
+    /**
+     * @param roleAssignmentId Delete the assignment with this id
+     * @return A data information message
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#delete-role-assignment-from-a-dataset" target="_blank">Dataverse documentation</a>
+     */
+    public DataverseHttpResponse<DataMessage> deleteRoleAssignment(int roleAssignmentId) throws IOException, DataverseException {
+        return httpClientWrapper.delete(subPath("assignments/" + roleAssignmentId), params(emptyMap()), DataMessage.class);
+    }
+
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#create-a-private-url-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-private-url-for-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#delete-the-private-url-from-a-dataset
@@ -478,7 +489,6 @@ public class DatasetApi extends AbstractTargetedApi {
         return addFile(file, httpClientWrapper.writeValueAsString(fileMeta));
     }
 
-
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#report-the-data-file-size-of-a-dataset
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#get-the-size-of-downloading-all-the-files-of-a-dataset-version
 
@@ -491,7 +501,6 @@ public class DatasetApi extends AbstractTargetedApi {
     public DataverseHttpResponse<SubmitForReviewResult> submitForReview() throws IOException, DataverseException {
         return httpClientWrapper.post(subPath("submitForReview"), new StringEntity(""), params(emptyMap()), extraHeaders, SubmitForReviewResult.class);
     }
-
 
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#return-a-dataset-to-author
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#link-a-dataset

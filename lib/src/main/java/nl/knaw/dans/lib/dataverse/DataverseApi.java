@@ -183,11 +183,15 @@ public class DataverseApi extends AbstractApi {
         return httpClientWrapper.postModelObjectAsJson(subPath.resolve("assignments"), roleAssignment, new HashMap<>(), new HashMap<>(), DataMessage.class);
     }
 
-    /* https://guides.dataverse.org/en/latest/api/native-api.html#delete-role-assignment-from-a-dataverse-collection
+    /**
+     * @param roleAssignmentId Delete the assignment with this id
+     * @return A data information message
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#delete-role-assignment-from-a-dataverse-collection" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DataMessage> deleteRoleAssignment(int roleAssignmentId) throws IOException, DataverseException {
-        // TODO: implement
-        throw new UnsupportedOperationException();
+        return httpClientWrapper.delete(subPath.resolve("assignments/" + roleAssignmentId), DataMessage.class);
     }
 
     /**
