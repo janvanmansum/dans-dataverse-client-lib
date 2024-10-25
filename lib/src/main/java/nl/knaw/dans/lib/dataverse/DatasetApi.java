@@ -322,6 +322,15 @@ public class DatasetApi extends AbstractTargetedApi {
         return editMetadata(fields, true, metadataKeys);
     }
 
+    public DataverseHttpResponse<DatasetVersion> deleteMetadata(FieldList fields, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        return deleteMetadata(httpClientWrapper.writeValueAsString(fields), metadataKeys);
+    }
+
+    public DataverseHttpResponse<DatasetVersion> deleteMetadata(String s, Map<String, String> metadataKeys) throws IOException, DataverseException {
+        Map<String, List<String>> queryParams = getQueryParamsFromMetadataKeys(metadataKeys);
+        return httpClientWrapper.putJsonString(subPath("deleteMetadata"), s, params(queryParams), emptyMap(), DatasetVersion.class);
+    }
+
     // TODO https://guides.dataverse.org/en/latest/api/native-api.html#export-metadata-of-a-dataset-in-various-formats
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#schema-org-json-ld
     // TODO: https://guides.dataverse.org/en/latest/api/native-api.html#view-dataset-files-and-folders-as-a-directory-index
