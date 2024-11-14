@@ -21,5 +21,6 @@ import lombok.Data;
 public class DataverseEnvelope<D> {
     private String status;
     private DataMessage message;
+    private Integer totalCount;
     private D data;
 }
