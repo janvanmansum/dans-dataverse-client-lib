@@ -22,6 +22,8 @@ import org.apache.commons.configuration.PropertiesConfiguration;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public abstract class ExampleBase {
 
@@ -30,7 +32,9 @@ public abstract class ExampleBase {
 
     static {
         try {
-            PropertiesConfiguration props = new PropertiesConfiguration("examples/dataverse.properties");
+            String propsFiles = Files.exists(Path.of("examples/dataverse.properties")) ?
+                "examples/dataverse.properties" : "modules/dans-dataverse-client-lib/examples/dataverse.properties";
+            PropertiesConfiguration props = new PropertiesConfiguration(propsFiles);
             DataverseClientConfig config = new DataverseClientConfig(new URI(props.getString("baseUrl")), props.getString("apiToken"), props.getString("unblockKey", null));
             client = new DataverseClient(config);
         }
