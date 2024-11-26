@@ -22,4 +22,5 @@ public class MetadataBlockSummary {
     int id;
     String name;
     String displayName;
+    Boolean displayOnCreate;
 }
