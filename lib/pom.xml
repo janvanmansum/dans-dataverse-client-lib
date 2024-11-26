@@ -25,11 +25,11 @@
         <relativePath />
     </parent>
     <artifactId>dans-dataverse-client-lib</artifactId>
-    <version>1.0.2-SNAPSHOT</version>
+    <version>1.0.2</version>
     <name>DANS Dataverse Client Library</name>
     <inceptionYear>2021</inceptionYear>
     <scm>
-        <tag>HEAD</tag>
+        <tag>v1.0.2</tag>
         <developerConnection>scm:git:ssh://github.com/DANS-KNAW/dans-dataverse-client-lib</developerConnection>
     </scm>
     <dependencies>
