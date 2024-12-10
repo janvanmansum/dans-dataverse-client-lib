@@ -16,6 +16,9 @@
 package nl.knaw.dans.lib.dataverse;
 
 public enum Version {
+    /**
+     * The draft version of a dataset.
+     */
     DRAFT(":draft"),
     LATEST(":latest"),
     LATEST_PUBLISHED(":latest-published");
