@@ -598,8 +598,8 @@ public class DatasetApi extends AbstractTargetedApi {
         return httpClientWrapper.get(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
     }
 
-    private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Map<String, List<String>> params, Class<?>... outputClass) throws IOException, DataverseException {
-        return httpClientWrapper.get(versionedSubPath(endPoint, version), params, extraHeaders, outputClass);
+    private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Map<String, List<String>> queryParams, Class<?>... outputClass) throws IOException, DataverseException {
+        return httpClientWrapper.get(versionedSubPath(endPoint, version), params(queryParams), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass)
