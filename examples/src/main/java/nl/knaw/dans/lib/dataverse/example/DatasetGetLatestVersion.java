@@ -21,6 +21,11 @@ import nl.knaw.dans.lib.dataverse.ExampleBase;
 import nl.knaw.dans.lib.dataverse.model.dataset.DatasetLatestVersion;
 import nl.knaw.dans.lib.dataverse.model.file.FileMeta;
 
+/**
+ * Example to get the latest version of a dataset.
+ *
+ * @deprecated This method is deprecated, use {@link nl.knaw.dans.lib.dataverse.example.DatasetGetVersion} instead.
+ */
 @Slf4j
 public class DatasetGetLatestVersion extends ExampleBase {
 
@@ -34,8 +39,9 @@ public class DatasetGetLatestVersion extends ExampleBase {
         log.info("Publisher: {}", datasetLatestVersion.getPublisher());
         if (datasetLatestVersion.getLatestVersion().getVersionState().equals("RELEASED")) {
             log.info("Version: {}.{}", datasetLatestVersion.getLatestVersion().getVersionNumber(), datasetLatestVersion.getLatestVersion().getVersionMinorNumber());
-        } else {
-            log.info("DRAFT version");
+        }
+        else {
+            log.info("DRAFT version"); // This cannot actually happen, as this API does not return draft versions. Demonstrates that this API is confusing.
         }
 
         for (FileMeta fm : datasetLatestVersion.getLatestVersion().getFiles()) {

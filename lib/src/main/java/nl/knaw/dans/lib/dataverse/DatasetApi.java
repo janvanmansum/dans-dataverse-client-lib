@@ -15,6 +15,7 @@
  */
 package nl.knaw.dans.lib.dataverse;
 
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import nl.knaw.dans.lib.dataverse.model.DataMessage;
 import nl.knaw.dans.lib.dataverse.model.Lock;
@@ -41,6 +42,7 @@ import org.apache.hc.core5.http.io.entity.StringEntity;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,17 +70,23 @@ public class DatasetApi extends AbstractTargetedApi {
     }
 
     /**
+     * Returns metadata of the latest version of the dataset <b>that you can see with your permissions</b>. If there is a draft for a new version this is returned in the field
+     * <code>latestVersionPublishingState</code>. The use of this method is not recommended, as the {@link #getVersion(String)} method is more explicit and you can retrieve the latest version by
+     * passing either {@link Version#LATEST}, {@link Version#DRAFT} or {@link Version#LATEST_PUBLISHED} as the version parameter.
+     *
      * @return a JSON object that starts at the dataset level, most fields are replicated at the dataset version level.
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-json-representation-of-a-dataset" target="_blank">Dataverse documentation</a>
+     * @deprecated use {@link #getVersion()} instead
      */
     public DataverseHttpResponse<DatasetLatestVersion> getLatestVersion() throws IOException, DataverseException {
         return getUnversionedFromTarget("", DatasetLatestVersion.class);
     }
 
     /**
-     * Retrieves that latest version of a dataset. The difference with {@link #getLatestVersion()} is that the latter returns a different type of object. It is not clear why these variants exist.
+     * Retrieves that latest version of a dataset <b>that you can see with your permissions</b>. The difference with {@link #getLatestVersion()} is that the latter returns a different type of object.
+     * The use of {@link #getLatestVersion()} is not recommended, as {@link #getVersion(String)} gives you more control over the version you want to retrieve.
      *
      * @return object containing the dataset version metadata
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
@@ -87,10 +95,12 @@ public class DatasetApi extends AbstractTargetedApi {
      */
     public DataverseHttpResponse<DatasetVersion> getVersion() throws IOException, DataverseException {
         // Not specifying a version results in getting all versions.
-        return getVersionedFromTarget("", Version.LATEST.toString(), DatasetVersion.class);
+        return getVersion(Version.LATEST.toString(), false);
     }
 
     /**
+     * Retrieves a specific version of a dataset if you can see it with your permissions, otherwise returns a 401.
+     *
      * @param version version to retrieve
      * @return object containing the dataset version metadata
      * @throws IOException        when I/O problems occur during the interaction with Dataverse
@@ -98,9 +108,20 @@ public class DatasetApi extends AbstractTargetedApi {
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-version-of-a-dataset" target="_blank">Dataverse documentation</a>
      */
     public DataverseHttpResponse<DatasetVersion> getVersion(String version) throws IOException, DataverseException {
+        return getVersion(version, false);
+    }
+
+    /**
+     * @param version      version to retrieve
+     * @param excludeFiles whether to exclude file metadata from the response
+     * @return object containing the dataset version metadata
+     * @throws IOException        when I/O problems occur during the interaction with Dataverse
+     * @throws DataverseException when Dataverse fails to perform the request
+     */
+    public DataverseHttpResponse<DatasetVersion> getVersion(@NonNull String version, boolean excludeFiles) throws IOException, DataverseException {
         if (StringUtils.isBlank(version))
             throw new IllegalArgumentException("Argument 'version' may not be empty");
-        return getVersionedFromTarget("", version, DatasetVersion.class);
+        return getVersionedFromTarget("", version, Map.of("excludeFiles", Collections.singletonList(Boolean.toString(excludeFiles))), DatasetVersion.class);
     }
 
     /**
@@ -575,6 +596,10 @@ public class DatasetApi extends AbstractTargetedApi {
      */
     private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Class<?>... outputClass) throws IOException, DataverseException {
         return httpClientWrapper.get(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
+    }
+
+    private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Map<String, List<String>> queryParams, Class<?>... outputClass) throws IOException, DataverseException {
+        return httpClientWrapper.get(versionedSubPath(endPoint, version), params(queryParams), extraHeaders, outputClass);
     }
 
     private <D> DataverseHttpResponse<D> getUnversionedFromTarget(String endPoint, Map<String, List<String>> queryParams, Class<?>... outputClass)

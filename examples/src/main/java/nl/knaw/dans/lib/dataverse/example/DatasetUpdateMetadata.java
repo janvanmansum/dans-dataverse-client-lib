@@ -66,8 +66,8 @@ public class DatasetUpdateMetadata extends ExampleBase {
         // Note that if the dataset is not already in draft state, the draft created here will not be indexed.
         // You may initiate a draft for a new version by making a trivial change to the metadata using the editMetadata API
         try {
-            DataverseResponse<DatasetLatestVersion> r = client.dataset(persistentId).getLatestVersion();
-            DatasetVersion latest = r.getData().getLatestVersion();
+            DataverseResponse<DatasetVersion> r = client.dataset(persistentId).getVersion();
+            DatasetVersion latest = r.getData();
             latest.setTermsOfAccess("Some new terms. Pray I don't alter them any further.");
             latest.setFiles(Collections.emptyList());
             /*
