@@ -598,7 +598,8 @@ public class DatasetApi extends AbstractTargetedApi {
         return httpClientWrapper.get(versionedSubPath(endPoint, version), params(emptyMap()), extraHeaders, outputClass);
     }
 
-    private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Map<String, List<String>> queryParams, Class<?>... outputClass) throws IOException, DataverseException {
+    private <D> DataverseHttpResponse<D> getVersionedFromTarget(String endPoint, String version, Map<String, List<String>> queryParams, Class<?>... outputClass)
+        throws IOException, DataverseException {
         return httpClientWrapper.get(versionedSubPath(endPoint, version), params(queryParams), extraHeaders, outputClass);
     }
 
@@ -742,4 +743,50 @@ public class DatasetApi extends AbstractTargetedApi {
             throw new RuntimeException(String.format("%s. Number of tries = %d, wait time between tries = %d ms.", errorMessage, maxNumberOfRetries, waitTimeInMilliseconds));
     }
 
+    /**
+     * Waits for the dataset to reach the expected state. This is useful when you want to wait for a dataset to be published, for example.
+     *
+     * @param expectedState   the state to wait for (e.g. "RELEASED")
+     * @param pollingInterval the time to wait between checks
+     * @param timeout         the maximum time to wait
+     * @throws IOException        if there is a problem with the HTTP request
+     * @throws DataverseException if Dataverse returns an error
+     */
+    public void awaitState(String expectedState, long timeout, long pollingInterval) throws IOException, DataverseException {
+        var state = "";
+        var startTime = System.currentTimeMillis();
+        log.debug("Starting at {} to wait for dataset to become {}", startTime, expectedState);
+        try {
+            state = getState();
+            log.debug("Initial state for dataset {} is {}", id, state);
+            while (!expectedState.equals(state) && (System.currentTimeMillis() - startTime) < timeout) {
+                log.debug("Sleeping for {} milliseconds before checking again", pollingInterval);
+                Thread.sleep(pollingInterval);
+
+                state = getState();
+                log.debug("Current state for dataset {} is {}, remaining time: {} ms", id, state, timeout - (System.currentTimeMillis() - startTime));
+            }
+
+            if (!expectedState.equals(state)) {
+                throw new IllegalStateException(String.format(
+                    "Dataset did not become %s within the wait period (%d seconds); current state is %s",
+                    expectedState, timeout / 1000, state
+                ));
+            }
+        }
+        catch (InterruptedException e) {
+            throw new RuntimeException("Dataset state check was interrupted; last know state is " + state);
+        }
+    }
+
+    /**
+     * Returns the state of the latest version of the dataset that is visible to the user.
+     *
+     * @return the state of the dataset
+     * @throws IOException        if there is a problem with the HTTP request
+     * @throws DataverseException if Dataverse returns an error
+     */
+    public String getState() throws IOException, DataverseException {
+        return getVersion(Version.LATEST.toString(), true).getData().getVersionState();
+    }
 }
