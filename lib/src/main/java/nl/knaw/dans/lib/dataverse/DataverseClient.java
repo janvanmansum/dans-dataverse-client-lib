@@ -176,4 +176,8 @@ public class DataverseClient {
     public MetadataExportApi metadataExport() {
         return new MetadataExportApi(httpClientWrapper);
     }
+
+    public MetadataBlocksApi metadataBlocks() {
+        return new MetadataBlocksApi(httpClientWrapper);
+    }
 }

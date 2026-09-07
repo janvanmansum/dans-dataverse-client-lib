@@ -22,7 +22,9 @@ import java.util.List;
 @Data
 public class MetadataBlock {
 
-    private String displayName;
+    private int id;
     private String name;
+    private String displayName;
+    private Boolean displayOnCreate;
     private List<MetadataField> fields;
 }

@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MetadataBlockTest extends ModelDatasetMapperFixture {
     private static final Class<MetadataBlock> classUnderTest = MetadataBlock.class;
@@ -28,8 +29,10 @@ class MetadataBlockTest extends ModelDatasetMapperFixture {
     public void canDeserialize() throws Exception {
         MetadataBlock mb = mapper.readValue(getTestJsonFileFor(classUnderTest), classUnderTest);
         assertEquals(classUnderTest, mb.getClass());
-        assertEquals("Citation Metadata", mb.getDisplayName());
+        assertEquals(1, mb.getId());
         assertEquals("citation", mb.getName());
+        assertEquals("Citation Metadata", mb.getDisplayName());
+        assertTrue(mb.getDisplayOnCreate());
         List<MetadataField> fields = mb.getFields();
         assertEquals(2, fields.size());
         assertEquals("title", fields.get(0).getTypeName());

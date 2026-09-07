@@ -1,6 +1,8 @@
 {
-  "displayName": "Citation Metadata",
+  "id": 1,
   "name": "citation",
+  "displayName": "Citation Metadata",
+  "displayOnCreate": true,
   "fields": [
     {
       "typeName": "title",
