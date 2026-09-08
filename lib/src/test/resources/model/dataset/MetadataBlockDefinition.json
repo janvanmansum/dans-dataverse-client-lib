@@ -1,0 +1,72 @@
+{
+  "id": 1,
+  "name": "citation",
+  "displayName": "Citation Metadata",
+  "displayOnCreate": true,
+  "fields": {
+    "title": {
+      "name": "title",
+      "displayName": "Title",
+      "title": "Title",
+      "type": "TEXT",
+      "typeClass": "primitive",
+      "watermark": "",
+      "description": "The main title of the Dataset",
+      "multiple": false,
+      "isControlledVocabulary": false,
+      "displayOrder": 0,
+      "isRequired": true,
+      "displayOnCreate": true
+    },
+    "subject": {
+      "name": "subject",
+      "displayName": "Subject",
+      "title": "Subject",
+      "type": "TEXT",
+      "typeClass": "controlledVocabulary",
+      "watermark": "",
+      "description": "The subject area",
+      "multiple": true,
+      "isControlledVocabulary": true,
+      "displayOrder": 1,
+      "isRequired": true,
+      "displayOnCreate": true,
+      "controlledVocabularyValues": [
+        "Agricultural Sciences",
+        "Arts and Humanities",
+        "Chemistry",
+        "Computer and Information Science"
+      ]
+    },
+    "author": {
+      "name": "author",
+      "displayName": "Author",
+      "title": "Author",
+      "type": "NONE",
+      "typeClass": "compound",
+      "watermark": "",
+      "description": "The author",
+      "multiple": true,
+      "isControlledVocabulary": false,
+      "displayOrder": 2,
+      "isRequired": true,
+      "displayOnCreate": true,
+      "childFields": {
+        "authorName": {
+          "name": "authorName",
+          "displayName": "Author Name",
+          "title": "Author Name",
+          "type": "TEXT",
+          "typeClass": "primitive",
+          "watermark": "FamilyName, GivenName",
+          "description": "The author name",
+          "multiple": false,
+          "isControlledVocabulary": false,
+          "displayOrder": 3,
+          "isRequired": true,
+          "displayOnCreate": true
+        }
+      }
+    }
+  }
+}

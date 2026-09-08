@@ -17,7 +17,7 @@ package nl.knaw.dans.lib.dataverse;
 
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlock;
+import nl.knaw.dans.lib.dataverse.model.dataset.MetadataBlockDefinition;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -50,7 +50,7 @@ public class MetadataBlocksApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-info-about-all-metadata-blocks" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<List<MetadataBlock>> listMetadataBlocks() throws IOException, DataverseException {
+    public DataverseHttpResponse<List<MetadataBlockDefinition>> listMetadataBlocks() throws IOException, DataverseException {
         return listMetadataBlocks(false, false);
     }
 
@@ -63,7 +63,7 @@ public class MetadataBlocksApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-info-about-all-metadata-blocks" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<List<MetadataBlock>> listMetadataBlocks(boolean onlyDisplayedOnCreate) throws IOException, DataverseException {
+    public DataverseHttpResponse<List<MetadataBlockDefinition>> listMetadataBlocks(boolean onlyDisplayedOnCreate) throws IOException, DataverseException {
         return listMetadataBlocks(onlyDisplayedOnCreate, false);
     }
 
@@ -77,7 +77,7 @@ public class MetadataBlocksApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-info-about-all-metadata-blocks" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<List<MetadataBlock>> listMetadataBlocks(boolean onlyDisplayedOnCreate, boolean returnDatasetFieldTypes)
+    public DataverseHttpResponse<List<MetadataBlockDefinition>> listMetadataBlocks(boolean onlyDisplayedOnCreate, boolean returnDatasetFieldTypes)
         throws IOException, DataverseException {
         Map<String, List<String>> parameters = new HashMap<>();
         if (onlyDisplayedOnCreate) {
@@ -86,7 +86,7 @@ public class MetadataBlocksApi extends AbstractApi {
         if (returnDatasetFieldTypes) {
             parameters.put("returnDatasetFieldTypes", Collections.singletonList("true"));
         }
-        return httpClientWrapper.get(targetBase, parameters, List.class, MetadataBlock.class);
+        return httpClientWrapper.get(targetBase, parameters, List.class, MetadataBlockDefinition.class);
     }
 
     /**
@@ -98,8 +98,8 @@ public class MetadataBlocksApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-info-about-single-metadata-block" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<MetadataBlock> getMetadataBlock(String identifier) throws IOException, DataverseException {
-        return httpClientWrapper.get(buildPath(targetBase, identifier), MetadataBlock.class);
+    public DataverseHttpResponse<MetadataBlockDefinition> getMetadataBlock(String identifier) throws IOException, DataverseException {
+        return httpClientWrapper.get(buildPath(targetBase, identifier), MetadataBlockDefinition.class);
     }
 
     /**
@@ -111,7 +111,7 @@ public class MetadataBlocksApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-info-about-single-metadata-block" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<MetadataBlock> getMetadataBlock(int id) throws IOException, DataverseException {
+    public DataverseHttpResponse<MetadataBlockDefinition> getMetadataBlock(int id) throws IOException, DataverseException {
         return getMetadataBlock(Integer.toString(id));
     }
 
@@ -124,7 +124,7 @@ public class MetadataBlocksApi extends AbstractApi {
      * @throws DataverseException when Dataverse fails to perform the request
      * @see <a href="https://guides.dataverse.org/en/latest/api/native-api.html#get-info-about-single-metadata-block" target="_blank">Dataverse documentation</a>
      */
-    public DataverseHttpResponse<MetadataBlock> getMetadataBlock(long id) throws IOException, DataverseException {
+    public DataverseHttpResponse<MetadataBlockDefinition> getMetadataBlock(long id) throws IOException, DataverseException {
         return getMetadataBlock(Long.toString(id));
     }
 }

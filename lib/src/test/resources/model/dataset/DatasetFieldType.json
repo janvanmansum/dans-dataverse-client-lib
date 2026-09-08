@@ -1,0 +1,44 @@
+{
+  "name": "author",
+  "displayName": "Author",
+  "title": "Author",
+  "type": "NONE",
+  "typeClass": "compound",
+  "watermark": "",
+  "description": "The author...",
+  "multiple": true,
+  "isControlledVocabulary": false,
+  "displayOrder": 1,
+  "isRequired": true,
+  "displayOnCreate": true,
+  "childFields": {
+    "authorName": {
+      "name": "authorName",
+      "displayName": "Author Name",
+      "title": "Author Name",
+      "type": "TEXT",
+      "typeClass": "primitive",
+      "watermark": "FamilyName, GivenName",
+      "description": "The name of the author",
+      "multiple": false,
+      "isControlledVocabulary": false,
+      "displayOrder": 2,
+      "isRequired": true,
+      "displayOnCreate": true
+    },
+    "authorAffiliation": {
+      "name": "authorAffiliation",
+      "displayName": "Author Affiliation",
+      "title": "Author Affiliation",
+      "type": "TEXT",
+      "typeClass": "primitive",
+      "watermark": "Organization",
+      "description": "The affiliation of the author",
+      "multiple": false,
+      "isControlledVocabulary": false,
+      "displayOrder": 3,
+      "isRequired": false,
+      "displayOnCreate": true
+    }
+  }
+}
